@@ -37,21 +37,110 @@
       <div class='wrapper'>
         <div class='panel' id='panel-00' style='display: block'>
           <p>Bạn có bị suy giảm sức khỏe và thiếu hụt dinh dưỡng không ?</p>
-          <p class='button-1' id='button-next'>Kiểm tra ngay</p>
-          <br>
-          <div id="container2" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+          <p class='button-1' id='btt-next-intro'>Kiểm tra ngay</p>          
+          
         </div>
         <div class='panel' id='panel-01'>
-          <div id="container" ></div>
-        </div>
-        <div class='panel' id='panel-02'></div>
-        <div class='panel' id='panel-03'>
+          <input id='input-name' placeholder='Name'/>
+          <input id='input-address' placeholder='Address'/>
+          <input id='input-phone' placeholder='Phone'/>
           
+          <p class='button-1' id='btt-next-info'>Next</p> 
+        </div>
+        <div class='panel' id='panel-02'>
+          
+          Giới tính: <input type="radio" name="sex" value="Nam"/>Nam
+          <input type="radio" name="sex" value="Nữ"/>Nữ
+          Lao động:  <input type="radio" value="0" name="type-work" >Nhẹ <input type="radio" value="1" name="type-work"> Trung bình <input type="radio" value="2" name="type-work"> Nặng<br>
+          Bữa ăn :
+          <select id='select-time-meal'>
+            <option value="0">Sáng</option>
+            <option value="1">Trưa</option>
+            <option value="2">Chiều tối</option>
+            <option value="3">Trái cây & thức uống</option>
+          </select>
+          Món ăn :          
+          <select id='select-meal'>
+            <option value="0">Bánh</option>
+            <option value="1">Nước</option>
+            <option value="2">Cơm</option>
+            <option value="3">Ổi</option>
+          </select>
+          Số lượng : <input id='input-quantity' value='1'/>
+          <input type='button' id='button-add-meal' value='Thêm vào'>
+          <br>
+          Nhập kết quả đo lực kéo : <input id='input-pull'/>
+          <input type='button' value='Thêm vào'>
+          <br>
+          <table class="table">
+            <thead class="fontTitle">
+              <tr>
+                <th style="width:40px">STT</th>
+                <th style="width:180px">Bữa ăn</th>
+                <th style="width:250px">Món ăn</th>
+                <th style="width:80px">Số lượng</th>
+                <th>Năng lượng<br/>(Kcal)</th>
+                <th>Đạm<br/>(Kcal)</th>
+                <th>Đường<br/>(Kcal)</th>
+                <th>Béo<br/>(Kcal)</th>        
+                <th>Vitamin<br/>(Kcal)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>Sáng</td>
+                <td>Cơm</td>
+                <td>1</td>
+                
+                <td>1</td>                
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+              </tr>
+              <tr>
+                <td colspan="4">Năng lượng 1 ngày</td>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>     
+                <td>1</td>
+              </tr>
+              <tr>
+                <td colspan="5">Tỉ lệ phần trăm năng lượng trong 1 ngày</td>
+                <td>1%</td>
+                <td>1%</td>
+                <td>1%</td>     
+                <td></td>
+              </tr>
+              <tr>
+                <td colspan="5">Kết quả đo lực kéo</td>
+                <td>14</td>
+                <td></td>
+                <td></td>     
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <br>
+          <p class='button-1' id='btt-next-input'>Next</p> 
+        
+        
+        </div>
+        <div class='panel' id='panel-03'>
+          <div id="container2" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+          <br>
+          <p class='button-1' id='btt-next-ptlk'>Next</p> 
         </div>
         <div class='panel' id='panel-04'>
+          <div id="container" ></div>
+          <br>
+          <p class='button-1' id='btt-next-tpdd'>Next</p> 
+        </div>
+        <div class='panel' id='panel-05'>
           
         </div>
-        <div class='panel' id='panel-05'></div>
       </div>
            
       <script type="text/javascript" src="resources/jquery.js"></script>
@@ -59,34 +148,8 @@
       <script src="resources/highcharts/highcharts-3d.js"></script>
       <script src="resources/highcharts/exporting.js"></script>
       
+      <script src="database.js"></script>
       <script>
-      var STANDARD_DETAIL = {
-          dam: {
-              minValue: 13,
-              maxValue: 15
-          },
-          duong: {
-              minValue: 55,
-              maxValue: 60
-          },
-          beo: {
-              minValue: 20,
-              maxValue: 25
-          }
-      };
-      
-      var STANDARD_ENERGY = {
-          'Nam': {
-              60: [1900, 2200, 0],
-              30: [2200, 2700, 3200],
-              18: [2300, 2700, 3200]
-          },
-          'Nữ': {
-              60: [1800, 0, 0],
-              30: [2100, 2200, 2600],
-              18: [2200, 2300, 2600]
-          }
-      };
       
       var gender_choice = "Nam";
       var age_user = 1989;
@@ -97,112 +160,178 @@
           'duong': 1514.8,
           'beo': 409.5
       }
-      
-      
-      var EVALUATE_ENERGY = {
-          'less': {
-              description: 'Thiếu',
-              evaluate: 'Tổng năng lượng thấp hơn mức năng lượng nhu cầu theo khuyến nghị.',
-              recommend: 'Bổ sung dinh dưỡng theo đường uống với sữa đầy đủ và cân đối, đạm chất lượng cao, đầy đủ vitamin và khoáng chất, kết hợp chế độ ăn đa dạng các loại thực phẩm.'
-          },
-          'enough': {
-              description: 'Đủ',
-              evaluate: 'Đạt mức năng lượng nhu cầu theo khuyến nghị',
-              recommend: 'Cần áp dụng chế độ dinh dưỡng hợp lý gồm đầy đủ, đa dạng các lọai thực phẩm, đảm bảo 4 nhóm thực phẩm chính(đạm, đường, béo, vitamin), kết hợp uống bồ sung 1- 2 ly sữa /ngày.'
-          },
-          'over': {
-              description: 'Thừa',
-              evaluate: 'Tổng năng lượng cao hơn mức năng lượng nhu cầu theo khuyến nghị.',
-              recommend: 'Bớt ăn các món nhiều tinh bột (cơm, bánh mì…), bớt mỡ, đường, thịt, không ăn vặt, ăn đêm, tăng cường vận động, hạn chế rượu bia.'
-          }
-      };
-      
-      var EVALUATE_DETAIL = {};
-      EVALUATE_DETAIL.dam = {
-          'less': {
-              description: 'Thiếu',
-              evaluate: 'Đạm cung cấp thiếu. Nguy cơ: Suy dinh dưỡng, phù do giảm đạm máu, teo cơ, loãng xương, suy nhược cơ thể, thiếu máu, vết thương lâu lành.',
-              recommend: 'Bổ sung dinh dưỡng theo đường uống với sữa đầy đủ và cân đối, với đạm chất lượng cao kết hợp chế độ ăn giàu thịt trắng, cá, trứng, đậu…'
-          },
-          'enough': {
-              description: 'Đủ',
-              evaluate: '',
-              recommend: ''
-          },
-          'over': {
-              description: 'Thừa',
-              evaluate: 'Đạm cung cấp vượt nhu cầu theo khuyến nghị. Nguy cơ: Thừa cân, cholesterol máu cao, bệnh tim mạch, loãng xương, bệnh thận, gút.',
-              recommend: 'Giảm bớt các thức ăn giàu đạm như thịt bò, các lọai thịt trắng như cá phi lê, trứng, đậu hũ, các lọai đậu.'
-          }
-      };
-      
-      EVALUATE_DETAIL.duong = {
-          'less': {
-              description: 'Thiếu',
-              evaluate: 'Đường cung cấp thiếu. Nguy cơ: Thiếu năng lượng, suy dinh dưỡng.',
-              recommend: 'Bổ sung dinh dưỡng theo đường uống, kết hợp ăn thêm tinh bột, các lọai ngũ cốc (cơm, khoai, mì, bắp, bún…), trái cây ngọt.'
-          },
-          'enough': {
-              description: 'Đủ',
-              evaluate: '',
-              recommend: ''
-          },
-          'over': {
-              description: 'Thừa',
-              evaluate: 'Đường cung cấp vượt nhu cầu khuyến nghị.  Nguy cơ: Thừa cân, béo phì và các biến chứng của thừa cân, béo phì, gan nhiễm mỡ, tăng triglyceride máu, đái tháo đường type 2…',
-              recommend: 'Giảm bớt tinh bột (cơm, xôi, bánh mì…), các lọai bánh kẹo ngọt, trái cây ngọt.'
-          }
-      };
-      
-      EVALUATE_DETAIL.beo = {
-          'less': {
-              description: 'Thiếu',
-              evaluate: 'Cung cấp thiếu chất béo. Nguy cơ: Thiếu năng lượng, suy dinh dưỡng, thành mạch không bền (xuất huyết thành mạch, xuất huyết não), thiếu vitamin, suy nhược cơ thể, ung thư.',
-              recommend: 'Bổ sung dinh dưỡng theo đường uống, kết hợp dùng thêm dầu thực vật trong chế biến món ăn, dùng các lọai cá béo chứa omega 3, các lọai hạt có dầu…'
-          },
-          'enough': {
-              description: 'Đủ',
-              evaluate: '',
-              recommend: ''
-          },
-          'over': {
-              description: 'Thừa',
-              evaluate: 'Chất béo cung cấp vượt nhu cầu khuyến nghị. Nguy cơ: Thừa năng lượng, thừa cân, béo phì, xơ vữa động mạch, tăng mỡ máu, mỡ nội tạng, bệnh tim mạch, nhồi máu não…',
-              recommend: 'Hạn chế các chất béo xấu (mỡ động vật, nội tạng, da, nước hầm xương…), thức ăn chứa transfat (thức ăn dùng dầu chiên lại nhiều lần), hạn chế chiên xào, nên ăn thức ăn hấp luộc, hạn chế thức ăn nhanh (fastfood)…'
-          }
-      };
-      
-      var LEVEL = ["less", "enough", "over"];
-      
-      
-      $("#button-next").bind('mousedown', function() {
-          calPTLK();
-      })
+      var total = {
+          'nangluong':0,
+          'dam':0,
+          'duong':0,
+          'beo':0,
+          'vitamin':0
+        }
       
       var current = 0;
       
-      function next(callback) {
+      $("#btt-next-intro").bind('mousedown', function() {
+        next();
+      })
+      $("#btt-next-info").bind('mousedown', function() {
+        next();  
+      })
+      $("#btt-next-input").bind('mousedown', function() {
+        calPTLK();
+        next();
+      })
+      $("#btt-next-ptlk").bind('mousedown', function() {
+        calTPDD();
+        next();
+      })
+      
+      
+      function next() {
           $($(".panel")[current++]).hide();
           $($(".panel")[current]).show();
-      
-          callback(current);
       }
+      
+      $("#select-time-meal").change(function(){        
+        loadListMeal($("#select-time-meal")[0].value);
+      })
+      
+      $("#button-add-meal").bind('mousedown',function(){
+        
+        var qty = $("#input-quantity").val();
+        addItem(qty);
+        
+      })
+      
+      loadListMeal(0);
+      function loadListMeal(selectIndex) {
+        var temp_array = filter_database[selectIndex];
+        var temp_div = '';
+        for(var i=0; i<temp_array.length;i++){
+          var temp = temp_array[i];          
+          temp_div += '<option value="'+i+'">'+temp_array[i].thucan+'</option>'          
+        }        
+        $("#select-meal").html(temp_div);        
+      }
+      
+      var list_meal_added = [];
+      var total = {
+          'nangluong':0,
+          'dam':0,
+          'duong':0,
+          'beo':0,
+          'vitamin':0
+      };
+      
+      function addItem(quantity){
+        var index_time_meal = $("#select-time-meal")[0].value;
+        var index_meal = $("#select-meal")[0].value;
+        var temp_thucan = filter_database[index_time_meal][index_meal];
+        
+        temp_thucan = {
+          'time':temp_thucan.buoi,
+          'name':temp_thucan.thucan,
+          'qty':quantity,
+          'nangluong' : roundHundred(temp_thucan.nangluong*quantity),
+          'dam' : roundHundred(temp_thucan.dam*quantity*4),
+          'duong' : roundHundred(temp_thucan.duong*quantity*4),
+          'beo' : roundHundred(temp_thucan.beo*quantity*9),
+          'vitamin' : roundHundred(temp_thucan.vitamin*quantity)
+        }
+        
+        list_meal_added.push(temp_thucan)
+        
+        loadTable();
+      }
+      function roundHundred(val){
+        return Math.round(val * 100)/100;
+      }
+      
+      function loadTable(){
+        
+        var temp_div = '';
+        
+        for(var i=0;i<list_meal_added.length;i++){
+          var temp = list_meal_added[i];
+          
+          temp_div += "<tr>";
+          temp_div +=          
+          "<td>"+i+"</td>"
+          +"<td>"+temp.time+"</td>"
+          +"<td>"+temp.name+"</td>"
+          +"<td>"+temp.qty+"</td>"
+          
+          +"<td>"+temp.nangluong+"</td>"
+          +"<td>"+temp.dam+"</td>"
+          +"<td>"+temp.duong+"</td>"
+          +"<td>"+temp.beo+"</td>"
+          +"<td>"+temp.vitamin+"</td>"
+          temp_div += "</tr>";
+          
+          total.nangluong += temp.nangluong;
+          total.dam += temp.dam;
+          total.duong += temp.duong;
+          total.beo += temp.beo;
+          total.vitamin += temp.vitamin;
+          
+        }
+        
+        total.dam = roundHundred(total.dam);
+        total.duong = roundHundred(total.duong);
+        total.beo = roundHundred(total.beo);
+        total.vitamin = roundHundred(total.vitamin);
+        
+        var total_energy = total.dam + total.duong + total.beo + total.vitamin;
+        var percents = {
+          'dam':calPercent(total.dam,total_energy),
+          'duong':calPercent(total.duong,total_energy),
+          'beo':calPercent(total.beo,total_energy)
+        }
+        
+        console.log(percents);
+        
+        temp_div += "<tr>";
+        temp_div +=          
+        '<td colspan="4">Năng lượng 1 ngày</td>'        
+        +"<td>"+total.nangluong+"</td>"
+        +"<td>"+total.dam+"</td>"
+        +"<td>"+total.duong+"</td>"
+        +"<td>"+total.beo+"</td>"
+        +"<td>"+total.vitamin+"</td>"
+        temp_div += "</tr>";
+        
+        temp_div += "<tr>";
+        temp_div +=          
+        '<td colspan="5">Tỉ lệ phần trăm năng lượng trong 1 ngày</td>'        
+        +"<td>"+percents.dam+"%</td>"
+        +"<td>"+percents.duong+"%</td>"
+        +"<td>"+percents.beo+"%</td>"
+        +"<td></td>"        
+        temp_div += "</tr>";
+        
+        $(".table tbody").html(temp_div);
+      }
+      
+      function calPercent(val,total){
+        return Math.round(val*100/total);
+      }
+      
+      
       
       function calTPDD() {
       
           var nangluong = identifyEnergyLevel();
       
-          var enGraphData = calculateGraphData(result.energy, nangluong.standardEnergy);
+          var enGraphData = calculateGraphData(total.nangluong, nangluong.standardEnergy);
       
-          var damGraphData = calculateGraphData(result.dam,
+          var damGraphData = calculateGraphData(total.dam,
               calculateStandardKcal(nangluong.standardEnergy, STANDARD_DETAIL['dam'].minValue),
               calculateStandardKcal(nangluong.standardEnergy, STANDARD_DETAIL['dam'].maxValue));
       
-          var duongGraphData = calculateGraphData(result.duong,
+          var duongGraphData = calculateGraphData(total.duong,
               calculateStandardKcal(nangluong.standardEnergy, STANDARD_DETAIL['duong'].minValue),
               calculateStandardKcal(nangluong.standardEnergy, STANDARD_DETAIL['duong'].maxValue));
       
-          var beoGraphData = calculateGraphData(result.beo,
+          var beoGraphData = calculateGraphData(total.beo,
               calculateStandardKcal(nangluong.standardEnergy, STANDARD_DETAIL['beo'].minValue),
               calculateStandardKcal(nangluong.standardEnergy, STANDARD_DETAIL['beo'].maxValue));
       
@@ -377,7 +506,7 @@
           var level = LEVEL[0];
       
           // get input
-          var actualEnergy = result.energy;
+          var actualEnergy = total.nangluong;
           var gender = gender_choice;
           var age = getAge(age_user);
           var typeOfWork = typeWork;
