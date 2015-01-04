@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+  <html>
+    <head>
+      <meta charset="UTF-8">
+      <title>Nutrition</title>
+      
+      <link rel="stylesheet" type="text/css" href="resources/jchartfx/jchartfx.palette.css"/>
+      <link rel="stylesheet" type="text/css" href="resources/jchartfx/styles/Attributes/jchartfx.attributes.css"/>
+      <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+        
+      
+    </head>
+    <body>
+      <div id='div_obj' style='width:750px;height:360px;'></div>
+      
+      <script type="text/javascript" src="resources/jquery.js"></script> 
+	  <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+	  <script type="text/javascript" src="resources/jchartfx/jchartfx.full.js"></script>
+      <script>
+        var STANDARD_DETAIL = {
+          dam: {minValue:13, maxValue:15},
+          duong: {minValue:55, maxValue:60},
+          beo: {minValue:20, maxValue:25}
+        };
+    
+        var STANDARD_ENERGY = {
+          'Nam': {
+            60:[1900, 2200, 0],
+            30:[2200, 2700, 3200],
+            18:[2300, 2700, 3200]
+            },
+          'Nữ': {
+            60:[1800, 0, 0],
+            30:[2100, 2200, 2600],
+            18:[2200, 2300, 2600]
+            }
+        };
+    
+        var EVALUATE_ENERGY = {
+          'less': {
+            description: 'Thiếu',
+            evaluate: 'Tổng năng lượng thấp hơn mức năng lượng nhu cầu theo khuyến nghị.',
+            recommend: 'Bổ sung dinh dưỡng theo đường uống với sữa đầy đủ và cân đối, đạm chất lượng cao, đầy đủ vitamin và khoáng chất, kết hợp chế độ ăn đa dạng các loại thực phẩm.'
+          },
+          'enough': {
+            description: 'Đủ',
+            evaluate: 'Đạt mức năng lượng nhu cầu theo khuyến nghị',
+            recommend: 'Cần áp dụng chế độ dinh dưỡng hợp lý gồm đầy đủ, đa dạng các lọai thực phẩm, đảm bảo 4 nhóm thực phẩm chính(đạm, đường, béo, vitamin), kết hợp uống bồ sung 1- 2 ly sữa /ngày.'
+          },
+          'over': {
+            description: 'Thừa',
+            evaluate: 'Tổng năng lượng cao hơn mức năng lượng nhu cầu theo khuyến nghị.',
+            recommend: 'Bớt ăn các món nhiều tinh bột (cơm, bánh mì…), bớt mỡ, đường, thịt, không ăn vặt, ăn đêm, tăng cường vận động, hạn chế rượu bia.'
+          }
+        };
+        
+        var EVALUATE_DETAIL = {};
+        EVALUATE_DETAIL.dam = {
+          'less': {
+            description: 'Thiếu',
+            evaluate: 'Đạm cung cấp thiếu. Nguy cơ: Suy dinh dưỡng, phù do giảm đạm máu, teo cơ, loãng xương, suy nhược cơ thể, thiếu máu, vết thương lâu lành.',
+            recommend: 'Bổ sung dinh dưỡng theo đường uống với sữa đầy đủ và cân đối, với đạm chất lượng cao kết hợp chế độ ăn giàu thịt trắng, cá, trứng, đậu…'
+          },
+          'enough': {
+            description: 'Đủ',
+            evaluate: '',
+            recommend: ''
+          },
+          'over': {
+            description: 'Thừa',
+            evaluate: 'Đạm cung cấp vượt nhu cầu theo khuyến nghị. Nguy cơ: Thừa cân, cholesterol máu cao, bệnh tim mạch, loãng xương, bệnh thận, gút.',
+            recommend: 'Giảm bớt các thức ăn giàu đạm như thịt bò, các lọai thịt trắng như cá phi lê, trứng, đậu hũ, các lọai đậu.'
+          }
+        };
+    
+        EVALUATE_DETAIL.duong = {
+          'less': {
+            description: 'Thiếu',
+            evaluate: 'Đường cung cấp thiếu. Nguy cơ: Thiếu năng lượng, suy dinh dưỡng.',
+            recommend: 'Bổ sung dinh dưỡng theo đường uống, kết hợp ăn thêm tinh bột, các lọai ngũ cốc (cơm, khoai, mì, bắp, bún…), trái cây ngọt.'
+          },
+          'enough': {
+            description: 'Đủ',
+            evaluate: '',
+            recommend: ''
+          },
+          'over': {
+            description: 'Thừa',
+            evaluate: 'Đường cung cấp vượt nhu cầu khuyến nghị.  Nguy cơ: Thừa cân, béo phì và các biến chứng của thừa cân, béo phì, gan nhiễm mỡ, tăng triglyceride máu, đái tháo đường type 2…',
+            recommend: 'Giảm bớt tinh bột (cơm, xôi, bánh mì…), các lọai bánh kẹo ngọt, trái cây ngọt.'
+          }
+        };
+    
+        EVALUATE_DETAIL.beo = {
+          'less': {
+            description: 'Thiếu',
+            evaluate: 'Cung cấp thiếu chất béo. Nguy cơ: Thiếu năng lượng, suy dinh dưỡng, thành mạch không bền (xuất huyết thành mạch, xuất huyết não), thiếu vitamin, suy nhược cơ thể, ung thư.',
+            recommend: 'Bổ sung dinh dưỡng theo đường uống, kết hợp dùng thêm dầu thực vật trong chế biến món ăn, dùng các lọai cá béo chứa omega 3, các lọai hạt có dầu…'
+          },
+          'enough': {
+            description: 'Đủ',
+            evaluate: '',
+            recommend: ''
+          },
+          'over': {
+            description: 'Thừa',
+            evaluate: 'Chất béo cung cấp vượt nhu cầu khuyến nghị. Nguy cơ: Thừa năng lượng, thừa cân, béo phì, xơ vữa động mạch, tăng mỡ máu, mỡ nội tạng, bệnh tim mạch, nhồi máu não…',
+            recommend: 'Hạn chế các chất béo xấu (mỡ động vật, nội tạng, da, nước hầm xương…), thức ăn chứa transfat (thức ăn dùng dầu chiên lại nhiều lần), hạn chế chiên xào, nên ăn thức ăn hấp luộc, hạn chế thức ăn nhanh (fastfood)…'
+          }
+        };
+    
+        var LEVEL = ["less", "enough", "over"];
+        var chart1 = new cfx.Chart();
+        
+        chart1.setGallery(cfx.Gallery.Bar);
+        chart1.getLegendBox().setVisible(false);
+        chart1.getAllSeries().setStacked(cfx.Stacked.Normal);
+        chart1.getView3D().setEnabled(true);
+        var td;
+        td = new cfx.TitleDockable();
+        td.setText("3D Stacked Bars");
+        chart1.getTitles().add(td);
+        var data = chart1.getData();
+        data.setSeries(4);
+        data.setPoints(8);
+        var i = 0;
+        var j = 0;
+        for(i = 0; (i < 4); (i)++)
+        {
+          for(j = 0; (j < 8); (j)++)
+          {
+            data.setItem(i, j, ((Math.random()) * 20.0));
+          }
+        }
+        
+        
+        chart1.create(document.getElementById('div_obj'))
+      </script>
+      <!--<script>
+        var chart1 = new cfx.Chart();
+
+        chart1.setGallery(cfx.Gallery.Bar);
+        chart1.getAllSeries().setStacked(cfx.Stacked.Normal);
+        chart1.getView3D().setEnabled(true);
+        
+        PopulateCarProduction(chart1);
+        var titles = chart1.getTitles();
+        var title = new cfx.TitleDockable();
+        title.setText("Vehicles Production by Month");
+        titles.add(title);
+        chart1.getAxisY().getTitle().setText("Number of Vehicles");
+        chart1.create('div_obj');
+        
+        function PopulateCarProduction(chart1) {
+                var items = [{
+                    "Sedan": 1760,
+                    "Coupe": 535,
+                    "SUV": 695,
+                    "Month": "Jan"
+                }, {
+                    "Sedan": 1849,
+                    "Coupe": 395,
+                    "SUV": 688,
+                    "Month": "Feb"
+                }, {
+                    "Sedan": 2831,
+                    "Coupe": 685,
+                    "SUV": 1047,
+                    "Month": "Mar"
+                }, {
+                    "Sedan": 2851,
+                    "Coupe": 984,
+                    "SUV": 1652,
+                    "Month": "Apr"
+                }, {
+                    "Sedan": 2961,
+                    "Coupe": 1579,
+                    "SUV": 1889,
+                    "Month": "May"
+                }, {
+                    "Sedan": 1519,
+                    "Coupe": 1539,
+                    "SUV": 1766,
+                    "Month": "Jun"
+                }, {
+                    "Sedan": 2633,
+                    "Coupe": 1489,
+                    "SUV": 1361,
+                    "Month": "Jul"
+                }, {
+                    "Sedan": 1140,
+                    "Coupe": 650,
+                    "SUV": 874,
+                    "Month": "Aug"
+                }, {
+                    "Sedan": 1626,
+                    "Coupe": 653,
+                    "SUV": 693,
+                    "Month": "Sep"
+                }, {
+                    "Sedan": 1478,
+                    "Coupe": 2236,
+                    "SUV": 786,
+                    "Month": "Oct"
+                }, {
+                    "Sedan": 1306,
+                    "Coupe": 1937,
+                    "SUV": 599,
+                    "Month": "Nov"
+                }, {
+                    "Sedan": 1607,
+                    "Coupe": 2138,
+                    "SUV": 678,
+                    "Month": "Dec"
+                }];
+            
+            
+                chart1.setDataSource(items);
+            }
+      </script>
+    --></body>
+  </html>

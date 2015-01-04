@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+  <html>
+    <head>
+      <meta charset="UTF-8">
+      <meta name="apple-mobile-web-app-capable" content="yes">
+      <meta name="viewport" content="initial-scale=1, user-scalable=no">
+        
+      <title>Nutrition</title>
+      
+    </head>
+    <body>
+      <style>
+        *{
+          padding: 0;
+          margin: 0;
+          
+          box-sizing: content-box;
+        }
+        #container {
+            height: 600px; 
+            min-width: 600px; 
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .panel{
+          width: 1024px;
+          display: none;
+        }
+        .button-1{
+          padding: 10px;
+          border: 1px solid;
+          position: absolute;
+          z-index: 999;
+        }
+      </style>
+      
+      <div class='wrapper'>
+        <div class='panel' id='panel-00' style='display: block'>
+          <p>Bạn có bị suy giảm sức khỏe và thiếu hụt dinh dưỡng không ?</p>
+          <p class='button-1' id='button-next'>Kiểm tra ngay</p>
+          <br>
+          <div id="container2" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+        </div>
+        <div class='panel' id='panel-01'>
+          <div id="container" ></div>
+        </div>
+        <div class='panel' id='panel-02'></div>
+        <div class='panel' id='panel-03'>
+          
+        </div>
+        <div class='panel' id='panel-04'>
+          
+        </div>
+        <div class='panel' id='panel-05'></div>
+      </div>
+           
+      <script type="text/javascript" src="resources/jquery.js"></script>
+      <script src="resources/highcharts/highcharts.js"></script>
+      <script src="resources/highcharts/highcharts-3d.js"></script>
+      <script src="resources/highcharts/exporting.js"></script>
+      
+      <script>
+      var STANDARD_DETAIL = {
+          dam: {
+              minValue: 13,
+              maxValue: 15
+          },
+          duong: {
+              minValue: 55,
+              maxValue: 60
+          },
+          beo: {
+              minValue: 20,
+              maxValue: 25
+          }
+      };
+      
+      var STANDARD_ENERGY = {
+          'Nam': {
+              60: [1900, 2200, 0],
+              30: [2200, 2700, 3200],
+              18: [2300, 2700, 3200]
+          },
+          'Nữ': {
+              60: [1800, 0, 0],
+              30: [2100, 2200, 2600],
+              18: [2200, 2300, 2600]
+          }
+      };
+      
+      var gender_choice = "Nam";
+      var age_user = 1989;
+      var typeWork = 0; // 0 1 2
+      var result = {
+          'energy': 2314,
+          'dam': 391.6,
+          'duong': 1514.8,
+          'beo': 409.5
+      }
+      
+      
+      var EVALUATE_ENERGY = {
+          'less': {
+              description: 'Thiếu',
+              evaluate: 'Tổng năng lượng thấp hơn mức năng lượng nhu cầu theo khuyến nghị.',
+              recommend: 'Bổ sung dinh dưỡng theo đường uống với sữa đầy đủ và cân đối, đạm chất lượng cao, đầy đủ vitamin và khoáng chất, kết hợp chế độ ăn đa dạng các loại thực phẩm.'
+          },
+          'enough': {
+              description: 'Đủ',
+              evaluate: 'Đạt mức năng lượng nhu cầu theo khuyến nghị',
+              recommend: 'Cần áp dụng chế độ dinh dưỡng hợp lý gồm đầy đủ, đa dạng các lọai thực phẩm, đảm bảo 4 nhóm thực phẩm chính(đạm, đường, béo, vitamin), kết hợp uống bồ sung 1- 2 ly sữa /ngày.'
+          },
+          'over': {
+              description: 'Thừa',
+              evaluate: 'Tổng năng lượng cao hơn mức năng lượng nhu cầu theo khuyến nghị.',
+              recommend: 'Bớt ăn các món nhiều tinh bột (cơm, bánh mì…), bớt mỡ, đường, thịt, không ăn vặt, ăn đêm, tăng cường vận động, hạn chế rượu bia.'
+          }
+      };
+      
+      var EVALUATE_DETAIL = {};
+      EVALUATE_DETAIL.dam = {
+          'less': {
+              description: 'Thiếu',
+              evaluate: 'Đạm cung cấp thiếu. Nguy cơ: Suy dinh dưỡng, phù do giảm đạm máu, teo cơ, loãng xương, suy nhược cơ thể, thiếu máu, vết thương lâu lành.',
+              recommend: 'Bổ sung dinh dưỡng theo đường uống với sữa đầy đủ và cân đối, với đạm chất lượng cao kết hợp chế độ ăn giàu thịt trắng, cá, trứng, đậu…'
+          },
+          'enough': {
+              description: 'Đủ',
+              evaluate: '',
+              recommend: ''
+          },
+          'over': {
+              description: 'Thừa',
+              evaluate: 'Đạm cung cấp vượt nhu cầu theo khuyến nghị. Nguy cơ: Thừa cân, cholesterol máu cao, bệnh tim mạch, loãng xương, bệnh thận, gút.',
+              recommend: 'Giảm bớt các thức ăn giàu đạm như thịt bò, các lọai thịt trắng như cá phi lê, trứng, đậu hũ, các lọai đậu.'
+          }
+      };
+      
+      EVALUATE_DETAIL.duong = {
+          'less': {
+              description: 'Thiếu',
+              evaluate: 'Đường cung cấp thiếu. Nguy cơ: Thiếu năng lượng, suy dinh dưỡng.',
+              recommend: 'Bổ sung dinh dưỡng theo đường uống, kết hợp ăn thêm tinh bột, các lọai ngũ cốc (cơm, khoai, mì, bắp, bún…), trái cây ngọt.'
+          },
+          'enough': {
+              description: 'Đủ',
+              evaluate: '',
+              recommend: ''
+          },
+          'over': {
+              description: 'Thừa',
+              evaluate: 'Đường cung cấp vượt nhu cầu khuyến nghị.  Nguy cơ: Thừa cân, béo phì và các biến chứng của thừa cân, béo phì, gan nhiễm mỡ, tăng triglyceride máu, đái tháo đường type 2…',
+              recommend: 'Giảm bớt tinh bột (cơm, xôi, bánh mì…), các lọai bánh kẹo ngọt, trái cây ngọt.'
+          }
+      };
+      
+      EVALUATE_DETAIL.beo = {
+          'less': {
+              description: 'Thiếu',
+              evaluate: 'Cung cấp thiếu chất béo. Nguy cơ: Thiếu năng lượng, suy dinh dưỡng, thành mạch không bền (xuất huyết thành mạch, xuất huyết não), thiếu vitamin, suy nhược cơ thể, ung thư.',
+              recommend: 'Bổ sung dinh dưỡng theo đường uống, kết hợp dùng thêm dầu thực vật trong chế biến món ăn, dùng các lọai cá béo chứa omega 3, các lọai hạt có dầu…'
+          },
+          'enough': {
+              description: 'Đủ',
+              evaluate: '',
+              recommend: ''
+          },
+          'over': {
+              description: 'Thừa',
+              evaluate: 'Chất béo cung cấp vượt nhu cầu khuyến nghị. Nguy cơ: Thừa năng lượng, thừa cân, béo phì, xơ vữa động mạch, tăng mỡ máu, mỡ nội tạng, bệnh tim mạch, nhồi máu não…',
+              recommend: 'Hạn chế các chất béo xấu (mỡ động vật, nội tạng, da, nước hầm xương…), thức ăn chứa transfat (thức ăn dùng dầu chiên lại nhiều lần), hạn chế chiên xào, nên ăn thức ăn hấp luộc, hạn chế thức ăn nhanh (fastfood)…'
+          }
+      };
+      
+      var LEVEL = ["less", "enough", "over"];
+      
+      
+      $("#button-next").bind('mousedown', function() {
+          calPTLK();
+      })
+      
+      var current = 0;
+      
+      function next(callback) {
+          $($(".panel")[current++]).hide();
+          $($(".panel")[current]).show();
+      
+          callback(current);
+      }
+      
+      function calTPDD() {
+      
+          var nangluong = identifyEnergyLevel();
+      
+          var enGraphData = calculateGraphData(result.energy, nangluong.standardEnergy);
+      
+          var damGraphData = calculateGraphData(result.dam,
+              calculateStandardKcal(nangluong.standardEnergy, STANDARD_DETAIL['dam'].minValue),
+              calculateStandardKcal(nangluong.standardEnergy, STANDARD_DETAIL['dam'].maxValue));
+      
+          var duongGraphData = calculateGraphData(result.duong,
+              calculateStandardKcal(nangluong.standardEnergy, STANDARD_DETAIL['duong'].minValue),
+              calculateStandardKcal(nangluong.standardEnergy, STANDARD_DETAIL['duong'].maxValue));
+      
+          var beoGraphData = calculateGraphData(result.beo,
+              calculateStandardKcal(nangluong.standardEnergy, STANDARD_DETAIL['beo'].minValue),
+              calculateStandardKcal(nangluong.standardEnergy, STANDARD_DETAIL['beo'].maxValue));
+      
+          $('#container').highcharts({
+      
+              chart: {
+                  type: 'column',
+                  options3d: {
+                      enabled: true,
+                      alpha: 15,
+                      beta: 15,
+                      viewDistance: 25,
+                      depth: 40
+                  },
+                  marginTop: 80,
+                  marginRight: 40
+              },
+      
+              title: {
+                  text: 'PHÂN TÍCH THÀNH PHẦN DINH DƯỠNG'
+              },
+      
+              xAxis: {
+                  categories: ['Tổng năng lượng', 'Đạm', 'Đường', 'Béo']
+              },
+      
+              yAxis: {
+                  allowDecimals: false,
+                  min: 0,
+                  title: {
+                      text: 'KCAL'
+                  }
+              },
+      
+              tooltip: {
+                  headerFormat: '<b>{point.key}</b><br>',
+                  pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: {point.y} / {point.stackTotal}'
+              },
+      
+              plotOptions: {
+                  column: {
+                      stacking: 'normal',
+                      depth: 40
+                  }
+              },
+      
+              series: [{
+                  name: 'Thừa',
+                  data: [enGraphData[2], damGraphData[2], duongGraphData[2], beoGraphData[2]],
+                  stack: '1'
+              }, {
+                  name: 'Thiếu',
+                  data: [enGraphData[1], damGraphData[1], duongGraphData[1], beoGraphData[1]],
+                  stack: '1'
+              }, {
+                  name: 'Thực tế',
+                  data: [enGraphData[0], damGraphData[0], duongGraphData[0], beoGraphData[0]],
+                  stack: '1'
+              }]
+          });
+      }
+      
+      
+      
+      
+      function calPTLK() {
+          var age = ['10', '15', '20', '25', '30', '35', '40', '45', '50', '55', '60', '65', '70', '75', '80', '85'];
+          var age_temp = getAge(1990);
+          var user_pulls = [];
+          var user_pull_data = 5;
+          for (var i = 0; i < age.length; i++) {
+              if (age_temp <= age[i]) {
+                  user_pulls[i] = {
+                      y: user_pull_data,
+                      marker: {
+                          symbol: 'url(http://www.highcharts.com/demo/gfx/sun.png)'
+                      }
+                  }
+                  break;
+              } else {
+                  user_pulls.push('');
+              }
+          }
+      
+          var strongs = [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6, 10, 10, 10, 10]
+      
+          var standards = [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8, 10, 10, 10, 10];
+      
+          var weeks = [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8, 10, 10, 10, 10];
+      
+          $('#container2').highcharts({
+              chart: {
+                  type: 'spline'
+              },
+              title: {
+                  text: 'PHÂN TÍCH LỰC KÉO'
+              },
+      
+              xAxis: {
+                  categories: age
+              },
+              yAxis: {
+                  title: {
+                      text: 'Lực kéo'
+                  },
+                  labels: {
+                      formatter: function() {
+                          return this.value;
+                      }
+                  }
+              },
+              tooltip: {
+                  crosshairs: true,
+                  shared: true
+              },
+              plotOptions: {
+                  spline: {
+                      marker: {
+                          radius: 4,
+                          lineColor: '#666666',
+                          lineWidth: 1
+                      }
+                  }
+              },
+              series: [{
+                  name: 'Mạnh',
+                  data: strongs
+      
+              }, {
+                  name: 'Bình thường',
+                  marker: {
+                      symbol: 'diamond'
+                  },
+                  data: standards
+              }, {
+                  name: 'Yếu',
+                  marker: {
+                      symbol: 'diamond'
+                  },
+                  data: weeks
+              }, {
+                  name: 'Bạn',
+                  marker: {
+                      symbol: 'diamond'
+                  },
+                  data: user_pulls
+              }]
+          });
+      }
+      
+      
+      function getAge(yearOfBirth) {
+          var currentYear = new Date().getFullYear();
+          return currentYear - parseInt(yearOfBirth);
+      }
+      
+      function calculateStandardKcal(totalEnergy, percentage) {
+          return ((totalEnergy * percentage) / 100);
+      }
+      
+      function rnd(num) {
+          var rs = 0;
+          if (!isNaN(num) && num != 0) {
+              rs = num.toFixed(1);
+          }
+          return parseFloat(rs);
+      }
+      
+      function identifyEnergyLevel() {
+          // default value
+          var standardEnergy = 0;
+          var level = LEVEL[0];
+      
+          // get input
+          var actualEnergy = result.energy;
+          var gender = gender_choice;
+          var age = getAge(age_user);
+          var typeOfWork = typeWork;
+          // identify level
+          var mapAge = 0;
+          for (var a in STANDARD_ENERGY[gender]) {
+              if (age > a) {
+                  mapAge = a;
+                  break;
+              }
+          }
+          if (mapAge > 0) {
+              standardEnergy = STANDARD_ENERGY[gender][mapAge][typeOfWork];
+      
+              if (actualEnergy < standardEnergy) {
+                  level = LEVEL[0];
+              } else if (actualEnergy > standardEnergy) {
+                  level = LEVEL[2];
+              } else {
+                  level = LEVEL[1];
+              }
+          }
+          return {
+              standardEnergy: standardEnergy,
+              level: level,
+              description: EVALUATE_ENERGY[level].description,
+              evaluate: EVALUATE_ENERGY[level].evaluate,
+              recommend: EVALUATE_ENERGY[level].recommend
+          };
+      };
+      
+      function calculateGraphData(actualEnergy, standardEnergyMin, standardEnergyMax) {
+          //console.log("actualEnergy = " + actualEnergy
+          //            + ", standardEnergyMin=" + standardEnergyMin
+          //            + ", standardEnergyMax=" + standardEnergyMax);
+      
+          var rs = [0, 0, 0];
+          if (standardEnergyMax === undefined || standardEnergyMax === null) {
+              standardEnergyMax = standardEnergyMin;
+          }
+      
+          if (actualEnergy < standardEnergyMin) { // less
+              rs = [actualEnergy, (standardEnergyMin - actualEnergy), 0];
+          } else if (actualEnergy > standardEnergyMax) { // more
+              rs = [standardEnergyMax, 0, (actualEnergy - standardEnergyMax)];
+          } else { // enough
+              rs = [actualEnergy, 0, 0];
+          }
+      
+          console.log(rs)
+          return rs;
+      };
+      </script>
+      </body>
+  </html>
