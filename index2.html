@@ -32,6 +32,30 @@
           position: absolute;
           z-index: 999;
         }
+        .button-config{
+          width: 50px;
+          height: 50px;
+          
+          border: 1px solid;
+          
+          right: 0;
+          top: 0;
+          
+          position: fixed;
+          z-index: 999;
+        }
+        .button-reload{
+          width: 50px;
+          height: 50px;
+          
+          border: 1px solid;
+          
+          right: 0;
+          bottom: 0;
+          
+          position: fixed;
+          z-index: 999;
+        }
       </style>
       
       <div class='wrapper'>
@@ -49,9 +73,11 @@
         </div>
         <div class='panel' id='panel-02'>
           
-          Giới tính: <input type="radio" name="sex" value="Nam"/>Nam
-          <input type="radio" name="sex" value="Nữ"/>Nữ
-          Lao động:  <input type="radio" value="0" name="type-work" >Nhẹ <input type="radio" value="1" name="type-work"> Trung bình <input type="radio" value="2" name="type-work"> Nặng<br>
+          Giới tính: <input type="radio" name="sex" value="0"/>Nam
+          <input type="radio" name="sex" value="1"/>Nữ
+          Lao động:  <input type="radio" value="0" name="type-work" >Nhẹ <input type="radio" value="1" name="type-work"> Trung bình <input type="radio" value="2" name="type-work"> Nặng
+          Năm sinh: <input id='input-age' placeholder='19xx'/>
+          <br>
           Bữa ăn :
           <select id='select-time-meal'>
             <option value="0">Sáng</option>
@@ -141,6 +167,12 @@
         <div class='panel' id='panel-05'>
           
         </div>
+        <div class='panel' id='panel-config'>
+          URL : <input id='input-url' type='text'><br>
+          Sync : <input id='btt-sync' type='button' value='Sync now'>
+        </div>
+        <p class='button-config' id='btt-config'></p>
+        <p class='button-reload' id='btt-reload'></p> 
       </div>
            
       <script type="text/javascript" src="resources/jquery.js"></script>
@@ -151,23 +183,88 @@
       <script src="database.js"></script>
       <script>
       
-      var gender_choice = "Nam";
-      var age_user = 1989;
-      var typeWork = 0; // 0 1 2
+      // URL AJAX
+      var url_sync = '';
+      
+      initURL();
+      function initURL(){
+        
+        if (localStorage.urlsync == undefined) {          
+          localStorage.setItem('urlsync','http://localhost/nutrition/');
+        }
+        
+        var temp = localStorage.urlsync;        
+        url_sync = temp;
+        
+        $("#input-url").val(url_sync);
+      }
+      
+      $("#input-url").change(function(){
+        
+        url_sync = $("#input-url").val();
+        localStorage.setItem('urlsync',url_sync);
+        
+      })
+      // End
+      
+      $("#btt-sync").bind('mousedown', function(){
+        if (navigator.onLine){
+          if(confirm("Do you want to sync data ?")){          
+            syncData();
+          }
+        }else{
+          alert("Thiet bi chua ket noi vao internet!");
+        }
+      })
+      $("#btt-config").bind('mousedown', function(){
+        $(".panel").hide();
+        $("#panel-config").show();
+      })
+      $("#btt-reload").bind('mousedown', function(){
+        if(confirm("Do you want to reload ?")){
+          window.location.href = '';
+        }
+      })
+      
+      var list_meal_added = [];
+      
+      var list_data_user_created = []; // User data-add
+      var list_data_autocomplete = []; // Sync data-autocomplete
+      var list_data_local = []; // User data-local
+      
+      var user = {
+        'name':'',
+        'age':0,
+        'sex':0,
+        'address':'',
+        'phone':'',
+        'typework':0,
+        'date_created':getCurrentDateCreated()
+      }
+      
       var result = {
           'energy': 2314,
           'dam': 391.6,
           'duong': 1514.8,
           'beo': 409.5
       }
+      
       var total = {
+          'pull':100,
           'nangluong':0,
           'dam':0,
           'duong':0,
           'beo':0,
-          'vitamin':0
-        }
+          'vitamin':0,
+          'date_created':getCurrentDateCreated()
+      }
       
+      function getCurrentDateCreated() {
+        
+        var current = new Date();
+        return current.getDate()+"/"+(current.getMonth()+1)+"/"+current.getFullYear()+" "+current.getHours()+":"+current.getMinutes();
+        
+      }
       var current = 0;
       
       $("#btt-next-intro").bind('mousedown', function() {
@@ -183,25 +280,47 @@
       $("#btt-next-ptlk").bind('mousedown', function() {
         calTPDD();
         next();
-      })
-      
+      })      
       
       function next() {
           $($(".panel")[current++]).hide();
           $($(".panel")[current]).show();
       }
       
+      // USER INPUT
+      $('#input-name').change(function(){        
+        user.name = $(this).val();        
+      });
+      $('#input-address').change(function(){        
+        user.address = $(this).val();        
+      });
+      $('#input-phone').change(function(){        
+        user.phone = $(this).val();        
+      });
+      $('#input-age').change(function(){        
+        user.age = $(this).val();        
+      });
+      $('input[name="sex"]:radio').change(function(){        
+        user.sex = $(this).val();        
+      });
+      $('input[name="type-work"]:radio').change(function(){        
+        user.typework = $(this).val();        
+      });
+      
+      $('#input-pull').change(function(){        
+        total.pull = $(this).val();        
+      });
+      // END USER INPUT
+      
+      // List meal
       $("#select-time-meal").change(function(){        
         loadListMeal($("#select-time-meal")[0].value);
-      })
-      
-      $("#button-add-meal").bind('mousedown',function(){
-        
+      })      
+      $("#button-add-meal").bind('mousedown',function(){        
         var qty = $("#input-quantity").val();
-        addItem(qty);
-        
+        addItem(qty);        
       })
-      
+            
       loadListMeal(0);
       function loadListMeal(selectIndex) {
         var temp_array = filter_database[selectIndex];
@@ -213,14 +332,7 @@
         $("#select-meal").html(temp_div);        
       }
       
-      var list_meal_added = [];
-      var total = {
-          'nangluong':0,
-          'dam':0,
-          'duong':0,
-          'beo':0,
-          'vitamin':0
-      };
+      
       
       function addItem(quantity){
         var index_time_meal = $("#select-time-meal")[0].value;
@@ -242,6 +354,8 @@
         
         loadTable();
       }
+      // End meal
+      
       function roundHundred(val){
         return Math.round(val * 100)/100;
       }
@@ -286,8 +400,6 @@
           'duong':calPercent(total.duong,total_energy),
           'beo':calPercent(total.beo,total_energy)
         }
-        
-        console.log(percents);
         
         temp_div += "<tr>";
         temp_div +=          
@@ -507,9 +619,9 @@
       
           // get input
           var actualEnergy = total.nangluong;
-          var gender = gender_choice;
-          var age = getAge(age_user);
-          var typeOfWork = typeWork;
+          var gender = user.sex;
+          var age = getAge(user.age);
+          var typeOfWork = user.typework;
           // identify level
           var mapAge = 0;
           for (var a in STANDARD_ENERGY[gender]) {
@@ -559,6 +671,131 @@
           console.log(rs)
           return rs;
       };
+      
+      
+      
+      initData();
+      
+      function initData() {
+        if (localStorage.list_data_user_created == undefined) {
+          
+          localStorage.setItem('list_data_user_created','[]')
+          
+        }else{
+          
+          var temp = JSON.parse(localStorage.list_data_user_created);          
+          list_data_user_created = temp;
+          
+        }
+      }
+      function clearData() {
+        localStorage.list_data_user_created = "[]";
+      }
+      
+      function saveDataUser(){
+        
+        var temp_user = {
+          'customer': user,
+          'record':total          
+        };
+        
+        list_data_user_created.push(temp_user);
+        
+        localStorage.list_data_user_created = JSON.stringify(list_data_user_created);
+      }
+      
+      function syncData() {
+        
+        var data_json = JSON.stringify(list_data_user_created);
+        
+        $.ajax({
+            type: "POST",
+            url: url_sync+"ajax.php",
+            data: {
+                'action': 'sync',
+                'data': data_json
+            },
+            success: function (msg) {
+                var temp = JSON.parse(msg);
+                if(temp.result=='1') {
+                  alert('Send data done');
+                  // Sync complete
+                  clearData(); // Clear data
+                  // Get autocomplete list
+                  getDataList();
+                }
+            }
+        });
+        
+      }
+      
+      function getDataList() {
+        $.ajax({
+            type: "GET",
+            url: url_sync+"ajax.php",
+            data: {
+                'action': 'sync'
+            },
+            success: function (msg) {
+              var temp = JSON.parse(msg);
+              data2Local(temp); // Store list local
+              data2AutoComplete(temp); // Store list autocomplete
+            }
+        });
+      }
+      
+      
+      
+      initDataLocal();
+      function initDataLocal(){
+        if (localStorage.list_data_local == undefined) {
+          
+          localStorage.setItem('list_data_local','[]')
+          
+        }else{
+          
+          var temp = JSON.parse(localStorage.list_data_local);          
+          list_data_local = temp;
+          
+        }
+      }
+      function data2Local(data){
+        list_data_local = data;
+        
+        var data_json = JSON.stringify(list_data_local);
+        localStorage.list_data_local = data_json; 
+      }
+      
+      
+      initAutocomplete();
+      function initAutocomplete(){
+        if (localStorage.list_data_autocomplete == undefined) {
+          
+          localStorage.setItem('list_data_autocomplete','[]')
+          
+        }else{
+          
+          var temp = JSON.parse(localStorage.list_data_autocomplete);          
+          list_data_autocomplete = temp;
+          
+        }
+      }
+      
+      function data2AutoComplete(data){
+        list_data_autocomplete = [];
+        
+        for(var i=0;i<data.length;i++){
+          var temp = data[i].name+"-"+data[i].phone;
+          list_data_autocomplete.push(temp);          
+        }
+        // Sync complete
+        
+        // Save back localstorage : list_data_autocomplete
+        var data_json = JSON.stringify(list_data_autocomplete);
+        localStorage.list_data_autocomplete = data_json;        
+        
+      }
+      
       </script>
       </body>
   </html>
