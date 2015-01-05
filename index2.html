@@ -62,7 +62,11 @@
         <div class='panel' id='panel-00' style='display: block'>
           <p>Bạn có bị suy giảm sức khỏe và thiếu hụt dinh dưỡng không ?</p>
           <p class='button-1' id='btt-next-intro'>Kiểm tra ngay</p>          
-          
+          <br>
+          <!--<div>
+            <label for="tags">Tags: </label>
+            <input id="tags">
+          </div>-->
         </div>
         <div class='panel' id='panel-01'>
           <input id='input-name' placeholder='Name'/>
@@ -176,9 +180,15 @@
       </div>
            
       <script type="text/javascript" src="resources/jquery.js"></script>
+      <script type="text/javascript" src="resources/jquery-ui.js"></script>
+      <link rel="stylesheet" href="resources/jquery-ui.css">
+  
+      
       <script src="resources/highcharts/highcharts.js"></script>
       <script src="resources/highcharts/highcharts-3d.js"></script>
       <script src="resources/highcharts/exporting.js"></script>
+      
+      
       
       <script src="database.js"></script>
       <script>
@@ -773,19 +783,45 @@
           
           localStorage.setItem('list_data_autocomplete','[]')
           
-        }else{
-          
-          var temp = JSON.parse(localStorage.list_data_autocomplete);          
-          list_data_autocomplete = temp;
-          
         }
+        
+        var temp = JSON.parse(localStorage.list_data_autocomplete);          
+        list_data_autocomplete = temp;
+        
+        $( "#input-name" ).autocomplete({
+          minLength: 0,
+          source: list_data_autocomplete,      
+          select: function( event, ui ) {
+            
+            var temp_data = list_data_local[ui.item.value-1];
+            putData2Input(temp_data);
+            
+            
+            //console.log( ui.item.value );
+            
+            return false;
+          }
+        });
+      }
+      
+      function putData2Input(data){
+        
+        //$( "#tags" ).val( data.name );
+        $( "#input-name" ).val( data.name );
+        $( "#input-address" ).val( data.address );
+        $( "#input-phone" ).val( data.phone );
+        $( "#input-age" ).val( data.age );
+        
+        $('input:radio[name=sex][value='+data.sex+']').click();
+        $('input:radio[name=type-work][value='+data.typework+']').click();
+  
       }
       
       function data2AutoComplete(data){
         list_data_autocomplete = [];
         
         for(var i=0;i<data.length;i++){
-          var temp = data[i].name+"-"+data[i].phone;
+          var temp = {'value':(i+1),'label':data[i].name+"-"+data[i].phone};
           list_data_autocomplete.push(temp);          
         }
         // Sync complete
