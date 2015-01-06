@@ -2966,7 +2966,7 @@ $.widget( "ui.autocomplete", {
 				if ( !$( event.target ).closest( ".ui-menu-item" ).length ) {
 					this._delay(function() {
 						var that = this;
-						this.document.one( "mousedown", function( event ) {
+						this.document.one( "touchstart", function( event ) {
 							if ( event.target !== that.element[ 0 ] &&
 									event.target !== menuElement &&
 									!$.contains( menuElement, event.target ) ) {
@@ -2985,7 +2985,7 @@ $.widget( "ui.autocomplete", {
 					if ( event.originalEvent && /^mouse/.test( event.originalEvent.type ) ) {
 						this.menu.blur();
 
-						this.document.one( "mousemove", function() {
+						this.document.one( "touchmove", function() {
 							$( event.target ).trigger( event.originalEvent );
 						});
 

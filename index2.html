@@ -122,6 +122,12 @@
           display: none;
         }
         
+        #div-info-parent{
+          position: absolute;
+          left: 100px;
+          top: 150px;
+        }
+        
         #table-info{
           display: none;
         }
@@ -170,6 +176,10 @@
 
         }
         
+        .div-info-parent{
+          
+        }
+        
         .group:before,
         .group:after {
             content: "";
@@ -192,23 +202,24 @@
           
         </div>
         <div class='panel' id='panel-01'>
-          <div class='div-info group'>
-            <p>Họ và tên: </p>
-            <input id='input-name' class='input-info' placeholder='Name'/>          
+          <div id='div-info-parent'>
+            <div class='div-info group'>
+              <p>Họ và tên: </p>
+              <input id='input-name' class='input-info' placeholder='Name'/>          
+            </div>
+            <div class='div-info group'>
+              <p>Địa chỉ: </p>
+              <input id='input-address' class='input-info' placeholder='Address'/>
+            </div>
+            <div class='div-info group'>
+              <p>Điện thoại: </p>
+              <input id='input-phone' class='input-info' placeholder='Phone'/>
+            </div>
           </div>
-          <div class='div-info group'>
-            <p>Địa chỉ: </p>
-            <input id='input-address' class='input-info' placeholder='Address'/>
-          </div>
-          <div class='div-info group'>
-            <p>Điện thoại: </p>
-            <input id='input-phone' class='input-info' placeholder='Phone'/>
-          </div>
-          
           
           <p class='button-1' id='btt-next-info'></p> 
         </div>
-        <div class='panel' id='panel-02'>
+        <div class='panel' id='panel-02' style='padding-top:50px'>
           
           Giới tính: <input type="radio" name="sex" value="0"/>Nam
           <input type="radio" name="sex" value="1"/>Nữ
@@ -325,10 +336,16 @@
       <script src="resources/highcharts/highcharts-3d.js"></script>
       <script src="resources/highcharts/exporting.js"></script>
       
-      
-      
       <script src="database.js"></script>
       <script>
+            
+      $(".panel").bind("touchstart",function(){
+        document.activeElement.blur();
+      })
+      
+      window.addEventListener("touchmove", function(e) {
+          e.preventDefault();
+      })
       
       // URL AJAX
       var url_sync = '';
@@ -337,7 +354,7 @@
       function initURL(){
         
         if (localStorage.urlsync == undefined) {          
-          localStorage.setItem('urlsync','http://localhost/nutrition/');
+          localStorage.setItem('urlsync','http://www.lamhongdata.com/nutrition/');
         }
         
         var temp = localStorage.urlsync;        
@@ -354,7 +371,7 @@
       })
       // End
       
-      $("#btt-sync").bind('mousedown', function(){
+      $("#btt-sync").bind('touchstart', function(){
         if (navigator.onLine){
           if(confirm("Do you want to sync data ?")){          
             syncData();
@@ -363,13 +380,14 @@
           alert("Thiet bi chua ket noi vao internet!");
         }
       })
-      $("#btt-config").bind('mousedown', function(){
-        if(prompt("Password?") == "asd"){
+      $("#btt-config").bind('touchstart', function(){
+        var temp = prompt("Password?");
+        if(temp == "ppp"){
           $(".panel").hide();
           $("#panel-config").show();
         }
       })
-      $("#btt-reload").bind('mousedown', function(){
+      $("#btt-reload").bind('touchstart', function(){
         if(confirm("Do you want to reload ?")){
           window.location.href = '';
         }
@@ -416,24 +434,24 @@
       }
       var current = 0;
       
-      $("#btt-next-intro").bind('mousedown', function() {
+      $("#btt-next-intro").bind('touchstart', function() {
         next();
       })
-      $("#btt-next-info").bind('mousedown', function() {
+      $("#btt-next-info").bind('touchstart', function() {
         next();  
       })
-      $("#btt-next-input").bind('mousedown', function() {
+      $("#btt-next-input").bind('touchstart', function() {
         
         saveDataUser(); // Save data here
         
         calPTLK();
         next();
       })
-      $("#btt-next-ptlk").bind('mousedown', function() {
+      $("#btt-next-ptlk").bind('touchstart', function() {
         calTPDD();
         next();
       })
-      $("#btt-next-tpdd").bind('mousedown', function() {        
+      $("#btt-next-tpdd").bind('touchstart', function() {        
         next();
         
         setTimeout(function(){
@@ -446,7 +464,7 @@
       
       function next() {
           $($(".panel")[current++]).hide();
-          $($(".panel")[current]).show();
+          $($(".panel")[current]).fadeIn();
       }
       
       // USER INPUT
@@ -522,7 +540,7 @@
       $("#select-time-meal").change(function(){        
         loadListMeal($("#select-time-meal")[0].value);
       })      
-      $("#button-add-meal").bind('mousedown',function(){
+      $("#button-add-meal").bind('touchstart',function(){
         
         $("#table").show();
         
@@ -1032,6 +1050,11 @@
             
             checkInputInfo();
             checkInputInside();
+            
+            
+            // AUTOCOMPLETE JQUERY UI -- bsqMOD -- touchstart, touchmove inside 07012015
+            // blur after autocomplete done!
+            document.activeElement.blur();
             
             //console.log( ui.item.value );
             

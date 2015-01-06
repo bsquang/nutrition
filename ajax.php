@@ -73,6 +73,9 @@ if(isset($_POST['action'])){
   if($_POST['action'] == "sync"){
    
     $data = $_POST['data'];
+    
+    print_r($data);
+    
     $temp = json_decode($data, true);
     
     for($i=0;$i<count($temp);$i++){
