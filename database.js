@@ -268,3 +268,27 @@ filter_database[3]=[
   {"buoi":"Trái Cây& Thức uống", "thucan": "Ly Ensure (230ml)", "nangluong":230, "dam":8.6, "beo":7.5, "duong":31, "vitamin":0},
   {"buoi":"Trái Cây& Thức uống", "thucan": "Xoài", "nangluong":179, "dam":1.6, "beo":0.8, "duong":41.2, "vitamin":0.5}
 ]
+
+Array.prototype.equals = function (array) {
+    // if the other array is a falsy value, return
+    if (!array)
+        return false;
+
+    // compare lengths - can save a lot of time 
+    if (this.length != array.length)
+        return false;
+
+    for (var i = 0, l=this.length; i < l; i++) {
+        // Check if we have nested arrays
+        if (this[i] instanceof Array && array[i] instanceof Array) {
+            // recurse into the nested arrays
+            if (!this[i].equals(array[i]))
+                return false;       
+        }           
+        else if (this[i] != array[i]) { 
+            // Warning - two different object instances will never be equal: {x:20} != {x:20}
+            return false;   
+        }           
+    }       
+    return true;
+}   

@@ -16,7 +16,13 @@
           
           box-sizing: content-box;
         }
-        #container {
+        #container-pull {
+            height: 600px; 
+            min-width: 600px; 
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        #container-dd {
             height: 600px; 
             min-width: 600px; 
             max-width: 800px;
@@ -56,6 +62,24 @@
           position: fixed;
           z-index: 999;
         }
+        
+        #btt-next-info
+        {
+          display: none;
+        }
+        #btt-next-input
+        {
+          display: none;
+        }
+        
+        #table-info{
+          display: none;
+        }
+        
+        #div-meal{
+          display: none;
+        }
+        
       </style>
       
       <div class='wrapper'>
@@ -79,9 +103,11 @@
           
           Giới tính: <input type="radio" name="sex" value="0"/>Nam
           <input type="radio" name="sex" value="1"/>Nữ
-          Lao động:  <input type="radio" value="0" name="type-work" >Nhẹ <input type="radio" value="1" name="type-work"> Trung bình <input type="radio" value="2" name="type-work"> Nặng
           Năm sinh: <input id='input-age' placeholder='19xx'/>
+          Lao động:  <input type="radio" value="0" name="type-work" >Nhẹ <input type="radio" value="1" name="type-work"> Trung bình <input type="radio" value="2" name="type-work"> Nặng
+          
           <br>
+          <div id='div-meal'>
           Bữa ăn :
           <select id='select-time-meal'>
             <option value="0">Sáng</option>
@@ -102,7 +128,9 @@
           Nhập kết quả đo lực kéo : <input id='input-pull'/>
           <input type='button' value='Thêm vào'>
           <br>
-          <table class="table">
+          </div>
+            
+          <table class="table" id='table-info'>
             <thead class="fontTitle">
               <tr>
                 <th style="width:40px">STT</th>
@@ -159,12 +187,12 @@
         
         </div>
         <div class='panel' id='panel-03'>
-          <div id="container2" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+          <div id="container-pull" ></div>
           <br>
           <p class='button-1' id='btt-next-ptlk'>Next</p> 
         </div>
         <div class='panel' id='panel-04'>
-          <div id="container" ></div>
+          <div id="container-dd" ></div>
           <br>
           <p class='button-1' id='btt-next-tpdd'>Next</p> 
         </div>
@@ -227,8 +255,10 @@
         }
       })
       $("#btt-config").bind('mousedown', function(){
-        $(".panel").hide();
-        $("#panel-config").show();
+        if(prompt("Password?") == "asd"){
+          $(".panel").hide();
+          $("#panel-config").show();
+        }
       })
       $("#btt-reload").bind('mousedown', function(){
         if(confirm("Do you want to reload ?")){
@@ -284,13 +314,26 @@
         next();  
       })
       $("#btt-next-input").bind('mousedown', function() {
+        
+        saveDataUser(); // Save data here
+        
         calPTLK();
         next();
       })
       $("#btt-next-ptlk").bind('mousedown', function() {
         calTPDD();
         next();
-      })      
+      })
+      $("#btt-next-tpdd").bind('mousedown', function() {        
+        next();
+        
+        setTimeout(function(){
+          
+          window.location.href = '';
+          
+        },3000);
+        
+      })
       
       function next() {
           $($(".panel")[current++]).hide();
@@ -298,23 +341,45 @@
       }
       
       // USER INPUT
-      $('#input-name').change(function(){        
-        user.name = $(this).val();        
+      // INFO
+      $('#input-name').bind('input', function(){        
+        user.name = $(this).val();
+        
+        setVal2IndexArray(0,1,condition_info);        
+        checkInputInfo();        
+        
       });
-      $('#input-address').change(function(){        
-        user.address = $(this).val();        
+      $('#input-address').bind('input', function(){        
+        user.address = $(this).val();
+        
+        setVal2IndexArray(1,1,condition_info);        
+        checkInputInfo();        
       });
-      $('#input-phone').change(function(){        
-        user.phone = $(this).val();        
+      $('#input-phone').bind('input', function(){        
+        user.phone = $(this).val();
+        
+        setVal2IndexArray(2,1,condition_info);        
+        checkInputInfo();        
       });
-      $('#input-age').change(function(){        
-        user.age = $(this).val();        
+      
+      // INSIDE
+      $('#input-age').bind('input', function(){        
+        user.age = $(this).val();
+        
+        setVal2IndexArray(1,1,condition_inside);        
+        checkInputInside();        
       });
       $('input[name="sex"]:radio').change(function(){        
-        user.sex = $(this).val();        
+        user.sex = $(this).val();
+        
+        setVal2IndexArray(0,1,condition_inside);        
+        checkInputInside();        
       });
       $('input[name="type-work"]:radio').change(function(){        
-        user.typework = $(this).val();        
+        user.typework = $(this).val();
+        
+        setVal2IndexArray(2,1,condition_inside);        
+        checkInputInside();        
       });
       
       $('#input-pull').change(function(){        
@@ -322,11 +387,36 @@
       });
       // END USER INPUT
       
+      function setVal2IndexArray(index,value,array){
+        array[index] = value;
+      }
+      
+      var condition_info = [0,0,0];      
+      function checkInputInfo(){
+        if (condition_info.equals([1,1,1])) {
+          $("#btt-next-info").show();
+        }else{
+          $("#btt-next-info").hide();
+        }
+      }
+      
+      var condition_inside = [0,0,0];      
+      function checkInputInside(){
+        if (condition_inside.equals([1,1,1])) {
+          $("#div-meal").show();
+        }else{
+          $("#div-meal").hide();
+        }
+      }
+      
       // List meal
       $("#select-time-meal").change(function(){        
         loadListMeal($("#select-time-meal")[0].value);
       })      
-      $("#button-add-meal").bind('mousedown',function(){        
+      $("#button-add-meal").bind('mousedown',function(){
+        
+        $("#table").show();
+        
         var qty = $("#input-quantity").val();
         addItem(qty);        
       })
@@ -363,6 +453,9 @@
         list_meal_added.push(temp_thucan)
         
         loadTable();
+        
+        $("#table-info").show();
+        $("#btt-next-input").show();
       }
       // End meal
       
@@ -457,7 +550,7 @@
               calculateStandardKcal(nangluong.standardEnergy, STANDARD_DETAIL['beo'].minValue),
               calculateStandardKcal(nangluong.standardEnergy, STANDARD_DETAIL['beo'].maxValue));
       
-          $('#container').highcharts({
+          $('#container-dd').highcharts({
       
               chart: {
                   type: 'column',
@@ -544,7 +637,7 @@
       
           var weeks = [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8, 10, 10, 10, 10];
       
-          $('#container2').highcharts({
+          $('#container-pull').highcharts({
               chart: {
                   type: 'spline'
               },
@@ -712,6 +805,30 @@
         list_data_user_created.push(temp_user);
         
         localStorage.list_data_user_created = JSON.stringify(list_data_user_created);
+        
+        // Update to autocomplete and dat_local when new user and new phone
+        
+        var bExist = false;
+        for(var i=0;i<list_data_local.length;i++)
+        {
+          var temp = list_data_local[i];
+          if (temp.phone == user.phone) {
+            bExist = true;
+            break;
+          }
+        }
+        
+        if (bExist == false) {
+          var temp_autocomplete = {'value':(list_data_autocomplete.length+1),'label':user.name+"-"+user.phone};
+          list_data_autocomplete.push(temp_autocomplete);
+                    
+          list_data_local.push(user);
+          
+          save2LocalStorage();
+        }
+        
+        
+        
       }
       
       function syncData() {
@@ -796,6 +913,11 @@
             var temp_data = list_data_local[ui.item.value-1];
             putData2Input(temp_data);
             
+            condition_info = [1,1,1];
+            condition_inside = [1,1,1];
+            
+            checkInputInfo();
+            checkInputInside();
             
             //console.log( ui.item.value );
             
@@ -814,6 +936,13 @@
         
         $('input:radio[name=sex][value='+data.sex+']').click();
         $('input:radio[name=type-work][value='+data.typework+']').click();
+        
+        user.name = data.name;
+        user.address = data.address;
+        user.phone = data.phone;
+        user.sex = data.sex;
+        user.age = data.age;
+        user.typework = data.typework;
   
       }
       
@@ -830,6 +959,16 @@
         var data_json = JSON.stringify(list_data_autocomplete);
         localStorage.list_data_autocomplete = data_json;        
         
+      }
+      
+      function save2LocalStorage() {
+        //Auto Complete
+        var data_json = JSON.stringify(list_data_autocomplete);
+        localStorage.list_data_autocomplete = data_json;
+        
+        //Data local
+        var data_json = JSON.stringify(list_data_local);
+        localStorage.list_data_local = data_json;         
       }
       
       </script>
