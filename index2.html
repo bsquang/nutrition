@@ -30,13 +30,52 @@
         }
         .panel{
           width: 1024px;
+          height:768px;
+          
+          overflow: hidden;
+          
           display: none;
         }
+        #panel-00{
+          background: url('resources/BGR-INTRO.png');
+        }
+        #panel-01{
+          background: url('resources/BGR-INFO.png');
+        }
+        #panel-02{
+          background: url('resources/BGR-MAIN.png');
+        }
+        #panel-05{
+          background: url('resources/BGR-END.png');
+        }
+        
+        
+        
+        .logo-luvitas{
+          width: 106px;
+          height: 39px;
+          background: url('resources/LOGO-VINUTAS.png');
+          background-size: cover;
+          
+          position: fixed;
+          right: 45px;
+          top: 25px;
+          
+          z-index: 9999;
+        }
+        
+        
         .button-1{
           padding: 10px;
-          border: 1px solid;
+          
           position: absolute;
           z-index: 999;
+          
+          width: 76px;
+          height: 76px;
+          
+          background: url('resources/BUTTON-NEXT.png');
+          background-size: cover;
         }
         .button-config{
           width: 50px;
@@ -62,9 +101,20 @@
           position: fixed;
           z-index: 999;
         }
-        
+        #btt-next-intro{
+          background: none;
+          /*border: 1px solid;*/
+          left: 40px;
+          top: 290px;
+          width: 200px;
+          height: 30px;
+        }
         #btt-next-info
         {
+          position: absolute;
+          bottom: 40px;
+          right: 40px;
+          
           display: none;
         }
         #btt-next-input
@@ -80,24 +130,83 @@
           display: none;
         }
         
+        ::-webkit-input-placeholder { /* WebKit browsers */
+            color:    white;
+        }
+        
+        .div-info{
+          width: 510px;
+          height: 45px;
+          
+          margin-bottom: 10px;
+          font-size: 24px;
+          
+          background: #00A1D3;
+          border-radius: 25px;
+          
+          color: white;
+          
+          padding: 10px;
+          border: none;
+        }
+        .input-info{
+          
+          font-size: 24px;
+          
+          background: #00A1D3;          
+          
+          color: white;
+          
+          padding: 10px;
+          border: none;
+        }
+        .div-info p{
+          float: left;
+          font-size: 24px;
+          padding: 10px;
+        }
+        .div-info input{
+          float: left;
+
+        }
+        
+        .group:before,
+        .group:after {
+            content: "";
+            display: table;
+        } 
+        .group:after {
+            clear: both;
+        }
+        .group {
+            zoom: 1; /* For IE 6/7 (trigger hasLayout) */
+        }
       </style>
       
       <div class='wrapper'>
+        <div class='logo-luvitas'></div>
         <div class='panel' id='panel-00' style='display: block'>
-          <p>Bạn có bị suy giảm sức khỏe và thiếu hụt dinh dưỡng không ?</p>
-          <p class='button-1' id='btt-next-intro'>Kiểm tra ngay</p>          
-          <br>
-          <!--<div>
-            <label for="tags">Tags: </label>
-            <input id="tags">
-          </div>-->
+          
+          <p class='button-1' id='btt-next-intro'></p>          
+          
+          
         </div>
         <div class='panel' id='panel-01'>
-          <input id='input-name' placeholder='Name'/>
-          <input id='input-address' placeholder='Address'/>
-          <input id='input-phone' placeholder='Phone'/>
+          <div class='div-info group'>
+            <p>Họ và tên: </p>
+            <input id='input-name' class='input-info' placeholder='Name'/>          
+          </div>
+          <div class='div-info group'>
+            <p>Địa chỉ: </p>
+            <input id='input-address' class='input-info' placeholder='Address'/>
+          </div>
+          <div class='div-info group'>
+            <p>Điện thoại: </p>
+            <input id='input-phone' class='input-info' placeholder='Phone'/>
+          </div>
           
-          <p class='button-1' id='btt-next-info'>Next</p> 
+          
+          <p class='button-1' id='btt-next-info'></p> 
         </div>
         <div class='panel' id='panel-02'>
           
@@ -846,7 +955,12 @@
                 var temp = JSON.parse(msg);
                 if(temp.result=='1') {
                   alert('Send data done');
+                                    
                   // Sync complete
+                  var temp_time = getCurrentDateCreated();
+                  localStorage.setItem('sync_last',temp_time);
+                  $("#btt-sync").val("Sync now (Last:"+temp_time+")")
+                  
                   clearData(); // Clear data
                   // Get autocomplete list
                   getDataList();
@@ -969,6 +1083,18 @@
         //Data local
         var data_json = JSON.stringify(list_data_local);
         localStorage.list_data_local = data_json;         
+      }
+      
+      initStatusSync();
+      function initStatusSync(){
+        if (localStorage.sync_last == undefined) {
+          
+          localStorage.setItem('sync_last','0')
+          
+        }
+        
+        var temp = localStorage.sync_last;
+        $("#btt-sync").val("Sync now (Last:"+temp+")")
       }
       
       </script>
