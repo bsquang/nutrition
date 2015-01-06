@@ -2,221 +2,1125 @@
   <html>
     <head>
       <meta charset="UTF-8">
-      <title>Nutrition</title>
-      
-      <link rel="stylesheet" type="text/css" href="resources/jchartfx/jchartfx.palette.css"/>
-      <link rel="stylesheet" type="text/css" href="resources/jchartfx/styles/Attributes/jchartfx.attributes.css"/>
-      <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+      <meta name="apple-mobile-web-app-capable" content="yes">
+      <meta name="viewport" content="initial-scale=1, user-scalable=no">
         
-      
+      <title>Nutrition</title>
+	  
+      <script src="phonegap.js"></script>
     </head>
     <body>
-      <div id='div_obj' style='width:750px;height:360px;'></div>
-      
-      <script type="text/javascript" src="resources/jquery.js"></script> 
-	  <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-	  <script type="text/javascript" src="resources/jchartfx/jchartfx.full.js"></script>
-      <script>
-        var STANDARD_DETAIL = {
-          dam: {minValue:13, maxValue:15},
-          duong: {minValue:55, maxValue:60},
-          beo: {minValue:20, maxValue:25}
-        };
-    
-        var STANDARD_ENERGY = {
-          'Nam': {
-            60:[1900, 2200, 0],
-            30:[2200, 2700, 3200],
-            18:[2300, 2700, 3200]
-            },
-          'Nữ': {
-            60:[1800, 0, 0],
-            30:[2100, 2200, 2600],
-            18:[2200, 2300, 2600]
-            }
-        };
-    
-        var EVALUATE_ENERGY = {
-          'less': {
-            description: 'Thiếu',
-            evaluate: 'Tổng năng lượng thấp hơn mức năng lượng nhu cầu theo khuyến nghị.',
-            recommend: 'Bổ sung dinh dưỡng theo đường uống với sữa đầy đủ và cân đối, đạm chất lượng cao, đầy đủ vitamin và khoáng chất, kết hợp chế độ ăn đa dạng các loại thực phẩm.'
-          },
-          'enough': {
-            description: 'Đủ',
-            evaluate: 'Đạt mức năng lượng nhu cầu theo khuyến nghị',
-            recommend: 'Cần áp dụng chế độ dinh dưỡng hợp lý gồm đầy đủ, đa dạng các lọai thực phẩm, đảm bảo 4 nhóm thực phẩm chính(đạm, đường, béo, vitamin), kết hợp uống bồ sung 1- 2 ly sữa /ngày.'
-          },
-          'over': {
-            description: 'Thừa',
-            evaluate: 'Tổng năng lượng cao hơn mức năng lượng nhu cầu theo khuyến nghị.',
-            recommend: 'Bớt ăn các món nhiều tinh bột (cơm, bánh mì…), bớt mỡ, đường, thịt, không ăn vặt, ăn đêm, tăng cường vận động, hạn chế rượu bia.'
-          }
-        };
-        
-        var EVALUATE_DETAIL = {};
-        EVALUATE_DETAIL.dam = {
-          'less': {
-            description: 'Thiếu',
-            evaluate: 'Đạm cung cấp thiếu. Nguy cơ: Suy dinh dưỡng, phù do giảm đạm máu, teo cơ, loãng xương, suy nhược cơ thể, thiếu máu, vết thương lâu lành.',
-            recommend: 'Bổ sung dinh dưỡng theo đường uống với sữa đầy đủ và cân đối, với đạm chất lượng cao kết hợp chế độ ăn giàu thịt trắng, cá, trứng, đậu…'
-          },
-          'enough': {
-            description: 'Đủ',
-            evaluate: '',
-            recommend: ''
-          },
-          'over': {
-            description: 'Thừa',
-            evaluate: 'Đạm cung cấp vượt nhu cầu theo khuyến nghị. Nguy cơ: Thừa cân, cholesterol máu cao, bệnh tim mạch, loãng xương, bệnh thận, gút.',
-            recommend: 'Giảm bớt các thức ăn giàu đạm như thịt bò, các lọai thịt trắng như cá phi lê, trứng, đậu hũ, các lọai đậu.'
-          }
-        };
-    
-        EVALUATE_DETAIL.duong = {
-          'less': {
-            description: 'Thiếu',
-            evaluate: 'Đường cung cấp thiếu. Nguy cơ: Thiếu năng lượng, suy dinh dưỡng.',
-            recommend: 'Bổ sung dinh dưỡng theo đường uống, kết hợp ăn thêm tinh bột, các lọai ngũ cốc (cơm, khoai, mì, bắp, bún…), trái cây ngọt.'
-          },
-          'enough': {
-            description: 'Đủ',
-            evaluate: '',
-            recommend: ''
-          },
-          'over': {
-            description: 'Thừa',
-            evaluate: 'Đường cung cấp vượt nhu cầu khuyến nghị.  Nguy cơ: Thừa cân, béo phì và các biến chứng của thừa cân, béo phì, gan nhiễm mỡ, tăng triglyceride máu, đái tháo đường type 2…',
-            recommend: 'Giảm bớt tinh bột (cơm, xôi, bánh mì…), các lọai bánh kẹo ngọt, trái cây ngọt.'
-          }
-        };
-    
-        EVALUATE_DETAIL.beo = {
-          'less': {
-            description: 'Thiếu',
-            evaluate: 'Cung cấp thiếu chất béo. Nguy cơ: Thiếu năng lượng, suy dinh dưỡng, thành mạch không bền (xuất huyết thành mạch, xuất huyết não), thiếu vitamin, suy nhược cơ thể, ung thư.',
-            recommend: 'Bổ sung dinh dưỡng theo đường uống, kết hợp dùng thêm dầu thực vật trong chế biến món ăn, dùng các lọai cá béo chứa omega 3, các lọai hạt có dầu…'
-          },
-          'enough': {
-            description: 'Đủ',
-            evaluate: '',
-            recommend: ''
-          },
-          'over': {
-            description: 'Thừa',
-            evaluate: 'Chất béo cung cấp vượt nhu cầu khuyến nghị. Nguy cơ: Thừa năng lượng, thừa cân, béo phì, xơ vữa động mạch, tăng mỡ máu, mỡ nội tạng, bệnh tim mạch, nhồi máu não…',
-            recommend: 'Hạn chế các chất béo xấu (mỡ động vật, nội tạng, da, nước hầm xương…), thức ăn chứa transfat (thức ăn dùng dầu chiên lại nhiều lần), hạn chế chiên xào, nên ăn thức ăn hấp luộc, hạn chế thức ăn nhanh (fastfood)…'
-          }
-        };
-    
-        var LEVEL = ["less", "enough", "over"];
-        var chart1 = new cfx.Chart();
-        
-        chart1.setGallery(cfx.Gallery.Bar);
-        chart1.getLegendBox().setVisible(false);
-        chart1.getAllSeries().setStacked(cfx.Stacked.Normal);
-        chart1.getView3D().setEnabled(true);
-        var td;
-        td = new cfx.TitleDockable();
-        td.setText("3D Stacked Bars");
-        chart1.getTitles().add(td);
-        var data = chart1.getData();
-        data.setSeries(4);
-        data.setPoints(8);
-        var i = 0;
-        var j = 0;
-        for(i = 0; (i < 4); (i)++)
-        {
-          for(j = 0; (j < 8); (j)++)
-          {
-            data.setItem(i, j, ((Math.random()) * 20.0));
-          }
+      <style>
+        *{
+          padding: 0;
+          margin: 0;
+          
+          box-sizing: content-box;
+        }
+        #container-pull {
+            height: 600px; 
+            min-width: 600px; 
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        #container-dd {
+            height: 600px; 
+            min-width: 600px; 
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .panel{
+          width: 1024px;
+          height:768px;
+          
+          overflow: hidden;
+          
+          display: none;
+        }
+        #panel-00{
+          background: url('resources/BGR-INTRO.png');
+        }
+        #panel-01{
+          background: url('resources/BGR-INFO.png');
+        }
+        #panel-02{
+          background: url('resources/BGR-MAIN.png');
+        }
+        #panel-05{
+          background: url('resources/BGR-END.png');
         }
         
         
-        chart1.create(document.getElementById('div_obj'))
-      </script>
-      <!--<script>
-        var chart1 = new cfx.Chart();
+        
+        .logo-luvitas{
+          width: 106px;
+          height: 39px;
+          background: url('resources/LOGO-VINUTAS.png');
+          background-size: cover;
+          
+          position: fixed;
+          right: 45px;
+          top: 25px;
+          
+          z-index: 9999;
+        }
+        
+        
+        .button-1{
+          padding: 10px;
+          
+          position: absolute;
+          z-index: 999;
+          
+          width: 76px;
+          height: 76px;
+          
+          background: url('resources/BUTTON-NEXT.png');
+          background-size: cover;
+        }
+        .button-config{
+          width: 50px;
+          height: 50px;
+          
+          border: 1px solid;
+          
+          right: 0;
+          top: 0;
+          
+          position: fixed;
+          z-index: 999;
+        }
+        .button-reload{
+          width: 50px;
+          height: 50px;
+          
+          border: 1px solid;
+          
+          right: 0;
+          bottom: 0;
+          
+          position: fixed;
+          z-index: 999;
+        }
+        #btt-next-intro{
+          background: none;
+          /*border: 1px solid;*/
+          left: 40px;
+          top: 290px;
+          width: 200px;
+          height: 30px;
+        }
+        #btt-next-info
+        {
+          position: absolute;
+          bottom: 40px;
+          right: 40px;
+          
+          display: none;
+        }
+        #btt-next-input
+        {
+          display: none;
+        }
+        
+        #div-info-parent{
+          position: absolute;
+          left: 100px;
+          top: 150px;
+        }
+        
+        #table-info{
+          display: none;
+        }
+        
+        #div-meal{
+          display: none;
+        }
+        
+        ::-webkit-input-placeholder { /* WebKit browsers */
+            color:    white;
+        }
+        
+        .div-info{
+          width: 510px;
+          height: 45px;
+          
+          margin-bottom: 10px;
+          font-size: 24px;
+          
+          background: #00A1D3;
+          border-radius: 25px;
+          
+          color: white;
+          
+          padding: 10px;
+          border: none;
+        }
+        .input-info{
+          
+          font-size: 24px;
+          
+          background: #00A1D3;          
+          
+          color: white;
+          
+          padding: 10px;
+          border: none;
+        }
+        .div-info p{
+          float: left;
+          font-size: 24px;
+          padding: 10px;
+        }
+        .div-info input{
+          float: left;
 
-        chart1.setGallery(cfx.Gallery.Bar);
-        chart1.getAllSeries().setStacked(cfx.Stacked.Normal);
-        chart1.getView3D().setEnabled(true);
+        }
         
-        PopulateCarProduction(chart1);
-        var titles = chart1.getTitles();
-        var title = new cfx.TitleDockable();
-        title.setText("Vehicles Production by Month");
-        titles.add(title);
-        chart1.getAxisY().getTitle().setText("Number of Vehicles");
-        chart1.create('div_obj');
+        .div-info-parent{
+          
+        }
         
-        function PopulateCarProduction(chart1) {
-                var items = [{
-                    "Sedan": 1760,
-                    "Coupe": 535,
-                    "SUV": 695,
-                    "Month": "Jan"
-                }, {
-                    "Sedan": 1849,
-                    "Coupe": 395,
-                    "SUV": 688,
-                    "Month": "Feb"
-                }, {
-                    "Sedan": 2831,
-                    "Coupe": 685,
-                    "SUV": 1047,
-                    "Month": "Mar"
-                }, {
-                    "Sedan": 2851,
-                    "Coupe": 984,
-                    "SUV": 1652,
-                    "Month": "Apr"
-                }, {
-                    "Sedan": 2961,
-                    "Coupe": 1579,
-                    "SUV": 1889,
-                    "Month": "May"
-                }, {
-                    "Sedan": 1519,
-                    "Coupe": 1539,
-                    "SUV": 1766,
-                    "Month": "Jun"
-                }, {
-                    "Sedan": 2633,
-                    "Coupe": 1489,
-                    "SUV": 1361,
-                    "Month": "Jul"
-                }, {
-                    "Sedan": 1140,
-                    "Coupe": 650,
-                    "SUV": 874,
-                    "Month": "Aug"
-                }, {
-                    "Sedan": 1626,
-                    "Coupe": 653,
-                    "SUV": 693,
-                    "Month": "Sep"
-                }, {
-                    "Sedan": 1478,
-                    "Coupe": 2236,
-                    "SUV": 786,
-                    "Month": "Oct"
-                }, {
-                    "Sedan": 1306,
-                    "Coupe": 1937,
-                    "SUV": 599,
-                    "Month": "Nov"
-                }, {
-                    "Sedan": 1607,
-                    "Coupe": 2138,
-                    "SUV": 678,
-                    "Month": "Dec"
-                }];
+        .group:before,
+        .group:after {
+            content: "";
+            display: table;
+        } 
+        .group:after {
+            clear: both;
+        }
+        .group {
+            zoom: 1; /* For IE 6/7 (trigger hasLayout) */
+        }
+      </style>
+      
+      <div class='wrapper'>
+        <div class='logo-luvitas'></div>
+        <div class='panel' id='panel-00' style='display: block'>
+          
+          <p class='button-1' id='btt-next-intro'></p>          
+          
+          
+        </div>
+        <div class='panel' id='panel-01'>
+          <div id='div-info-parent'>
+            <div class='div-info group'>
+              <p>Họ và tên: </p>
+              <input id='input-name' class='input-info' placeholder='Name'/>          
+            </div>
+            <div class='div-info group'>
+              <p>Địa chỉ: </p>
+              <input id='input-address' class='input-info' placeholder='Address'/>
+            </div>
+            <div class='div-info group'>
+              <p>Điện thoại: </p>
+              <input id='input-phone' class='input-info' placeholder='Phone'/>
+            </div>
+          </div>
+          
+          <p class='button-1' id='btt-next-info'></p> 
+        </div>
+        <div class='panel' id='panel-02' style='padding-top:50px'>
+          
+          Giới tính: <input type="radio" name="sex" value="0"/>Nam
+          <input type="radio" name="sex" value="1"/>Nữ
+          Năm sinh: <input id='input-age' placeholder='19xx'/>
+          Lao động:  <input type="radio" value="0" name="type-work" >Nhẹ <input type="radio" value="1" name="type-work"> Trung bình <input type="radio" value="2" name="type-work"> Nặng
+          
+          <br>
+          <div id='div-meal'>
+          Bữa ăn :
+          <select id='select-time-meal'>
+            <option value="0">Sáng</option>
+            <option value="1">Trưa</option>
+            <option value="2">Chiều tối</option>
+            <option value="3">Trái cây & thức uống</option>
+          </select>
+          Món ăn :          
+          <select id='select-meal'>
+            <option value="0">Bánh</option>
+            <option value="1">Nước</option>
+            <option value="2">Cơm</option>
+            <option value="3">Ổi</option>
+          </select>
+          Số lượng : <input id='input-quantity' value='1'/>
+          <input type='button' id='button-add-meal' value='Thêm vào'>
+          <br>
+          Nhập kết quả đo lực kéo : <input id='input-pull'/>
+          <input type='button' value='Thêm vào'>
+          <br>
+          </div>
             
+          <table class="table" id='table-info'>
+            <thead class="fontTitle">
+              <tr>
+                <th style="width:40px">STT</th>
+                <th style="width:180px">Bữa ăn</th>
+                <th style="width:250px">Món ăn</th>
+                <th style="width:80px">Số lượng</th>
+                <th>Năng lượng<br/>(Kcal)</th>
+                <th>Đạm<br/>(Kcal)</th>
+                <th>Đường<br/>(Kcal)</th>
+                <th>Béo<br/>(Kcal)</th>        
+                <th>Vitamin<br/>(Kcal)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>Sáng</td>
+                <td>Cơm</td>
+                <td>1</td>
+                
+                <td>1</td>                
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+              </tr>
+              <tr>
+                <td colspan="4">Năng lượng 1 ngày</td>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>     
+                <td>1</td>
+              </tr>
+              <tr>
+                <td colspan="5">Tỉ lệ phần trăm năng lượng trong 1 ngày</td>
+                <td>1%</td>
+                <td>1%</td>
+                <td>1%</td>     
+                <td></td>
+              </tr>
+              <tr>
+                <td colspan="5">Kết quả đo lực kéo</td>
+                <td>14</td>
+                <td></td>
+                <td></td>     
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <br>
+          <p class='button-1' id='btt-next-input'>Next</p> 
+        
+        
+        </div>
+        <div class='panel' id='panel-03'>
+          <div id="container-pull" ></div>
+          <br>
+          <p class='button-1' id='btt-next-ptlk'>Next</p> 
+        </div>
+        <div class='panel' id='panel-04'>
+          <div id="container-dd" ></div>
+          <br>
+          <p class='button-1' id='btt-next-tpdd'>Next</p> 
+        </div>
+        <div class='panel' id='panel-05'>
+          
+        </div>
+        <div class='panel' id='panel-config'>
+          URL : <input id='input-url' type='text'><br>
+          Sync : <input id='btt-sync' type='button' value='Sync now'>
+        </div>
+        <p class='button-config' id='btt-config'></p>
+        <p class='button-reload' id='btt-reload'></p> 
+      </div>
+           
+      <script type="text/javascript" src="resources/jquery.js"></script>
+      <script type="text/javascript" src="resources/jquery-ui.js"></script>
+      <link rel="stylesheet" href="resources/jquery-ui.css">
+  
+      
+      <script src="resources/highcharts/highcharts.js"></script>
+      <script src="resources/highcharts/highcharts-3d.js"></script>
+      <script src="resources/highcharts/exporting.js"></script>
+      
+      <script src="database.js"></script>
+      <script>
             
-                chart1.setDataSource(items);
+      $(".panel").bind("touchstart",function(){
+        document.activeElement.blur();
+      })
+      
+      window.addEventListener("touchmove", function(e) {
+          e.preventDefault();
+      })
+      
+      // URL AJAX
+      var url_sync = '';
+      
+      initURL();
+      function initURL(){
+        
+        if (localStorage.urlsync == undefined) {          
+          localStorage.setItem('urlsync','http://www.lamhongdata.com/nutrition/');
+        }
+        
+        var temp = localStorage.urlsync;        
+        url_sync = temp;
+        
+        $("#input-url").val(url_sync);
+      }
+      
+      $("#input-url").change(function(){
+        
+        url_sync = $("#input-url").val();
+        localStorage.setItem('urlsync',url_sync);
+        
+      })
+      // End
+      
+      $("#btt-sync").bind('touchstart', function(){
+        if (navigator.onLine){
+          if(confirm("Do you want to sync data ?")){          
+            syncData();
+          }
+        }else{
+          alert("Thiet bi chua ket noi vao internet!");
+        }
+      })
+      $("#btt-config").bind('touchstart', function(){
+        var temp = prompt("Password?");
+        if(temp == "ppp"){
+          $(".panel").hide();
+          $("#panel-config").show();
+        }
+      })
+      $("#btt-reload").bind('touchstart', function(){
+        if(confirm("Do you want to reload ?")){
+          window.location.href = '';
+        }
+      })
+      
+      var list_meal_added = [];
+      
+      var list_data_user_created = []; // User data-add
+      var list_data_autocomplete = []; // Sync data-autocomplete
+      var list_data_local = []; // User data-local
+      
+      var user = {
+        'name':'',
+        'age':0,
+        'sex':0,
+        'address':'',
+        'phone':'',
+        'typework':0,
+        'date_created':getCurrentDateCreated()
+      }
+      
+      var result = {
+          'energy': 2314,
+          'dam': 391.6,
+          'duong': 1514.8,
+          'beo': 409.5
+      }
+      
+      var total = {
+          'pull':100,
+          'nangluong':0,
+          'dam':0,
+          'duong':0,
+          'beo':0,
+          'vitamin':0,
+          'date_created':getCurrentDateCreated()
+      }
+      
+      function getCurrentDateCreated() {
+        
+        var current = new Date();
+        return current.getDate()+"/"+(current.getMonth()+1)+"/"+current.getFullYear()+" "+current.getHours()+":"+current.getMinutes();
+        
+      }
+      var current = 0;
+      
+      $("#btt-next-intro").bind('touchstart', function() {
+        next();
+      })
+      $("#btt-next-info").bind('touchstart', function() {
+        next();  
+      })
+      $("#btt-next-input").bind('touchstart', function() {
+        
+        saveDataUser(); // Save data here
+        
+        calPTLK();
+        next();
+      })
+      $("#btt-next-ptlk").bind('touchstart', function() {
+        calTPDD();
+        next();
+      })
+      $("#btt-next-tpdd").bind('touchstart', function() {        
+        next();
+        
+        setTimeout(function(){
+          
+          window.location.href = '';
+          
+        },3000);
+        
+      })
+      
+      function next() {
+          $($(".panel")[current++]).hide();
+          $($(".panel")[current]).fadeIn();
+      }
+      
+      // USER INPUT
+      // INFO
+      $('#input-name').bind('input', function(){        
+        user.name = $(this).val();
+        
+        setVal2IndexArray(0,1,condition_info);        
+        checkInputInfo();        
+        
+      });
+      $('#input-address').bind('input', function(){        
+        user.address = $(this).val();
+        
+        setVal2IndexArray(1,1,condition_info);        
+        checkInputInfo();        
+      });
+      $('#input-phone').bind('input', function(){        
+        user.phone = $(this).val();
+        
+        setVal2IndexArray(2,1,condition_info);        
+        checkInputInfo();        
+      });
+      
+      // INSIDE
+      $('#input-age').bind('input', function(){        
+        user.age = $(this).val();
+        
+        setVal2IndexArray(1,1,condition_inside);        
+        checkInputInside();        
+      });
+      $('input[name="sex"]:radio').change(function(){        
+        user.sex = $(this).val();
+        
+        setVal2IndexArray(0,1,condition_inside);        
+        checkInputInside();        
+      });
+      $('input[name="type-work"]:radio').change(function(){        
+        user.typework = $(this).val();
+        
+        setVal2IndexArray(2,1,condition_inside);        
+        checkInputInside();        
+      });
+      
+      $('#input-pull').change(function(){        
+        total.pull = $(this).val();        
+      });
+      // END USER INPUT
+      
+      function setVal2IndexArray(index,value,array){
+        array[index] = value;
+      }
+      
+      var condition_info = [0,0,0];      
+      function checkInputInfo(){
+        if (condition_info.equals([1,1,1])) {
+          $("#btt-next-info").show();
+        }else{
+          $("#btt-next-info").hide();
+        }
+      }
+      
+      var condition_inside = [0,0,0];      
+      function checkInputInside(){
+        if (condition_inside.equals([1,1,1])) {
+          $("#div-meal").show();
+        }else{
+          $("#div-meal").hide();
+        }
+      }
+      
+      // List meal
+      $("#select-time-meal").change(function(){        
+        loadListMeal($("#select-time-meal")[0].value);
+      })      
+      $("#button-add-meal").bind('touchstart',function(){
+        
+        $("#table").show();
+        
+        var qty = $("#input-quantity").val();
+        addItem(qty);        
+      })
+            
+      loadListMeal(0);
+      function loadListMeal(selectIndex) {
+        var temp_array = filter_database[selectIndex];
+        var temp_div = '';
+        for(var i=0; i<temp_array.length;i++){
+          var temp = temp_array[i];          
+          temp_div += '<option value="'+i+'">'+temp_array[i].thucan+'</option>'          
+        }        
+        $("#select-meal").html(temp_div);        
+      }
+      
+      
+      
+      function addItem(quantity){
+        var index_time_meal = $("#select-time-meal")[0].value;
+        var index_meal = $("#select-meal")[0].value;
+        var temp_thucan = filter_database[index_time_meal][index_meal];
+        
+        temp_thucan = {
+          'time':temp_thucan.buoi,
+          'name':temp_thucan.thucan,
+          'qty':quantity,
+          'nangluong' : roundHundred(temp_thucan.nangluong*quantity),
+          'dam' : roundHundred(temp_thucan.dam*quantity*4),
+          'duong' : roundHundred(temp_thucan.duong*quantity*4),
+          'beo' : roundHundred(temp_thucan.beo*quantity*9),
+          'vitamin' : roundHundred(temp_thucan.vitamin*quantity)
+        }
+        
+        list_meal_added.push(temp_thucan)
+        
+        loadTable();
+        
+        $("#table-info").show();
+        $("#btt-next-input").show();
+      }
+      // End meal
+      
+      function roundHundred(val){
+        return Math.round(val * 100)/100;
+      }
+      
+      function loadTable(){
+        
+        var temp_div = '';
+        
+        for(var i=0;i<list_meal_added.length;i++){
+          var temp = list_meal_added[i];
+          
+          temp_div += "<tr>";
+          temp_div +=          
+          "<td>"+i+"</td>"
+          +"<td>"+temp.time+"</td>"
+          +"<td>"+temp.name+"</td>"
+          +"<td>"+temp.qty+"</td>"
+          
+          +"<td>"+temp.nangluong+"</td>"
+          +"<td>"+temp.dam+"</td>"
+          +"<td>"+temp.duong+"</td>"
+          +"<td>"+temp.beo+"</td>"
+          +"<td>"+temp.vitamin+"</td>"
+          temp_div += "</tr>";
+          
+          total.nangluong += temp.nangluong;
+          total.dam += temp.dam;
+          total.duong += temp.duong;
+          total.beo += temp.beo;
+          total.vitamin += temp.vitamin;
+          
+        }
+        
+        total.dam = roundHundred(total.dam);
+        total.duong = roundHundred(total.duong);
+        total.beo = roundHundred(total.beo);
+        total.vitamin = roundHundred(total.vitamin);
+        
+        var total_energy = total.dam + total.duong + total.beo + total.vitamin;
+        var percents = {
+          'dam':calPercent(total.dam,total_energy),
+          'duong':calPercent(total.duong,total_energy),
+          'beo':calPercent(total.beo,total_energy)
+        }
+        
+        temp_div += "<tr>";
+        temp_div +=          
+        '<td colspan="4">Năng lượng 1 ngày</td>'        
+        +"<td>"+total.nangluong+"</td>"
+        +"<td>"+total.dam+"</td>"
+        +"<td>"+total.duong+"</td>"
+        +"<td>"+total.beo+"</td>"
+        +"<td>"+total.vitamin+"</td>"
+        temp_div += "</tr>";
+        
+        temp_div += "<tr>";
+        temp_div +=          
+        '<td colspan="5">Tỉ lệ phần trăm năng lượng trong 1 ngày</td>'        
+        +"<td>"+percents.dam+"%</td>"
+        +"<td>"+percents.duong+"%</td>"
+        +"<td>"+percents.beo+"%</td>"
+        +"<td></td>"        
+        temp_div += "</tr>";
+        
+        $(".table tbody").html(temp_div);
+      }
+      
+      function calPercent(val,total){
+        return Math.round(val*100/total);
+      }
+      
+      
+      
+      function calTPDD() {
+      
+          var nangluong = identifyEnergyLevel();
+      
+          var enGraphData = calculateGraphData(total.nangluong, nangluong.standardEnergy);
+      
+          var damGraphData = calculateGraphData(total.dam,
+              calculateStandardKcal(nangluong.standardEnergy, STANDARD_DETAIL['dam'].minValue),
+              calculateStandardKcal(nangluong.standardEnergy, STANDARD_DETAIL['dam'].maxValue));
+      
+          var duongGraphData = calculateGraphData(total.duong,
+              calculateStandardKcal(nangluong.standardEnergy, STANDARD_DETAIL['duong'].minValue),
+              calculateStandardKcal(nangluong.standardEnergy, STANDARD_DETAIL['duong'].maxValue));
+      
+          var beoGraphData = calculateGraphData(total.beo,
+              calculateStandardKcal(nangluong.standardEnergy, STANDARD_DETAIL['beo'].minValue),
+              calculateStandardKcal(nangluong.standardEnergy, STANDARD_DETAIL['beo'].maxValue));
+      
+          $('#container-dd').highcharts({
+      
+              chart: {
+                  type: 'column',
+                  options3d: {
+                      enabled: true,
+                      alpha: 15,
+                      beta: 15,
+                      viewDistance: 25,
+                      depth: 40
+                  },
+                  marginTop: 80,
+                  marginRight: 40
+              },
+      
+              title: {
+                  text: 'PHÂN TÍCH THÀNH PHẦN DINH DƯỠNG'
+              },
+      
+              xAxis: {
+                  categories: ['Tổng năng lượng', 'Đạm', 'Đường', 'Béo']
+              },
+      
+              yAxis: {
+                  allowDecimals: false,
+                  min: 0,
+                  title: {
+                      text: 'KCAL'
+                  }
+              },
+      
+              tooltip: {
+                  headerFormat: '<b>{point.key}</b><br>',
+                  pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: {point.y} / {point.stackTotal}'
+              },
+      
+              plotOptions: {
+                  column: {
+                      stacking: 'normal',
+                      depth: 40
+                  }
+              },
+      
+              series: [{
+                  name: 'Thừa',
+                  data: [enGraphData[2], damGraphData[2], duongGraphData[2], beoGraphData[2]],
+                  stack: '1'
+              }, {
+                  name: 'Thiếu',
+                  data: [enGraphData[1], damGraphData[1], duongGraphData[1], beoGraphData[1]],
+                  stack: '1'
+              }, {
+                  name: 'Thực tế',
+                  data: [enGraphData[0], damGraphData[0], duongGraphData[0], beoGraphData[0]],
+                  stack: '1'
+              }]
+          });
+      }
+      
+      
+      
+      
+      function calPTLK() {
+          var age = ['10', '15', '20', '25', '30', '35', '40', '45', '50', '55', '60', '65', '70', '75', '80', '85'];
+          var age_temp = getAge(1990);
+          var user_pulls = [];
+          var user_pull_data = 5;
+          for (var i = 0; i < age.length; i++) {
+              if (age_temp <= age[i]) {
+                  user_pulls[i] = {
+                      y: user_pull_data,
+                      marker: {
+                          symbol: 'url(http://www.highcharts.com/demo/gfx/sun.png)'
+                      }
+                  }
+                  break;
+              } else {
+                  user_pulls.push('');
+              }
+          }
+      
+          var strongs = [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6, 10, 10, 10, 10]
+      
+          var standards = [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8, 10, 10, 10, 10];
+      
+          var weeks = [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8, 10, 10, 10, 10];
+      
+          $('#container-pull').highcharts({
+              chart: {
+                  type: 'spline'
+              },
+              title: {
+                  text: 'PHÂN TÍCH LỰC KÉO'
+              },
+      
+              xAxis: {
+                  categories: age
+              },
+              yAxis: {
+                  title: {
+                      text: 'Lực kéo'
+                  },
+                  labels: {
+                      formatter: function() {
+                          return this.value;
+                      }
+                  }
+              },
+              tooltip: {
+                  crosshairs: true,
+                  shared: true
+              },
+              plotOptions: {
+                  spline: {
+                      marker: {
+                          radius: 4,
+                          lineColor: '#666666',
+                          lineWidth: 1
+                      }
+                  }
+              },
+              series: [{
+                  name: 'Mạnh',
+                  data: strongs
+      
+              }, {
+                  name: 'Bình thường',
+                  marker: {
+                      symbol: 'diamond'
+                  },
+                  data: standards
+              }, {
+                  name: 'Yếu',
+                  marker: {
+                      symbol: 'diamond'
+                  },
+                  data: weeks
+              }, {
+                  name: 'Bạn',
+                  marker: {
+                      symbol: 'diamond'
+                  },
+                  data: user_pulls
+              }]
+          });
+      }
+      
+      
+      function getAge(yearOfBirth) {
+          var currentYear = new Date().getFullYear();
+          return currentYear - parseInt(yearOfBirth);
+      }
+      
+      function calculateStandardKcal(totalEnergy, percentage) {
+          return ((totalEnergy * percentage) / 100);
+      }
+      
+      function rnd(num) {
+          var rs = 0;
+          if (!isNaN(num) && num != 0) {
+              rs = num.toFixed(1);
+          }
+          return parseFloat(rs);
+      }
+      
+      function identifyEnergyLevel() {
+          // default value
+          var standardEnergy = 0;
+          var level = LEVEL[0];
+      
+          // get input
+          var actualEnergy = total.nangluong;
+          var gender = user.sex;
+          var age = getAge(user.age);
+          var typeOfWork = user.typework;
+          // identify level
+          var mapAge = 0;
+          for (var a in STANDARD_ENERGY[gender]) {
+              if (age > a) {
+                  mapAge = a;
+                  break;
+              }
+          }
+          if (mapAge > 0) {
+              standardEnergy = STANDARD_ENERGY[gender][mapAge][typeOfWork];
+      
+              if (actualEnergy < standardEnergy) {
+                  level = LEVEL[0];
+              } else if (actualEnergy > standardEnergy) {
+                  level = LEVEL[2];
+              } else {
+                  level = LEVEL[1];
+              }
+          }
+          return {
+              standardEnergy: standardEnergy,
+              level: level,
+              description: EVALUATE_ENERGY[level].description,
+              evaluate: EVALUATE_ENERGY[level].evaluate,
+              recommend: EVALUATE_ENERGY[level].recommend
+          };
+      };
+      
+      function calculateGraphData(actualEnergy, standardEnergyMin, standardEnergyMax) {
+          //console.log("actualEnergy = " + actualEnergy
+          //            + ", standardEnergyMin=" + standardEnergyMin
+          //            + ", standardEnergyMax=" + standardEnergyMax);
+      
+          var rs = [0, 0, 0];
+          if (standardEnergyMax === undefined || standardEnergyMax === null) {
+              standardEnergyMax = standardEnergyMin;
+          }
+      
+          if (actualEnergy < standardEnergyMin) { // less
+              rs = [actualEnergy, (standardEnergyMin - actualEnergy), 0];
+          } else if (actualEnergy > standardEnergyMax) { // more
+              rs = [standardEnergyMax, 0, (actualEnergy - standardEnergyMax)];
+          } else { // enough
+              rs = [actualEnergy, 0, 0];
+          }
+      
+          console.log(rs)
+          return rs;
+      };
+      
+      
+      
+      initData();
+      
+      function initData() {
+        if (localStorage.list_data_user_created == undefined) {
+          
+          localStorage.setItem('list_data_user_created','[]')
+          
+        }else{
+          
+          var temp = JSON.parse(localStorage.list_data_user_created);          
+          list_data_user_created = temp;
+          
+        }
+      }
+      function clearData() {
+        localStorage.list_data_user_created = "[]";
+      }
+      
+      function saveDataUser(){
+        
+        var temp_user = {
+          'customer': user,
+          'record':total          
+        };
+        
+        list_data_user_created.push(temp_user);
+        
+        localStorage.list_data_user_created = JSON.stringify(list_data_user_created);
+        
+        // Update to autocomplete and dat_local when new user and new phone
+        
+        var bExist = false;
+        for(var i=0;i<list_data_local.length;i++)
+        {
+          var temp = list_data_local[i];
+          if (temp.phone == user.phone) {
+            bExist = true;
+            break;
+          }
+        }
+        
+        if (bExist == false) {
+          var temp_autocomplete = {'value':(list_data_autocomplete.length+1),'label':user.name+"-"+user.phone};
+          list_data_autocomplete.push(temp_autocomplete);
+                    
+          list_data_local.push(user);
+          
+          save2LocalStorage();
+        }
+        
+        
+        
+      }
+      
+      function syncData() {
+        
+        var data_json = JSON.stringify(list_data_user_created);
+        
+        $.ajax({
+            type: "POST",
+            url: url_sync+"ajax.php",
+            data: {
+                'action': 'sync',
+                'data': data_json
+            },
+            success: function (msg) {
+                var temp = JSON.parse(msg);
+                if(temp.result=='1') {
+                  alert('Send data done');
+                                    
+                  // Sync complete
+                  var temp_time = getCurrentDateCreated();
+                  localStorage.setItem('sync_last',temp_time);
+                  $("#btt-sync").val("Sync now (Last:"+temp_time+")")
+                  
+                  clearData(); // Clear data
+                  // Get autocomplete list
+                  getDataList();
+                }
             }
+        });
+        
+      }
+      
+      function getDataList() {
+        $.ajax({
+            type: "GET",
+            url: url_sync+"ajax.php",
+            data: {
+                'action': 'sync'
+            },
+            success: function (msg) {
+              var temp = JSON.parse(msg);
+              data2Local(temp); // Store list local
+              data2AutoComplete(temp); // Store list autocomplete
+            }
+        });
+      }
+      
+      
+      
+      initDataLocal();
+      function initDataLocal(){
+        if (localStorage.list_data_local == undefined) {
+          
+          localStorage.setItem('list_data_local','[]')
+          
+        }else{
+          
+          var temp = JSON.parse(localStorage.list_data_local);          
+          list_data_local = temp;
+          
+        }
+      }
+      function data2Local(data){
+        list_data_local = data;
+        
+        var data_json = JSON.stringify(list_data_local);
+        localStorage.list_data_local = data_json; 
+      }
+      
+      
+      initAutocomplete();
+      function initAutocomplete(){
+        if (localStorage.list_data_autocomplete == undefined) {
+          
+          localStorage.setItem('list_data_autocomplete','[]')
+          
+        }
+        
+        var temp = JSON.parse(localStorage.list_data_autocomplete);          
+        list_data_autocomplete = temp;
+        
+        $( "#input-name" ).autocomplete({
+          minLength: 0,
+          source: list_data_autocomplete,      
+          select: function( event, ui ) {
+            
+            var temp_data = list_data_local[ui.item.value-1];
+            putData2Input(temp_data);
+            
+            condition_info = [1,1,1];
+            condition_inside = [1,1,1];
+            
+            checkInputInfo();
+            checkInputInside();
+            
+            
+            // AUTOCOMPLETE JQUERY UI -- bsqMOD -- touchstart, touchmove inside 07012015
+            // blur after autocomplete done!
+            document.activeElement.blur();
+            
+            //console.log( ui.item.value );
+            
+            return false;
+          }
+        });
+      }
+      
+      function putData2Input(data){
+        
+        //$( "#tags" ).val( data.name );
+        $( "#input-name" ).val( data.name );
+        $( "#input-address" ).val( data.address );
+        $( "#input-phone" ).val( data.phone );
+        $( "#input-age" ).val( data.age );
+        
+        $('input:radio[name=sex][value='+data.sex+']').click();
+        $('input:radio[name=type-work][value='+data.typework+']').click();
+        
+        user.name = data.name;
+        user.address = data.address;
+        user.phone = data.phone;
+        user.sex = data.sex;
+        user.age = data.age;
+        user.typework = data.typework;
+  
+      }
+      
+      function data2AutoComplete(data){
+        list_data_autocomplete = [];
+        
+        for(var i=0;i<data.length;i++){
+          var temp = {'value':(i+1),'label':data[i].name+"-"+data[i].phone};
+          list_data_autocomplete.push(temp);          
+        }
+        // Sync complete
+        
+        // Save back localstorage : list_data_autocomplete
+        var data_json = JSON.stringify(list_data_autocomplete);
+        localStorage.list_data_autocomplete = data_json;        
+        
+      }
+      
+      function save2LocalStorage() {
+        //Auto Complete
+        var data_json = JSON.stringify(list_data_autocomplete);
+        localStorage.list_data_autocomplete = data_json;
+        
+        //Data local
+        var data_json = JSON.stringify(list_data_local);
+        localStorage.list_data_local = data_json;         
+      }
+      
+      initStatusSync();
+      function initStatusSync(){
+        if (localStorage.sync_last == undefined) {
+          
+          localStorage.setItem('sync_last','0')
+          
+        }
+        
+        var temp = localStorage.sync_last;
+        $("#btt-sync").val("Sync now (Last:"+temp+")")
+      }
+      
       </script>
-    --></body>
+      </body>
   </html>
