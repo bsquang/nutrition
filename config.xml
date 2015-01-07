@@ -13,10 +13,26 @@
         Nutrition calculated!
     </description>
 
-    <author href="https://cherryvietnam.com" email="thisisacherryvn@gmail.com">
-        BSQ
+    <author href="http://www.cherryvietnam.com" email="thisisacherryvn@gmail.com">
+        bsq
     </author>
+	
+	<preference name="phonegap-version" value="3.5.0" />
+	<preference name="orientation" value="landscape" />
+	<preference name="fullscreen" value="true" />  
+	<preference name="stay-in-webview" value="true" />
+	<preference name="target-device" value="universal" />
+	<preference name="deployment-target" value="7.0" />
     
     <gap:platform name="ios" />
     <preference name="orientation" value="landscape" />
+	
+	<gap:config-file platform="ios" parent="UIViewControllerBasedStatusBarAppearance">
+		<false/>
+	</gap:config-file>
+	<gap:config-file platform="ios" parent="UIStatusBarHidden">
+		<true/>
+	</gap:config-file>
+	
+	<access origin="*"/>
 </widget>
