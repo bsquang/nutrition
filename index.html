@@ -64,7 +64,7 @@
             <input type='button' id='button-add-meal' value='Thêm vào'>
             <br>
             Nhập kết quả đo lực kéo : <input id='input-pull'/>
-            <input type='button' id='btt-pull' value='Thêm vào'>
+            <!--<input type='button' id='btt-pull' value='Thêm vào'>-->
             <br>
             </div>
           </div>
@@ -266,12 +266,18 @@
       })
       $("#btt-next-input").bind('touchstart', function() {
         
-        saveDataUser(); // Save data here
+        if ($("#input-pull").val()=='') {
+          alert("Vui long nhap so do luc keo !")
+        }else{
+          saveDataUser(); // Save data here
         
-        calPTLK();
-        next();
+          calPTLK();
+          next();
+          
+          $("#btt-next-ptlk").show();  
+        }
         
-        $("#btt-next-ptlk").show();
+        
         
       })
       $("#btt-next-ptlk").bind('touchstart', function() {
@@ -340,15 +346,11 @@
       
       $('#input-pull').change(function(){        
         
-      });
-      
-      
-      $("#btt-pull").bind("touchstart", function(){
-        
         total.pull = Number.parseFloat( $('#input-pull').val());
         $("#td-pull").html(total.pull);
         
-      })
+      });
+      
       
       // END USER INPUT
       
@@ -585,7 +587,7 @@
           var age = ['10-11', '12-13', '14-15', '16-17', '18-19', '20-24', '25-29', '30-34', '35-39',
                      '40-44', '45-49', '50-54', '55-59', '60-64', '65-69', '70-99'];
           
-          var age_temp = getAge(1990);
+          var age_temp = getAge(user.age);
           var user_pulls = [];
           var user_pull_data = (total.pull);
           
