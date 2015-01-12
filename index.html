@@ -10,7 +10,7 @@
 	  <link rel="stylesheet" media="all" href="css.css">
       <script src="phonegap.js"></script>
     </head>
-     <body>      
+    <body>      
       <div class='wrapper'>
         <div class='logo-luvitas'></div>
         <div class='panel' id='panel-00' style='display: block'>
@@ -37,37 +37,39 @@
           
           <p class='button-1' id='btt-next-info'></p> 
         </div>
-        <div class='panel' id='panel-02' style='padding-top:50px'>
-          
-          Giới tính: <input type="radio" name="sex" value="0"/>Nam
-          <input type="radio" name="sex" value="1"/>Nữ
-          Năm sinh: <input id='input-age' placeholder='19xx'/>
-          Lao động:  <input type="radio" value="0" name="type-work" >Nhẹ <input type="radio" value="1" name="type-work"> Trung bình <input type="radio" value="2" name="type-work"> Nặng
-          
-          <br>
-          <div id='div-meal'>
-          Bữa ăn :
-          <select id='select-time-meal'>
-            <option value="0">Sáng</option>
-            <option value="1">Trưa</option>
-            <option value="2">Chiều tối</option>
-            <option value="3">Trái cây & thức uống</option>
-          </select>
-          Món ăn :          
-          <select id='select-meal'>
-            <option value="0">Bánh</option>
-            <option value="1">Nước</option>
-            <option value="2">Cơm</option>
-            <option value="3">Ổi</option>
-          </select>
-          Số lượng : <input id='input-quantity' value='1'/>
-          <input type='button' id='button-add-meal' value='Thêm vào'>
-          <br>
-          Nhập kết quả đo lực kéo : <input id='input-pull'/>
-          <input type='button' id='btt-pull' value='Thêm vào'>
-          <br>
-          </div>
+        <div class='panel' id='panel-02'>
+          <div class='info-top'>
+            Giới tính: <input type="radio" name="sex" value="0"/>Nam
+            <input type="radio" name="sex" value="1"/>Nữ
+            Năm sinh: <input id='input-age' placeholder='19xx'/>
+            Lao động:  <input type="radio" value="0" name="type-work" >Nhẹ <input type="radio" value="1" name="type-work"> Trung bình <input type="radio" value="2" name="type-work"> Nặng
             
+            <br>
+            <div id='div-meal'>
+            Bữa ăn :
+            <select id='select-time-meal'>
+              <option value="0">Sáng</option>
+              <option value="1">Trưa</option>
+              <option value="2">Chiều tối</option>
+              <option value="3">Trái cây & thức uống</option>
+            </select>
+            Món ăn :          
+            <select id='select-meal'>
+              <option value="0">Bánh</option>
+              <option value="1">Nước</option>
+              <option value="2">Cơm</option>
+              <option value="3">Ổi</option>
+            </select>
+            Số lượng : <input id='input-quantity' value='1' style='width: 40px;'/>
+            <input type='button' id='button-add-meal' value='Thêm vào'>
+            <br>
+            Nhập kết quả đo lực kéo : <input id='input-pull'/>
+            <input type='button' id='btt-pull' value='Thêm vào'>
+            <br>
+            </div>
+          </div>
+          
+          <div class='info-bottom'>  
           <table class="table" id='table-info'>
             <thead class="fontTitle">
               <tr>
@@ -119,7 +121,9 @@
               </tr>
             </tbody>
           </table>
-          <br>
+          
+          </div>
+          
           <p class='button-1' id='btt-next-input'></p> 
         
         
@@ -147,14 +151,14 @@
            
       <script type="text/javascript" src="resources/jquery.js"></script>
       <script type="text/javascript" src="resources/jquery-ui.js"></script>
-      <link rel="stylesheet" href="resources/jquery-ui.css">
-  
+      <link rel="stylesheet" href="resources/jquery-ui.css">  
       
       <script src="resources/highcharts/highcharts.js"></script>
       <script src="resources/highcharts/highcharts-3d.js"></script>
       <script src="resources/highcharts/exporting.js"></script>
       
       <script src="database.js"></script>
+      
       <script>
             
       $(".panel").bind("touchstart",function(){
@@ -345,6 +349,7 @@
         $("#td-pull").html(total.pull);
         
       })
+      
       // END USER INPUT
       
       function setVal2IndexArray(index,value,array){
