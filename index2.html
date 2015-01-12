@@ -39,32 +39,54 @@
         </div>
         <div class='panel' id='panel-02'>
           <div class='info-top'>
-            Giới tính: <input type="radio" name="sex" value="0"/>Nam
-            <input type="radio" name="sex" value="1"/>Nữ
-            Năm sinh: <input id='input-age' placeholder='19xx'/>
-            Lao động:  <input type="radio" value="0" name="type-work" >Nhẹ <input type="radio" value="1" name="type-work"> Trung bình <input type="radio" value="2" name="type-work"> Nặng            
-            <br>
-            <div id='div-meal'>
-            Bữa ăn :
-            <select id='select-time-meal'>
-              <option value="0">Sáng</option>
-              <option value="1">Trưa</option>
-              <option value="2">Chiều tối</option>
-              <option value="3">Trái cây & thức uống</option>
-            </select>
-            Món ăn :          
-            <select id='select-meal'>
-              <option value="0">Bánh</option>
-              <option value="1">Nước</option>
-              <option value="2">Cơm</option>
-              <option value="3">Ổi</option>
-            </select>
-            Số lượng : <input id='input-quantity' value='1' style='width: 40px;'/>
-            <input type='button' id='button-add-meal' value='Thêm vào'>
-            <br>
-            Nhập kết quả đo lực kéo : <input id='input-pull'/>
-            <!--<input type='button' id='btt-pull' value='Thêm vào'>-->
-            <br>
+            <div class='item-box group'>
+              <div class='item-row'>
+                <label>Giới tính:</label>
+                <input type="radio" name="sex" value="0"/> Nam
+                <input type="radio" name="sex" value="1"/> Nữ
+              </div>
+              <div class='item-row'>
+                <label>Năm sinh:</label>
+                <input id='input-age' placeholder='19xx' style='width: 60px;'/>
+              </div>
+              <div class='item-row' style='width:300px;'>
+                <label>Lao động:</label>
+                <input type="radio" value="0" name="type-work" > Nhẹ
+                <input type="radio" value="1" name="type-work"> Trung bình
+                <input type="radio" value="2" name="type-work"> Nặng
+              </div>            
+            </div>
+            
+            <div id='div-meal' class='group'>
+              <div class='item-row' style='width: 300px;'>
+                Bữa ăn :
+                <select id='select-time-meal'>
+                  <option value="0">Sáng</option>
+                  <option value="1">Trưa</option>
+                  <option value="2">Chiều tối</option>
+                  <option value="3">Trái cây & thức uống</option>
+                </select>
+              </div>
+              <div class='item-row'>
+                Món ăn :          
+                <select id='select-meal'>
+                  <option value="0">Bánh</option>
+                  <option value="1">Nước</option>
+                  <option value="2">Cơm</option>
+                  <option value="3">Ổi</option>
+                </select>
+              </div>
+              <div class='item-row'>
+                Số lượng : <input id='input-quantity' value='1' style='width: 40px;'/>
+              </div>
+              <div class='item-row'>
+                <input type='button' id='button-add-meal' value='Thêm vào'>
+              </div>
+              <div class='item-row' style='width: 330px;'>
+                Nhập kết quả đo lực kéo : <input id='input-pull'/>
+                <!--<input type='button' id='btt-pull' value='Thêm vào'>-->
+              </div>
+              
             </div>
           </div>
           
@@ -72,15 +94,15 @@
           <table class="table" id='table-info'>
             <thead class="fontTitle">
               <tr>
-                <th style="width:40px">STT</th>
-                <th style="width:180px">Bữa ăn</th>
-                <th style="width:250px">Món ăn</th>
-                <th style="width:80px">Số lượng</th>
-                <th>Năng lượng<br/>(Kcal)</th>
-                <th>Đạm<br/>(Kcal)</th>
-                <th>Đường<br/>(Kcal)</th>
-                <th>Béo<br/>(Kcal)</th>        
-                <th>Vitamin<br/>(Kcal)</th>
+                <th style="width:40px;background: #FFEA00;">STT</th>
+                <th style="width:180px;background: #FFEA00;">Bữa ăn</th>
+                <th style="width:250px;background: #FFEA00;">Món ăn</th>
+                <th style="width:80px;background: #FFEA00;">Số lượng</th>
+                <th style='background: #F48120'>Năng lượng<br/>(Kcal)</th>
+                <th style='background: #F48120'>Đạm<br/>(Kcal)</th>
+                <th style='background: #F48120'>Đường<br/>(Kcal)</th>
+                <th style='background: #F48120'>Béo<br/>(Kcal)</th>        
+                <th style='background: #F48120'>Vitamin<br/>(Kcal)</th>
               </tr>
             </thead>
             <tbody>

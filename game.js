@@ -1,9 +1,13 @@
+var bForceMove = true;
+
 $(".panel").bind("touchstart",function(){
   document.activeElement.blur();
 })
 
 window.addEventListener("touchmove", function(e) {
-    e.preventDefault();
+    if (bForceMove) {
+      e.preventDefault();
+    }    
 })
 
 // URL AJAX
@@ -137,6 +141,21 @@ $("#btt-next-tpdd").bind('touchstart', function() {
 function next() {
     $($(".panel")[current++]).hide();
     $($(".panel")[current]).fadeIn();
+    
+    if (current == 2) {
+      bForceMove = false;
+      
+      $(".panel").css({
+        'overflow':'auto'
+      })
+      
+    }else{
+      bForceMove = true;
+      
+      $(".panel").css({
+        'overflow':'hidden'
+      })
+    }
 }
 
 // USER INPUT
@@ -181,33 +200,44 @@ $('input[name="type-work"]:radio').change(function(){
   checkInputInside();        
 });
 
-$('#input-pull').bind("input", function(){        
-  
-  var temp = $('#input-pull').val();
-  
-  if (bPhoneGap) {
-    navigator.globalization.stringToNumber(
-        temp,
-        function (number) {
-          //alert('number: ' + number.value + '\n');
-          
-          total.pull = number.value;
-          $("#td-pull").html(total.pull);
-          
-        },
-        function () {alert('Error getting number\n');},
-        {type:'decimal'}
-    );
-  }
-  else{
+//if (!bPhoneGap) {
+  $('#input-pull').change(function(){        
     
-    total.pull = Number.parseFloat(temp);
+    var temp = $('#input-pull').val();    
+    total.pull = bsqStringToNumber(temp);
     $("#td-pull").html(total.pull);
-    
+  
+  });
+  
+  function bsqStringToNumber(content){
+    var temp = content;    
+    temp = '{"a":'+temp+'}';    
+    temp = JSON.parse(temp);    
+    return temp.a;
   }
   
-});
-
+//}else{
+//  
+//  $('#input-pull').bind("input", function(){        
+//    
+//    var temp = $('#input-pull').val();
+//    
+//    
+//      navigator.globalization.stringToNumber(
+//          temp,
+//          function (number) {
+//            //alert('number: ' + number.value + '\n');
+//            
+//            total.pull = number.value;
+//            $("#td-pull").html(total.pull);
+//            
+//          },
+//          function () {alert('Error getting number\n');},
+//          {type:'decimal'}
+//      );
+//    });
+//
+//}
 
 // END USER INPUT
 
@@ -330,24 +360,27 @@ function loadTable(){
   
   temp_div += "<tr>";
   temp_div +=          
-  '<td colspan="4">Năng lượng 1 ngày</td>'        
-  +"<td>"+total.nangluong+"</td>"
-  +"<td>"+total.dam+"</td>"
-  +"<td>"+total.duong+"</td>"
-  +"<td>"+total.beo+"</td>"
-  +"<td>"+total.vitamin+"</td>"
+  '<td colspan="4" style="background: #FFEA00;">Năng lượng 1 ngày</td>'        
+  +"<td style='background: #F48120'>"+total.nangluong+"</td>"
+  +"<td style='background: #F48120'>"+total.dam+"</td>"
+  +"<td style='background: #F48120'>"+total.duong+"</td>"
+  +"<td style='background: #F48120'>"+total.beo+"</td>"
+  +"<td style='background: #F48120'>"+total.vitamin+"</td>"
   temp_div += "</tr>";
   
   temp_div += "<tr>";
   temp_div +=          
-  '<td colspan="5">Tỉ lệ phần trăm năng lượng trong 1 ngày</td>'        
-  +"<td>"+percents.dam+"%</td>"
-  +"<td>"+percents.duong+"%</td>"
-  +"<td>"+percents.beo+"%</td>"
-  +"<td></td>"        
+  '<td colspan="5" style="background: #FFEA00;">Tỉ lệ phần trăm năng lượng trong 1 ngày</td>'        
+  +"<td style='background: #F48120'>"+percents.dam+"%</td>"
+  +"<td style='background: #F48120'>"+percents.duong+"%</td>"
+  +"<td style='background: #F48120'>"+percents.beo+"%</td>"
+  //+"<td></td>"        
   temp_div += "</tr>";
   
-  temp_div += "<tr><td colspan='5'>Kết quả đo lực kéo</td><td id='td-pull'>"+total.pull+"</td><td></td><td></td><td></td></tr>"
+  temp_div += "<tr><td colspan='5' style='background: #FFEA00;'>Kết quả đo lực kéo</td><td id='td-pull' style='background: #F48120'>"+total.pull
+  +"</td>"
+  //+"<td></td><td></td><td></td>"
+  +"</tr>"
   
   $(".table tbody").html(temp_div);
 }
