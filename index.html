@@ -7,193 +7,10 @@
         
       <title>Nutrition</title>
 	  
+	  <link rel="stylesheet" media="all" href="css.css">
       <script src="phonegap.js"></script>
     </head>
-    <body>
-      <style>
-        *{
-          padding: 0;
-          margin: 0;
-          
-          box-sizing: content-box;
-        }
-        #container-pull {
-            height: 600px; 
-            min-width: 600px; 
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        #container-dd {
-            height: 600px; 
-            min-width: 600px; 
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        .panel{
-          width: 1024px;
-          height:768px;
-          
-          overflow: hidden;
-          
-          display: none;
-        }
-        #panel-00{
-          background: url('resources/BGR-INTRO.png');
-        }
-        #panel-01{
-          background: url('resources/BGR-INFO.png');
-        }
-        #panel-02{
-          background: url('resources/BGR-MAIN.png');
-        }
-        #panel-05{
-          background: url('resources/BGR-END.png');
-        }
-        
-        
-        
-        .logo-luvitas{
-          width: 106px;
-          height: 39px;
-          background: url('resources/LOGO-VINUTAS.png');
-          background-size: cover;
-          
-          position: fixed;
-          right: 45px;
-          top: 25px;
-          
-          z-index: 9999;
-        }
-        
-        
-        .button-1{
-          padding: 10px;
-          
-          position: absolute;
-          z-index: 999;
-          
-          width: 76px;
-          height: 76px;
-          
-          background: url('resources/BUTTON-NEXT.png');
-          background-size: cover;
-        }
-        .button-config{
-          width: 50px;
-          height: 50px;
-          
-          border: 1px solid;
-          
-          right: 0;
-          top: 0;
-          
-          position: fixed;
-          z-index: 999;
-        }
-        .button-reload{
-          width: 50px;
-          height: 50px;
-          
-          border: 1px solid;
-          
-          right: 0;
-          bottom: 0;
-          
-          position: fixed;
-          z-index: 999;
-        }
-        #btt-next-intro{
-          background: none;
-          /*border: 1px solid;*/
-          left: 40px;
-          top: 290px;
-          width: 200px;
-          height: 30px;
-        }
-        #btt-next-info
-        {
-          position: absolute;
-          bottom: 40px;
-          right: 40px;
-          
-          display: none;
-        }
-        #btt-next-input
-        {
-          display: none;
-        }
-        
-        #div-info-parent{
-          position: absolute;
-          left: 100px;
-          top: 150px;
-        }
-        
-        #table-info{
-          display: none;
-        }
-        
-        #div-meal{
-          display: none;
-        }
-        
-        ::-webkit-input-placeholder { /* WebKit browsers */
-            color:    white;
-        }
-        
-        .div-info{
-          width: 510px;
-          height: 45px;
-          
-          margin-bottom: 10px;
-          font-size: 24px;
-          
-          background: #00A1D3;
-          border-radius: 25px;
-          
-          color: white;
-          
-          padding: 10px;
-          border: none;
-        }
-        .input-info{
-          
-          font-size: 24px;
-          
-          background: #00A1D3;          
-          
-          color: white;
-          
-          padding: 10px;
-          border: none;
-        }
-        .div-info p{
-          float: left;
-          font-size: 24px;
-          padding: 10px;
-        }
-        .div-info input{
-          float: left;
-
-        }
-        
-        .div-info-parent{
-          
-        }
-        
-        .group:before,
-        .group:after {
-            content: "";
-            display: table;
-        } 
-        .group:after {
-            clear: both;
-        }
-        .group {
-            zoom: 1; /* For IE 6/7 (trigger hasLayout) */
-        }
-      </style>
-      
+     <body>      
       <div class='wrapper'>
         <div class='logo-luvitas'></div>
         <div class='panel' id='panel-00' style='display: block'>
@@ -247,7 +64,7 @@
           <input type='button' id='button-add-meal' value='Thêm vào'>
           <br>
           Nhập kết quả đo lực kéo : <input id='input-pull'/>
-          <input type='button' value='Thêm vào'>
+          <input type='button' id='btt-pull' value='Thêm vào'>
           <br>
           </div>
             
@@ -295,7 +112,7 @@
               </tr>
               <tr>
                 <td colspan="5">Kết quả đo lực kéo</td>
-                <td>14</td>
+                <td id='td-pull'></td>
                 <td></td>
                 <td></td>     
                 <td></td>
@@ -303,19 +120,19 @@
             </tbody>
           </table>
           <br>
-          <p class='button-1' id='btt-next-input'>Next</p> 
+          <p class='button-1' id='btt-next-input'></p> 
         
         
         </div>
         <div class='panel' id='panel-03'>
           <div id="container-pull" ></div>
           <br>
-          <p class='button-1' id='btt-next-ptlk'>Next</p> 
+          <p class='button-1' id='btt-next-ptlk'></p> 
         </div>
         <div class='panel' id='panel-04'>
           <div id="container-dd" ></div>
           <br>
-          <p class='button-1' id='btt-next-tpdd'>Next</p> 
+          <p class='button-1' id='btt-next-tpdd'></p> 
         </div>
         <div class='panel' id='panel-05'>
           
@@ -370,6 +187,8 @@
         localStorage.setItem('urlsync',url_sync);
         
       })
+      
+      
       // End
       
       $("#btt-sync").bind('touchstart', function(){
@@ -418,7 +237,7 @@
       }
       
       var total = {
-          'pull':100,
+          'pull':0,
           'nangluong':0,
           'dam':0,
           'duong':0,
@@ -447,10 +266,15 @@
         
         calPTLK();
         next();
+        
+        $("#btt-next-ptlk").show();
+        
       })
       $("#btt-next-ptlk").bind('touchstart', function() {
         calTPDD();
         next();
+        
+        $("#btt-next-tpdd").show();
       })
       $("#btt-next-tpdd").bind('touchstart', function() {        
         next();
@@ -511,8 +335,16 @@
       });
       
       $('#input-pull').change(function(){        
-        total.pull = $(this).val();        
+        
       });
+      
+      
+      $("#btt-pull").bind("touchstart", function(){
+        
+        total.pull = Number.parseFloat( $('#input-pull').val());
+        $("#td-pull").html(total.pull);
+        
+      })
       // END USER INPUT
       
       function setVal2IndexArray(index,value,array){
@@ -651,6 +483,8 @@
         +"<td></td>"        
         temp_div += "</tr>";
         
+        temp_div += "<tr><td colspan='5'>Kết quả đo lực kéo</td><td id='td-pull'>"+total.pull+"</td><td></td><td></td><td></td></tr>"
+        
         $(".table tbody").html(temp_div);
       }
       
@@ -741,12 +575,18 @@
       
       
       function calPTLK() {
-          var age = ['10', '15', '20', '25', '30', '35', '40', '45', '50', '55', '60', '65', '70', '75', '80', '85'];
+          var age1 = ['11', '13', '15', '17', '19', '24', '29', '34', '39', '44', '49', '54', '59', '64', '69', '99'];
+          
+          var age = ['10-11', '12-13', '14-15', '16-17', '18-19', '20-24', '25-29', '30-34', '35-39',
+                     '40-44', '45-49', '50-54', '55-59', '60-64', '65-69', '70-99'];
+          
           var age_temp = getAge(1990);
           var user_pulls = [];
-          var user_pull_data = 5;
+          var user_pull_data = (total.pull);
+          
+          
           for (var i = 0; i < age.length; i++) {
-              if (age_temp <= age[i]) {
+              if (age_temp <= age1[i]) {
                   user_pulls[i] = {
                       y: user_pull_data,
                       marker: {
@@ -758,12 +598,24 @@
                   user_pulls.push('');
               }
           }
+          
+          var weaks_male = [12.6,19.4,28.5,32.6,35.7,36.8,37.7,36.0,35.8,35.5,34.7,32.9,30.7,30.2,28.2,21.3];
+          var strongs_male = [22.4,31.2,44.3,52.4,55.5,56.6,57.5,55.8,55.6,55.3,54.5,50.7,48.5,48.0,44.0,35.1];
+          var weaks_female = [11.8,14.6,15.5,17.2,19.2,21.5,25.6,21.5,20.3,18.9,18.6,18.1,17.7,17.2,15.4,14.7];
+          var strongs_female = [21.6,24.4,27.3,29.0,31.0,35.3,41.4,35.3,34.1,32.7,32.4,31.9,31.5,31.0,27.2,24.5];
+
       
-          var strongs = [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6, 10, 10, 10, 10]
-      
-          var standards = [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8, 10, 10, 10, 10];
-      
-          var weeks = [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8, 10, 10, 10, 10];
+          var strongs = [];          
+          var weaks = [];
+          
+          if (user.sex == '0') {
+            strongs = strongs_male;
+            weaks = weaks_male;
+          }else if (user.sex == '1') {
+            strongs = strongs_female;
+            weaks = weaks_female;
+          }
+          
       
           $('#container-pull').highcharts({
               chart: {
@@ -801,20 +653,14 @@
               },
               series: [{
                   name: 'Mạnh',
-                  data: strongs
+                  data: strongs_male
       
-              }, {
-                  name: 'Bình thường',
-                  marker: {
-                      symbol: 'diamond'
-                  },
-                  data: standards
-              }, {
+              },{
                   name: 'Yếu',
                   marker: {
                       symbol: 'diamond'
                   },
-                  data: weeks
+                  data: weaks_male
               }, {
                   name: 'Bạn',
                   marker: {
