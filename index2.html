@@ -8,7 +8,11 @@
       <title>Nutrition</title>
       
       <link rel="stylesheet" media="all" href="css.css">
-      
+      <script>
+        
+        var bPhoneGap = false;
+        
+      </script>
     </head>
     <body>      
       <div class='wrapper'>
@@ -346,8 +350,30 @@
       
       $('#input-pull').change(function(){        
         
-        total.pull = Number.parseFloat( $('#input-pull').val());
-        $("#td-pull").html(total.pull);
+        var temp = $('#input-pull').val();
+        
+        if (bPhoneGap) {
+          navigator.globalization.stringToNumber(
+              temp,
+              function (number) {
+                alert('number: ' + number.value + '\n');
+                
+                total.pull = number.value;
+                $("#td-pull").html(total.pull);
+                
+              },
+              function () {alert('Error getting number\n');},
+              {type:'decimal'}
+          );
+        }
+        else{
+          
+          total.pull = Number.parseFloat(temp);
+          $("#td-pull").html(total.pull);
+          
+        }
+        
+        
         
       });
       
