@@ -1,0 +1,206 @@
+*{
+    padding: 0;
+    margin: 0;
+    
+    box-sizing: content-box;
+  }
+  #container-pull {
+      height: 600px; 
+      min-width: 980px; 
+      /*max-width: 950px;*/
+      margin: 0 auto;
+      
+      margin-top: 70px;
+  }
+  #container-dd {
+      height: 600px; 
+      min-width: 980px; 
+      /*max-width: 800px;*/
+      margin: 0 auto;
+      
+      margin-top: 70px;
+  }
+  .panel{
+    width: 1024px;
+    height:768px;
+    
+    overflow: hidden;
+    
+    display: none;
+  }
+  #panel-00{
+    background: url('resources/BGR-INTRO.png');
+  }
+  #panel-01{
+    background: url('resources/BGR-INFO.png');
+  }
+  #panel-02{
+    background: url('resources/BGR-MAIN.png');
+  }
+  #panel-05{
+    background: url('resources/BGR-END.png');
+  }
+  
+  
+  
+  .logo-luvitas{
+    width: 106px;
+    height: 39px;
+    background: url('resources/LOGO-VINUTAS.png');
+    background-size: cover;
+    
+    position: fixed;
+    right: 45px;
+    top: 25px;
+    
+    z-index: 9999;
+  }
+  
+  
+  .button-1{
+    padding: 10px;
+    
+    position: absolute;
+    z-index: 999;
+    
+    width: 76px;
+    height: 76px;
+    
+    background: url('resources/BUTTON-NEXT.png');
+    background-size: cover;
+  }
+  .button-config{
+    width: 50px;
+    height: 50px;
+    
+    border: 1px solid;
+    
+    right: 0;
+    top: 0;
+    
+    position: fixed;
+    z-index: 999;
+  }
+  .button-reload{
+    width: 50px;
+    height: 50px;
+    
+    border: 1px solid;
+    
+    right: 0;
+    bottom: 0;
+    
+    position: fixed;
+    z-index: 999;
+  }
+  #btt-next-intro{
+    background: none;
+    /*border: 1px solid;*/
+    left: 40px;
+    top: 290px;
+    width: 200px;
+    height: 30px;
+  }
+  #btt-next-info
+  {
+    position: absolute;
+    bottom: 40px;
+    right: 40px;
+    
+    display: none;
+  }
+  #btt-next-input
+  {
+    position: absolute;
+    bottom: 40px;
+    right: 40px;
+    
+    display: none;
+  }
+  
+  #btt-next-ptlk
+  {
+    position: absolute;
+    bottom: 40px;
+    right: 40px;
+    
+    display: none;
+  }
+   #btt-next-tpdd
+  {
+    position: absolute;
+    bottom: 40px;
+    right: 40px;
+    
+    display: none;
+  }
+  
+  #div-info-parent{
+    position: absolute;
+    left: 100px;
+    top: 150px;
+  }
+  
+  #table-info{
+    display: none;
+  }
+  
+  #div-meal{
+    display: none;
+  }
+  
+  ::-webkit-input-placeholder { /* WebKit browsers */
+      color:    white;
+  }
+  
+  .div-info{
+    width: 510px;
+    height: 45px;
+    
+    margin-bottom: 10px;
+    font-size: 24px;
+    
+    background: #00A1D3;
+    border-radius: 25px;
+    
+    color: white;
+    
+    padding: 10px;
+    border: none;
+  }
+  .input-info{
+    
+    font-size: 24px;
+    
+    background: #00A1D3;          
+    
+    color: white;
+    
+    padding: 10px;
+    border: none;
+  }
+  .div-info p{
+    float: left;
+    font-size: 24px;
+    padding: 10px;
+  }
+  .div-info input{
+    float: left;
+
+  }
+  
+  .div-info-parent{
+    
+  }
+  
+  .group:before,
+  .group:after {
+      content: "";
+      display: table;
+  } 
+  .group:after {
+      clear: both;
+  }
+  .group {
+      zoom: 1; /* For IE 6/7 (trigger hasLayout) */
+  }
