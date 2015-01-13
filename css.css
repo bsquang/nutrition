@@ -38,7 +38,7 @@
   #panel-02{
     background: url('resources/BGR-MAIN.png');
   }
-  #panel-05{
+  #panel-06{
     background: url('resources/BGR-END.png');
   }
   
@@ -124,17 +124,15 @@
     position: absolute;
     bottom: 40px;
     right: 40px;
-    
-    display: none;
   }
    #btt-next-tpdd
   {
     position: absolute;
     bottom: 40px;
     right: 40px;
-    
-    display: none;
   }
+    
+  
   
   #div-info-parent{
     position: absolute;
@@ -149,13 +147,42 @@
   #div-meal{
     display: none;
   }
+  #div-pull
+  {
+    display: none;
+  }
+  .btt-ptlk{
+    width: 110px;
+    margin-top: 200px;
+    background: white;
+    padding: 30px;
+    text-align: center;
+    margin: 140px auto;
+    
+    display: none;
+  }
+  
+  .btt-print{
+    width: 110px;
+    margin-top: 200px;
+    background: grey;
+    padding: 30px;
+    text-align: center;
+    margin: 140px auto;
+  }
+    #btt-next-print
+  {
+    position: absolute;
+    bottom: 40px;
+    right: 40px;
+  }
   
   ::-webkit-input-placeholder { /* WebKit browsers */
       color:    #9bcdff;
   }
   
   .div-info{
-    width: 510px;
+    width: 570px;
     height: 45px;
     
     margin-bottom: 10px;
@@ -214,8 +241,10 @@
     margin-right: 10px;
     padding: 15px;
     /* border: 1px solid; */
-    background: rgb(113, 255, 0);
+    background: #00589F;
     border-radius: 35px;
+    
+    color: white;
     
     vertical-align: middle;
   }

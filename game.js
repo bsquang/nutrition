@@ -103,31 +103,58 @@ $("#btt-next-intro").bind('touchstart', function() {
   next();
 })
 $("#btt-next-info").bind('touchstart', function() {
+  
+  var mode = $("#select-mode").val();
+  
+  enableMode(mode);
+  
   next();  
 })
-$("#btt-next-input").bind('touchstart', function() {
-  
-  if ($("#input-pull").val()=='') {
-    alert("Vui long nhap so do luc keo !")
-  }else{
-    saveDataUser(); // Save data here
-  
-    calPTLK();
-    next();
+
+var cal_mode = 0;
+
+function enableMode(val){
+  if (val == 0) {
     
-    $("#btt-next-ptlk").show();  
+    cal_mode = 0;    
+    
+  }else{
+    
+    cal_mode = 1;
+    
+    
   }
   
+  checkInputInside();
+}
+
+$("#btt-next-input").bind('touchstart', function() {
   
+  //if ($("#input-pull").val()=='') {
+  //  alert("Vui long nhap so do luc keo !")
+  //}else{
+  //  saveDataUser(); // Save data here
+  //
+  //  calPTLK();
+  //  next();
+  //  
+  //  $("#btt-next-ptlk").show();  
+  //}
   
-})
-$("#btt-next-ptlk").bind('touchstart', function() {
   calTPDD();
   next();
   
-  $("#btt-next-tpdd").show();
+})
+$("#btt-next-ptlk").bind('touchstart', function() {  
+  next();
 })
 $("#btt-next-tpdd").bind('touchstart', function() {        
+  next();
+  
+
+})
+
+$("#btt-next-print").bind('touchstart', function() {  
   next();
   
   setTimeout(function(){
@@ -136,11 +163,47 @@ $("#btt-next-tpdd").bind('touchstart', function() {
     
   },3000);
   
+  
 })
 
+
 function next() {
-    $($(".panel")[current++]).hide();
-    $($(".panel")[current]).fadeIn();
+  
+    if (current == 2) {
+      if (cal_mode == '0') {
+        $($(".panel")[current]).hide();
+        
+        current += 2;
+        
+        $($(".panel")[current]).fadeIn();
+      }else{
+        $($(".panel")[current]).hide();
+        
+        current += 1;
+        
+        $($(".panel")[current]).fadeIn();
+      }
+    }else if (current == 3) {
+      if (cal_mode == '1') {
+        $($(".panel")[current]).hide();
+        
+        current += 2;
+        
+        $($(".panel")[current]).fadeIn();
+      }else{
+        $($(".panel")[current]).hide();
+        
+        current += 1;
+        
+        $($(".panel")[current]).fadeIn();
+      }
+    }
+    else{
+      $($(".panel")[current++]).hide();
+      $($(".panel")[current]).fadeIn();
+    }
+  
+    
     
     if (current == 2) {
       bForceMove = false;
@@ -149,12 +212,17 @@ function next() {
         'overflow':'auto'
       })
       
+      
+      
     }else{
       bForceMove = true;
       
       $(".panel").css({
         'overflow':'hidden'
       })
+      
+      
+      
     }
 }
 
@@ -206,8 +274,22 @@ $('input[name="type-work"]:radio').change(function(){
     var temp = $('#input-pull').val();    
     total.pull = bsqStringToNumber(temp);
     $("#td-pull").html(total.pull);
+    
+    showButtonPTLK();
   
   });
+  
+  function showButtonPTLK() {
+    $("#btt-ptlk").show();
+    $("#btt-ptlk").bind("touchstart", function(){
+      
+      saveDataUser(); // Save data here
+  
+      calPTLK();
+      next();
+      
+    })
+  }
   
   function bsqStringToNumber(content){
     var temp = content;    
@@ -257,9 +339,21 @@ function checkInputInfo(){
 var condition_inside = [0,0,0];      
 function checkInputInside(){
   if (condition_inside.equals([1,1,1])) {
-    $("#div-meal").show();
+    
+    if (cal_mode == '0') {
+      $("#div-meal").show();
+    }else{
+      $("#div-pull").show();
+    }
+    
   }else{
-    $("#div-meal").hide();
+    
+    if (cal_mode == '0') {
+      $("#div-meal").hide();
+    }else{
+      $("#div-pull").hide();
+    }
+    
   }
 }
 
@@ -377,10 +471,10 @@ function loadTable(){
   //+"<td></td>"        
   temp_div += "</tr>";
   
-  temp_div += "<tr><td colspan='5' style='background: #FFEA00;'>Kết quả đo lực kéo</td><td id='td-pull' style='background: #F48120'>"+total.pull
-  +"</td>"
+  //temp_div += "<tr><td colspan='5' style='background: #FFEA00;'>Kết quả đo lực kéo</td><td id='td-pull' style='background: #F48120'>"+total.pull
+  //+"</td>"
   //+"<td></td><td></td><td></td>"
-  +"</tr>"
+  //+"</tr>"
   
   $(".table tbody").html(temp_div);
 }
@@ -793,7 +887,7 @@ function initAutocomplete(){
       condition_inside = [1,1,1];
       
       checkInputInfo();
-      checkInputInside();
+      //checkInputInside();
       
       
       // AUTOCOMPLETE JQUERY UI -- bsqMOD -- touchstart, touchmove inside 07012015

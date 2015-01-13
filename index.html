@@ -37,6 +37,13 @@
               <p>Điện thoại: </p>
               <input id='input-phone' class='input-info' placeholder='Phone'/>
             </div>
+            <div class='div-info group'>
+              <p>Chọn chế độ phân tích: </p>
+              <select id='select-mode' style='font-size: 24px;'>
+                  <option value="0">Thành phần dinh dưỡng</option>
+                  <option value="1">Lực kéo</option>                  
+                </select>
+            </div>
           </div>
           <p class='button-1' id='btt-next-info'></p>
         </div>
@@ -52,7 +59,7 @@
                 <label>Năm sinh:</label>
                 <input id='input-age' placeholder='19xx' style='width: 60px;'/>
               </div>
-              <div class='item-row' style='width:300px;'>
+              <div class='item-row' style='width:400px;'>
                 <label>Lao động:</label>
                 <input type="radio" value="0" name="type-work" > Nhẹ
                 <input type="radio" value="1" name="type-work"> Trung bình
@@ -85,11 +92,20 @@
               <div class='item-row'>
                 <input type='button' id='button-add-meal' value='Thêm vào'>
               </div>
-              <div class='item-row' style='width: 330px;'>
-                Nhập kết quả đo lực kéo : <input id='input-pull'/>
-                <!--<input type='button' id='btt-pull' value='Thêm vào'>-->
-              </div>
+              <br>
               
+              
+            </div>
+            
+            
+            
+            <div class='item-row' id='div-pull' style='width: 340px;'>
+                Nhập kết quả đo lực kéo : <input id='input-pull' style='width: 60px;'/>
+                <!--<input type='button' id='btt-pull' value='Thêm vào'>-->
+            </div>
+            
+            <div class='btt-ptlk' id='btt-ptlk'>
+              <p>Phân tích kết quả</p>
             </div>
           </div>
           
@@ -161,6 +177,12 @@
           <p class='button-1' id='btt-next-tpdd'></p> 
         </div>
         <div class='panel' id='panel-05'>
+          <div class='btt-print' id='btt-print'>
+              <p>In kết quả phân tích</p>
+          </div>
+          <p class='button-1' id='btt-next-print'></p>
+        </div>
+        <div class='panel' id='panel-06'>
           
         </div>
         <div class='panel' id='panel-config'>
