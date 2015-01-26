@@ -58,6 +58,8 @@ $("#btt-reload").bind('touchstart', function(){
   }
 })
 
+
+
 var list_meal_added = [];
 
 var list_data_user_created = []; // User data-add
@@ -69,6 +71,7 @@ var user = {
   'age':0,
   'sex':0,
   'address':'',
+  'districts':1,
   'phone':'',
   'typework':0,
   'date_created':getCurrentDateCreated()
@@ -91,6 +94,12 @@ var total = {
     'date_created':getCurrentDateCreated()
 }
 
+///
+
+
+
+///
+
 function getCurrentDateCreated() {
   
   var current = new Date();
@@ -106,6 +115,9 @@ $("#btt-next-info").bind('touchstart', function() {
   
   var mode = $("#select-mode").val();
   
+  if (mode == 1) {
+    $("#div-typework").hide();
+  }
   enableMode(mode);
   
   next();  
@@ -128,18 +140,10 @@ function enableMode(val){
   checkInputInside();
 }
 
-$("#btt-next-input").bind('touchstart', function() {
+$("#btt-next-ptdd").bind('touchstart', function() {
+    
   
-  //if ($("#input-pull").val()=='') {
-  //  alert("Vui long nhap so do luc keo !")
-  //}else{
-  //  saveDataUser(); // Save data here
-  //
-  //  calPTLK();
-  //  next();
-  //  
-  //  $("#btt-next-ptlk").show();  
-  //}
+  saveDataUser(); // Save data here
   
   calTPDD();
   next();
@@ -363,31 +367,72 @@ $("#select-time-meal").change(function(){
 })      
 $("#button-add-meal").bind('touchstart',function(){
   
+  $("#button-remove-meal").show();
   $("#table").show();
   
   var qty = $("#input-quantity").val();
   addItem(qty);        
 })
-      
+
+$("#button-remove-meal").bind('touchstart',function(){
+  
+  //$("#table").show();  
+  //var qty = $("#input-quantity").val();
+  removeItem();
+})
+
+var meal_autocomplete = [];
+var meal_current = 0;
 loadListMeal(0);
+
 function loadListMeal(selectIndex) {
+  
+  meal_autocomplete = [];
+  
   var temp_array = filter_database[selectIndex];
   var temp_div = '';
   for(var i=0; i<temp_array.length;i++){
-    var temp = temp_array[i];          
-    temp_div += '<option value="'+i+'">'+temp_array[i].thucan+'</option>'          
-  }        
-  $("#select-meal").html(temp_div);        
+    var temp = temp_array[i];
+    
+    meal_autocomplete.push({'value':i+1,'label':temp_array[i].thucan})
+    
+    //temp_div += '<option value="'+i+'">'+temp_array[i].thucan+'</option>'          
+  }
+  
+  var result = $( "#input-meal" ).autocomplete( "instance" );
+  
+  if(result != undefined){
+    $( "#input-meal" ).val('');
+    $( "#input-meal" ).autocomplete( "destroy" );
+  }
+  $( "#input-meal" ).autocomplete({
+    minLength: 0,
+    source: meal_autocomplete,      
+    select: function( event, ui ) {
+      
+      meal_current = ui.item.value;
+      $( "#input-meal" ).val( ui.item.label );
+      
+      // blur after autocomplete done!
+      document.activeElement.blur();
+      
+      return false;
+    }
+  });
+
+  
+  //$("#select-meal").html(temp_div);        
 }
-
-
 
 function addItem(quantity){
   var index_time_meal = $("#select-time-meal")[0].value;
-  var index_meal = $("#select-meal")[0].value;
+  var index_meal = meal_current-1;
   var temp_thucan = filter_database[index_time_meal][index_meal];
   
+  
+  
   temp_thucan = {
+    'indexTime' : index_time_meal,
     'time':temp_thucan.buoi,
     'name':temp_thucan.thucan,
     'qty':quantity,
@@ -403,8 +448,22 @@ function addItem(quantity){
   loadTable();
   
   $("#table-info").show();
-  $("#btt-next-input").show();
+  $("#btt-next-ptdd").show();
 }
+
+function removeItem(){
+  list_meal_added.pop();
+  
+  if (list_meal_added.length > 0) {
+    loadTable();
+  }else{
+    $("#table-info").hide();
+    $("#btt-next-ptdd").hide();
+    $("#button-remove-meal").hide();
+  }
+  
+}
+
 // End meal
 
 function roundHundred(val){
@@ -414,6 +473,14 @@ function roundHundred(val){
 function loadTable(){
   
   var temp_div = '';
+  
+  total.nangluong = 0;
+  total.dam = 0;
+  total.duong = 0;
+  total.beo = 0;
+  total.vitamin = 0;
+  
+  list_meal_added.sort(sort_by('indexTime', true, parseInt));
   
   for(var i=0;i<list_meal_added.length;i++){
     var temp = list_meal_added[i];
@@ -479,11 +546,22 @@ function loadTable(){
   $(".table tbody").html(temp_div);
 }
 
+var sort_by = function(field, reverse, primer){
+
+   var key = primer ? 
+       function(x) {return primer(x[field])} : 
+       function(x) {return x[field]};
+
+   reverse = [-1, 1][+!!reverse];
+
+   return function (a, b) {
+       return a = key(a), b = key(b), reverse * ((a > b) - (b > a));
+     } 
+}
+
 function calPercent(val,total){
   return Math.round(val*100/total);
 }
-
-
 
 function calTPDD() {
 
@@ -562,9 +640,6 @@ function calTPDD() {
     });
 }
 
-
-
-
 function calPTLK() {
     var age1 = ['11', '13', '15', '17', '19', '24', '29', '34', '39', '44', '49', '54', '59', '64', '69', '99'];
     
@@ -591,8 +666,10 @@ function calPTLK() {
     }
     
     var weaks_male = [12.6,19.4,28.5,32.6,35.7,36.8,37.7,36.0,35.8,35.5,34.7,32.9,30.7,30.2,28.2,21.3];
+    //var default_male = [12.6,19.4,28.5,32.6,35.7,36.8,37.7,36.0,35.8,35.5,34.7,32.9,30.7,30.2,28.2,21.3];
     var strongs_male = [22.4,31.2,44.3,52.4,55.5,56.6,57.5,55.8,55.6,55.3,54.5,50.7,48.5,48.0,44.0,35.1];
     var weaks_female = [11.8,14.6,15.5,17.2,19.2,21.5,25.6,21.5,20.3,18.9,18.6,18.1,17.7,17.2,15.4,14.7];
+    //var default_female = [11.8,14.6,15.5,17.2,19.2,21.5,25.6,21.5,20.3,18.9,18.6,18.1,17.7,17.2,15.4,14.7];
     var strongs_female = [21.6,24.4,27.3,29.0,31.0,35.3,41.4,35.3,34.1,32.7,32.4,31.9,31.5,31.0,27.2,24.5];
 
 
@@ -613,7 +690,10 @@ function calPTLK() {
             type: 'spline'
         },
         title: {
-            text: 'PHÂN TÍCH LỰC KÉO'
+            text: 'PHÂN TÍCH LỰC KÉO',
+            style: {                
+                fontWeight: 'bold'
+            }
         },
 
         xAxis: {
@@ -630,8 +710,7 @@ function calPTLK() {
             }
         },
         tooltip: {
-            crosshairs: true,
-            shared: true
+            enabled: false
         },
         plotOptions: {
             spline: {
@@ -644,14 +723,14 @@ function calPTLK() {
         },
         series: [{
             name: 'Mạnh',
-            data: strongs_male
+            data: strongs
 
         },{
             name: 'Yếu',
             marker: {
                 symbol: 'diamond'
             },
-            data: weaks_male
+            data: weaks
         }, {
             name: 'Bạn',
             marker: {
@@ -659,6 +738,40 @@ function calPTLK() {
             },
             data: user_pulls
         }]
+    }, function(chart){
+      
+      var pos = user_pulls.length - 1;
+      
+      var pos_user = user_pull_data;
+      var pos_strongs = strongs[pos];
+      var pos_weaks = weaks[pos];
+      
+      var tempDIV = "Mạnh: " + pos_strongs;
+      tempDIV += "<br>";
+      tempDIV += "<b>Bạn: " + pos_user;
+      tempDIV += "</b><br>";
+      tempDIV += "Yếu: " + pos_weaks;
+    
+      var point = chart.series[2].data[pos],
+          text = chart.renderer.text(
+              tempDIV,
+              point.plotX + chart.plotLeft + 15,
+              point.plotY + chart.plotTop - 10
+          ).attr({
+              zIndex: 5
+          }).add(),
+          box = text.getBBox();
+
+      chart.renderer.rect(box.x - 5, box.y - 5, box.width + 10, box.height + 10, 5)
+          .attr({
+              'font-size':'16px',
+              fill: '#FFFFEF',
+              stroke: 'gray',
+              'stroke-width': 1,
+              zIndex: 4
+          })
+          .add();
+    
     });
 }
 
@@ -741,6 +854,7 @@ function calculateGraphData(actualEnergy, standardEnergyMin, standardEnergyMax) 
 };
 
 
+// SYNC DATA LAMHONGDATA.COM
 
 initData();
 
@@ -899,13 +1013,43 @@ function initAutocomplete(){
       return false;
     }
   });
-}
+  
+  $( "#input-districts" ).autocomplete({
+    minLength: 0,
+    source: tinhthanhArray,      
+    select: function( event, ui ) {
+      
+      
+      user.districts = ui.item.value;
+      $( "#input-districts" ).val( getTinhThanhString(user.districts) );
+      //var temp_data = list_data_local[ui.item.value-1];
+      //putData2Input(temp_data);
+      
+      //condition_info = [1,1,1];
+      //condition_inside = [1,1,1];
+      
+      //checkInputInfo();
+      //checkInputInside();
+      
+      // blur after autocomplete done!
+      document.activeElement.blur();
+      
+      //console.log( ui.item.value );
+      
+      return false;
+    }
+  });
 
+}
+function clearAutoComplete(){
+  localStorage.list_data_autocomplete = '[]';
+}
 function putData2Input(data){
   
   //$( "#tags" ).val( data.name );
   $( "#input-name" ).val( data.name );
   $( "#input-address" ).val( data.address );
+  $( "#input-districts" ).val( getTinhThanhString(data.districts) );
   $( "#input-phone" ).val( data.phone );
   $( "#input-age" ).val( data.age );
   
@@ -914,11 +1058,25 @@ function putData2Input(data){
   
   user.name = data.name;
   user.address = data.address;
+  user.districts = data.districts;
   user.phone = data.phone;
   user.sex = data.sex;
   user.age = data.age;
   user.typework = data.typework;
 
+}
+
+function getTinhThanhString(value){
+  for(var i=0;i<tinhthanhArray.length;i++){
+    
+    var temp = tinhthanhArray[i];
+    if (temp.value == value) {
+      return temp.label;
+    }
+    
+  }
+  
+  return null;
 }
 
 function data2AutoComplete(data){

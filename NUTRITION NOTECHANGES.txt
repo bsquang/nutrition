@@ -1,0 +1,72 @@
+﻿// 260115
+// Nutrition
+
+-Sync server done.
+-Panel config done.
+-Update autocomplete infomation into user.
+-Add new user into list_data_local
+-Add new user into list_data_autocomplete
+-Check input info and inside
+-Save data before load chart
+-Phonegap build
+
+
+-User interface
+
+-Tiếng việt tất cả
+-Thêm autocomplete "phường tỉnh thành" để phân tích số liệu
+-done sql
+-add districts to customers
+-đồng bộ hóa dữ liệu với tinhthanh
+-autocomplete tinhthanh
+
+Chế độ phân tích thêm "cả hai"
+
+Phân tích chế độ dinh dưỡng:
+Thêm tựa đề Phân Tích Chế Độ Dinh Dưỡng
+-Phần món ăn chuyển lại thành autocomplete
+-Thêm nút "Bỏ đi" - loại ra cái cuối cùng
+-Sắp xếp lại sáng chiều tối khi add vào mới một thức ăn
+Đi lại màu ở mấy td vàng
+Biểu đồ lấy lại biểu đồ cũ không cần tương tác
+Đi màu cho đúng với yêu cầu biểu đồ
+-Fix lại cộng đúng các giá trị
+
+Lực kéo:
+Thêm tựa đề PHÂN TÍCH LỰC KÉO
+Design lại lớn lớn chút các đối tượng
+-Bỏ "lao động nhẹ trung bình hay nặng"
+
+-Biểu đồ tự hiện popup info khi init
+
+Trang in:
+Design lại nút in
+Thêm mục gởi email kết quả cho khách hàng 
+
+(Thiếu account, thông tin email sẽ gởi cho khách hàng là gì)
+(Chưa có giao diện thiết kế của phần in)
+-icon app (Chưa cung cấp)
+-splash screen app (Chưa cung cấp)
+/Biểu đồ thêm đường trung bình (trong tài liệu không có số liệu trung bình)
+(Ở chế độ cả hai sẽ hiển thị ra sao khi in ra bản kế quả ?)
+
+Thêm nút clear data
+
+- fix save data ở chế độ ptdd
+
+Todo:
+
+Color graph
+Page print
+Button print
+
+
+
+
+//
+Phonegap 3.5 not support ios 5 => phonegap 3.4
+Number.parse -> not support almost -> string to JSON and parse JSON to number
+table css border-spacing, td th tr : padding => done!
+
+SELECT d.id, d.name as 'districts', p.name as 'provinces' FROM `districts` d, provinces p WHERE d.`province_id` = p.`id`
+

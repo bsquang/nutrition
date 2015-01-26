@@ -29,7 +29,7 @@
     
     display: none;
   }
-  #panel-00{
+/*  #panel-00{
     background: url('resources/BGR-INTRO.png');
   }
   #panel-01{
@@ -40,7 +40,7 @@
   }
   #panel-06{
     background: url('resources/BGR-END.png');
-  }
+  }*/
   
   
   
@@ -74,7 +74,7 @@
     width: 50px;
     height: 50px;
     
-    border: 1px solid;
+    border: none;
     
     right: 0;
     top: 0;
@@ -86,7 +86,7 @@
     width: 50px;
     height: 50px;
     
-    border: 1px solid;
+    border: none;
     
     left: 0;
     bottom: 0;
@@ -96,7 +96,7 @@
   }
   #btt-next-intro{
     background: none;
-    /*border: 1px solid;*/
+    border: 1px solid;
     left: 40px;
     top: 290px;
     width: 200px;
@@ -110,7 +110,7 @@
     
     display: none;
   }
-  #btt-next-input
+  #btt-next-ptdd
   {
     position: absolute;
     bottom: 40px;
@@ -182,7 +182,7 @@
   }
   
   .div-info{
-    width: 570px;
+    width: 610px;
     height: 45px;
     
     margin-bottom: 10px;
@@ -196,14 +196,11 @@
     padding: 10px;
     border: none;
   }
-  .input-info{
-    
-    font-size: 24px;
-    
-    background: #00A1D3;          
-    
+  .input-info{    
+    font-size: 24px;    
+    background: #00A1D3;              
     color: white;
-    
+    width: 400px;
     padding: 10px;
     border: none;
   }
@@ -230,6 +227,15 @@
   
   .div-info-parent{
     
+  }
+  
+  
+  .ui-autocomplete{
+    max-height: 100px;
+    overflow-y: auto;
+    /* prevent horizontal scrollbar */
+    overflow-x: hidden;
+    font-size: 12px;
   }
   
   
