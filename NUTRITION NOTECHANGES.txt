@@ -1,4 +1,4 @@
-﻿// 260115
+// 260115
 // Nutrition
 
 -Sync server done.
@@ -13,57 +13,57 @@
 
 -User interface
 
--Tiếng việt tất cả
--Thêm autocomplete "phường tỉnh thành" để phân tích số liệu
+-Ti?ng vi?t t?t c?
+-Th�m autocomplete "ph??ng t?nh th�nh" ?? ph�n t�ch s? li?u
 -done sql
 -add districts to customers
--đồng bộ hóa dữ liệu với tinhthanh
+-??ng b? h�a d? li?u v?i tinhthanh
 -autocomplete tinhthanh
 
-Chế độ phân tích thêm "cả hai"
 
-Phân tích chế độ dinh dưỡng:
-Thêm tựa đề Phân Tích Chế Độ Dinh Dưỡng
--Phần món ăn chuyển lại thành autocomplete
--Thêm nút "Bỏ đi" - loại ra cái cuối cùng
--Sắp xếp lại sáng chiều tối khi add vào mới một thức ăn
-Đi lại màu ở mấy td vàng
-Biểu đồ lấy lại biểu đồ cũ không cần tương tác
-Đi màu cho đúng với yêu cầu biểu đồ
--Fix lại cộng đúng các giá trị
+Ch? ?? ph�n t�ch th�m "c? hai"
+-?� add option select "c? hai"
+Panel cho ch? ?? c? hai
+Ph?n ?? th? chung cho ch? ?? c? hai
 
-Lực kéo:
-Thêm tựa đề PHÂN TÍCH LỰC KÉO
-Design lại lớn lớn chút các đối tượng
--Bỏ "lao động nhẹ trung bình hay nặng"
 
--Biểu đồ tự hiện popup info khi init
+Ph�n t�ch ch? ?? dinh d??ng:
+Th�m t?a ?? Ph�n T�ch Ch? ?? Dinh D??ng
+-Ph?n m�n ?n chuy?n l?i th�nh autocomplete
+-Th�m n�t "B? ?i" - lo?i ra c�i cu?i c�ng
+-S?p x?p l?i s�ng chi?u t?i khi add v�o m?i m?t th?c ?n
+?i l?i m�u ? m?y td v�ng
+Bi?u ?? l?y l?i bi?u ?? c? kh�ng c?n t??ng t�c
+?i m�u cho ?�ng v?i y�u c?u bi?u ??
+-Fix l?i c?ng ?�ng c�c gi� tr?
+
+L?c k�o:
+Th�m t?a ?? PH�N T�CH L?C K�O
+Design l?i l?n l?n ch�t c�c ??i t??ng
+-B? "lao ??ng nh? trung b�nh hay n?ng"
+
+-Bi?u ?? t? hi?n popup info khi init
 
 Trang in:
-Design lại nút in
-Thêm mục gởi email kết quả cho khách hàng 
+Design l?i n�t in
+Th�m m?c g?i email k?t qu? cho kh�ch h�ng 
+Input email | Button save
+-> N�n v? nh� t? send th�ng qua panel trong lamhongdata.com
 
-(Thiếu account, thông tin email sẽ gởi cho khách hàng là gì)
-(Chưa có giao diện thiết kế của phần in)
--icon app (Chưa cung cấp)
--splash screen app (Chưa cung cấp)
-/Biểu đồ thêm đường trung bình (trong tài liệu không có số liệu trung bình)
-(Ở chế độ cả hai sẽ hiển thị ra sao khi in ra bản kế quả ?)
+account gmail : lamhong2@gmail.com | Lh123456
 
-Thêm nút clear data
+(Ch?a c� giao di?n thi?t k? c?a ph?n in)
+-icon app (Ch?a cung c?p)
+-splash screen app (Ch?a cung c?p)
+/Bi?u ?? th�m ???ng trung b�nh (trong t�i li?u kh�ng c� s? li?u trung b�nh)
+(? ch? ?? c? hai s? hi?n th? ra sao khi in ra b?n k? qu? ?)
 
-- fix save data ở chế độ ptdd
-
-Todo:
-
-Color graph
-Page print
-Button print
+Th�m n�t clear data
+Check number l?i t?t c? nh?ng n?i nh?p number
+- fix save data ? ch? ?? ptdd
 
 
-
-
-//
+// Note
 Phonegap 3.5 not support ios 5 => phonegap 3.4
 Number.parse -> not support almost -> string to JSON and parse JSON to number
 table css border-spacing, td th tr : padding => done!

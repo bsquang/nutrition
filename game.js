@@ -755,7 +755,7 @@ function calPTLK() {
       var point = chart.series[2].data[pos],
           text = chart.renderer.text(
               tempDIV,
-              point.plotX + chart.plotLeft + 15,
+              point.plotX + chart.plotLeft + 45,
               point.plotY + chart.plotTop - 10
           ).attr({
               zIndex: 5

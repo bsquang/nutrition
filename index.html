@@ -27,22 +27,27 @@
           <div id='div-info-parent'>
             <div class='div-info group'>
               <p>Họ và tên: </p>
-              <input id='input-name' class='input-info' placeholder='Name'/>          
+              <input id='input-name' class='input-info' placeholder='Họ và tên'/>          
             </div>
             <div class='div-info group'>
               <p>Địa chỉ: </p>
-              <input id='input-address' class='input-info' placeholder='Address'/>
+              <input id='input-address' class='input-info' placeholder='Địa chỉ'/>
+            </div>
+            <div class='div-info group'>
+              <p>Tỉnh thành: </p>
+              <input id='input-districts' class='input-info' placeholder='Tỉnh thành'/>
             </div>
             <div class='div-info group'>
               <p>Điện thoại: </p>
-              <input id='input-phone' class='input-info' placeholder='Phone'/>
+              <input id='input-phone' class='input-info' placeholder='Điện thoại'/>
             </div>
             <div class='div-info group'>
               <p>Chọn chế độ phân tích: </p>
               <select id='select-mode' style='font-size: 24px;'>
-                  <option value="0">Thành phần dinh dưỡng</option>
-                  <option value="1">Lực kéo</option>                  
-                </select>
+                <option value="0">Thành phần dinh dưỡng</option>
+                <option value="1">Lực kéo</option>
+                <option value="2">Cả hai</option>
+              </select>
             </div>
           </div>
           <p class='button-1' id='btt-next-info'></p>
@@ -59,9 +64,9 @@
                 <label>Năm sinh:</label>
                 <input id='input-age' placeholder='19xx' style='width: 60px;'/>
               </div>
-              <div class='item-row' style='width:400px;'>
+              <div class='item-row' style='width:400px;' id='div-typework'>
                 <label>Lao động:</label>
-                <input type="radio" value="0" name="type-work" > Nhẹ
+                <input type="radio" value="0" name="type-work" checked> Nhẹ
                 <input type="radio" value="1" name="type-work"> Trung bình
                 <input type="radio" value="2" name="type-work"> Nặng
               </div>            
@@ -78,19 +83,21 @@
                 </select>
               </div>
               <div class='item-row'>
-                Món ăn :          
-                <select id='select-meal'>
+                Món ăn :
+                <input id='input-meal' placeholder='Món ăn'/>
+                <!--<select id='select-meal'>
                   <option value="0">Bánh</option>
                   <option value="1">Nước</option>
                   <option value="2">Cơm</option>
                   <option value="3">Ổi</option>
-                </select>
+                </select>-->
               </div>
               <div class='item-row'>
                 Số lượng : <input id='input-quantity' value='1' style='width: 40px;'/>
               </div>
               <div class='item-row'>
                 <input type='button' id='button-add-meal' value='Thêm vào'>
+                <input type='button' id='button-remove-meal' value='Bỏ đi' style='display: none'>
               </div>
               <br>
               
@@ -164,7 +171,7 @@
           
           </div>
           
-          <p class='button-1' id='btt-next-input'></p>
+          <p class='button-1' id='btt-next-ptdd'></p>
         </div>
         <div class='panel' id='panel-03'>
           <div id="container-pull" ></div>
