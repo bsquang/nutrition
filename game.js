@@ -130,10 +130,17 @@ function enableMode(val){
     
     cal_mode = 0;    
     
-  }else{
+  }else if(val == 1){
+    
+    $("#panel-title").html('PHÂN TÍCH LỰC KÉO');
     
     cal_mode = 1;
+    condition_inside[2] = 1;
     
+  }else{
+    
+    $("#panel-title").html('PHÂN TÍCH THÀNH PHẦN DINH DƯỠNG VÀ LỰC KÉO');
+    cal_mode = 2;
     
   }
   
@@ -141,11 +148,22 @@ function enableMode(val){
 }
 
 $("#btt-next-ptdd").bind('touchstart', function() {
-    
+   
+  
+  var temp = $('#input-pull').val();    
+  if (temp == '') {
+    alert("Yêu cầu nhập vào kết quả đo lực kéo!")
+    return;
+  }
   
   saveDataUser(); // Save data here
   
   calTPDD();
+  
+  if (cal_mode == 2) {
+    calPTLK();
+  }
+  
   next();
   
 })
@@ -154,8 +172,6 @@ $("#btt-next-ptlk").bind('touchstart', function() {
 })
 $("#btt-next-tpdd").bind('touchstart', function() {        
   next();
-  
-
 })
 
 $("#btt-next-print").bind('touchstart', function() {  
@@ -174,7 +190,7 @@ $("#btt-next-print").bind('touchstart', function() {
 function next() {
   
     if (current == 2) {
-      if (cal_mode == '0') {
+      if (cal_mode == 0) {
         $($(".panel")[current]).hide();
         
         current += 2;
@@ -188,7 +204,7 @@ function next() {
         $($(".panel")[current]).fadeIn();
       }
     }else if (current == 3) {
-      if (cal_mode == '1') {
+      if (cal_mode == 1) {
         $($(".panel")[current]).hide();
         
         current += 2;
@@ -279,7 +295,7 @@ $('input[name="type-work"]:radio').change(function(){
     total.pull = bsqStringToNumber(temp);
     $("#td-pull").html(total.pull);
     
-    showButtonPTLK();
+    if(cal_mode == 1) showButtonPTLK();
   
   });
   
@@ -344,18 +360,23 @@ var condition_inside = [0,0,0];
 function checkInputInside(){
   if (condition_inside.equals([1,1,1])) {
     
-    if (cal_mode == '0') {
+    if (cal_mode == 0) {
       $("#div-meal").show();
+    }else if(cal_mode == 1){
+      $("#div-pull").show();
     }else{
+      $("#div-meal").show();
       $("#div-pull").show();
     }
     
   }else{
     
-    if (cal_mode == '0') {
+    if (cal_mode == 0) {
       $("#div-meal").hide();
-    }else{
+    }else if (cal_mode == 1) {
       $("#div-pull").hide();
+    }else{
+      
     }
     
   }
@@ -366,6 +387,11 @@ $("#select-time-meal").change(function(){
   loadListMeal($("#select-time-meal")[0].value);
 })      
 $("#button-add-meal").bind('touchstart',function(){
+  
+  if($("#input-meal").val() == ''){
+    alert("Yêu cầu nhập vào món ăn!");
+    return;
+  }
   
   $("#button-remove-meal").show();
   $("#table").show();
@@ -521,7 +547,7 @@ function loadTable(){
   
   temp_div += "<tr>";
   temp_div +=          
-  '<td colspan="4" style="background: #FFEA00;">Năng lượng 1 ngày</td>'        
+  '<td colspan="4" style="background: #00A1D3;">Năng lượng 1 ngày</td>'        
   +"<td style='background: #F48120'>"+total.nangluong+"</td>"
   +"<td style='background: #F48120'>"+total.dam+"</td>"
   +"<td style='background: #F48120'>"+total.duong+"</td>"
@@ -531,17 +557,21 @@ function loadTable(){
   
   temp_div += "<tr>";
   temp_div +=          
-  '<td colspan="5" style="background: #FFEA00;">Tỉ lệ phần trăm năng lượng trong 1 ngày</td>'        
+  '<td colspan="5" style="background: #00A1D3;">Tỉ lệ phần trăm năng lượng trong 1 ngày</td>'        
   +"<td style='background: #F48120'>"+percents.dam+"%</td>"
   +"<td style='background: #F48120'>"+percents.duong+"%</td>"
   +"<td style='background: #F48120'>"+percents.beo+"%</td>"
   //+"<td></td>"        
   temp_div += "</tr>";
   
-  //temp_div += "<tr><td colspan='5' style='background: #FFEA00;'>Kết quả đo lực kéo</td><td id='td-pull' style='background: #F48120'>"+total.pull
-  //+"</td>"
-  //+"<td></td><td></td><td></td>"
-  //+"</tr>"
+  if (cal_mode == 2) {
+    temp_div += "<tr><td colspan='5' style='background: #00A1D3;'>Kết quả đo lực kéo</td><td id='td-pull' style='background: #F48120'>"+total.pull
+    +"</td>"
+    //+"<td></td><td></td><td></td>"
+    +"</tr>"
+  }
+  
+  
   
   $(".table tbody").html(temp_div);
 }
@@ -580,64 +610,358 @@ function calTPDD() {
     var beoGraphData = calculateGraphData(total.beo,
         calculateStandardKcal(nangluong.standardEnergy, STANDARD_DETAIL['beo'].minValue),
         calculateStandardKcal(nangluong.standardEnergy, STANDARD_DETAIL['beo'].maxValue));
-
-    $('#container-dd').highcharts({
-
-        chart: {
-            type: 'column',
-            options3d: {
-                enabled: true,
-                alpha: 15,
-                beta: 15,
-                viewDistance: 25,
-                depth: 40
-            },
-            marginTop: 80,
-            marginRight: 40
-        },
-
-        title: {
-            text: 'PHÂN TÍCH THÀNH PHẦN DINH DƯỠNG'
-        },
-
-        xAxis: {
-            categories: ['Tổng năng lượng', 'Đạm', 'Đường', 'Béo']
-        },
-
-        yAxis: {
-            allowDecimals: false,
-            min: 0,
-            title: {
-                text: 'KCAL'
-            }
-        },
-
-        tooltip: {
-            headerFormat: '<b>{point.key}</b><br>',
-            pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: {point.y} / {point.stackTotal}'
-        },
-
-        plotOptions: {
-            column: {
-                stacking: 'normal',
-                depth: 40
-            }
-        },
-
-        series: [{
-            name: 'Thừa',
-            data: [enGraphData[2], damGraphData[2], duongGraphData[2], beoGraphData[2]],
-            stack: '1'
+    
+    
+    var chart1 = new cfx.Chart();
+    //chart1.setGallery(cfx.Gallery.Bar);
+    //chart1.getLegendBox().setVisible(false);
+    //chart1.getAllSeries().setStacked(cfx.Stacked.Normal);
+    //chart1.getView3D().setEnabled(true);
+    //
+    ////chart1.getView3D().setDepth(0);
+    //chart1.getView3D().setBoxThickness(1);    
+    //chart1.getToolTips().setEnabled(false);
+    //
+    //var gb;
+    //gb = new cfx.GradientBackground();
+    //gb.setType(cfx.GradientType.BackwardDiagonal);
+    //gb.setColorFrom("#FFFFFF");
+    //gb.setColorTo("#FFFFFF");
+    //gb.getPosition().add(0);    
+    //gb.getPosition().add(1);
+    //chart1.setBackground(gb);
+    //
+    ////chart1.getSeries().getItem(0).setColor('#108F1A'); // thuc te (xanh)
+    ////chart1.getSeries().getItem(0).setText("Thực Tế");
+    ////var point0 = chart1.getSeries().getItem(0).getPointLabels();
+    ////point0.setLineAlignment(cfx.StringAlignment.Center);
+    ////point0.setTextColor("#FFFFFF");
+    ////
+    ////chart1.getSeries().getItem(1).setColor('#FFF035'); // thieu (vang)
+    ////chart1.getSeries().getItem(1).setText("Thiếu");
+    ////// point 1 (thieu)
+    ////var point1 = chart1.getSeries().getItem(1).getPointLabels();
+    ////point1.setTextColor("#000000");
+    ////point1.setLineAlignment(cfx.StringAlignment.Near);
+    ////
+    ////chart1.getSeries().getItem(2).setColor('#E83A3B'); // thua (do)
+    ////chart1.getSeries().getItem(2).setText("Thừa");
+    ////var point2 = chart1.getSeries().getItem(2).getPointLabels();
+    ////point2.setLineAlignment(cfx.StringAlignment.Near);
+    ////point2.setTextColor("#FFFFFF");
+    //
+    ////var td;
+    ////td = new cfx.TitleDockable();
+    ////td.setText("3D Stacked Bars");
+    ////chart1.getTitles().add(td);
+    //
+    //var data = chart1.getData();
+    //data.setSeries(3);
+    ////data.setPoints(3);
+    //
+    ////var bsqData = [
+    ////  {
+    ////    'Chất' : 'Năng lượng',
+    ////    'Thực tế' : 1,
+    ////    'Thiếu' : 1,
+    ////    'Thừa' : 1
+    ////  },
+    ////  {
+    ////    'Chất' : 'Đạm',
+    ////    'Thực tế' : 1,
+    ////    'Thiếu' : 1,
+    ////    'Thừa' : 1
+    ////  },
+    ////  {
+    ////    'Chất' : 'Đường',
+    ////    'Thực tế' : 1,
+    ////    'Thiếu' : 1,
+    ////    'Thừa' : 1
+    ////  },
+    ////  {
+    ////    'Chất' : 'Béo',
+    ////    'Thực tế' : 1,
+    ////    'Thiếu' : 1,
+    ////    'Thừa' : 1
+    ////  }
+    ////];
+    ////
+    ////chart1.setDataSource()
+    //
+    //// draw graph
+    //var arrayOfData = new Array(
+    //    enGraphData,
+    //    damGraphData,
+    //    duongGraphData,
+    //    beoGraphData
+    //);
+    //
+    //
+    //
+    //for (var i = 0; i <= 3; i++) {
+    //    // thuc te
+    //    data.setItem(0, i, (arrayOfData[i][0]));
+    //    // thieu
+    //    if (arrayOfData[i][1] > 0) {
+    //        data.setItem(1, i, (arrayOfData[i][1]));
+    //    }
+    //    // thua
+    //    if (arrayOfData[i][2] > 0) {
+    //        data.setItem(2, i, (arrayOfData[i][2]));
+    //    }
+    //}
+    //
+    //chart1.getSeries().getItem(0).setColor('#257B3D'); // thuc te (xanh)
+    //chart1.getSeries().getItem(0).setText("Thực Tế");
+    //var point0 = chart1.getSeries().getItem(0).getPointLabels();
+    //point0.setLineAlignment(cfx.StringAlignment.Center);
+    //point0.setTextColor("#FFFFFF");
+    //
+    //chart1.getSeries().getItem(1).setColor('#E47E25'); // thieu (vang)
+    //chart1.getSeries().getItem(1).setText("Thiếu");
+    //// point 1 (thieu)
+    //var point1 = chart1.getSeries().getItem(1).getPointLabels();
+    //point1.setTextColor("#000000");
+    //point1.setLineAlignment(cfx.StringAlignment.Near);
+    //
+    //chart1.getSeries().getItem(2).setColor('#EC1C24'); // thua (do)
+    //chart1.getSeries().getItem(2).setText("Thừa");
+    //var point2 = chart1.getSeries().getItem(2).getPointLabels();
+    //point2.setLineAlignment(cfx.StringAlignment.Near);
+    //point2.setTextColor("#FFFFFF");
+    //
+    //
+    //var axis;
+    //axis = chart1.getAxisX();
+    //axis.getLabels().setItem(0, "");
+    //axis.getLabels().setItem(1, "");
+    //axis.getLabels().setItem(2, "");
+    //axis.getLabels().setItem(3, "");
+    //
+    //var pointLabels = chart1.getAllSeries().getPointLabels();
+    //pointLabels.setVisible(true);
+    // 
+    //// set max
+    //if (total.nangluong > nangluong.standardEnergy) {
+    //    chart1.getAxisY().setMax(total.nangluong + 500);
+    //} else {
+    //    chart1.getAxisY().setMax(nangluong.standardEnergy + 500);
+    //}
+    //
+    //
+    //var chartDiv = document.getElementById('container-dd');
+    //chart1.create(chartDiv);
+    
+    
+    
+    
+    var chart1 = new cfx.Chart();
+    
+    chart1.setGallery(cfx.Gallery.Bar);
+    chart1.getAllSeries().setStacked(cfx.Stacked.Normal);
+    chart1.getView3D().setEnabled(true);
+    
+    chart1.getSeries().getItem(0).setColor('#EC1C24');
+    chart1.getSeries().getItem(1).setColor('#E47E25');
+    chart1.getSeries().getItem(2).setColor('#257B3D');
+    
+    // set max
+    if (total.nangluong > nangluong.standardEnergy) {
+        chart1.getAxisY().setMax(total.nangluong + 500);
+    } else {
+        chart1.getAxisY().setMax(nangluong.standardEnergy + 500);
+    }
+    
+    
+    
+    PopulateCarProduction(chart1);
+    //var titles = chart1.getTitles();
+    //var title = new cfx.TitleDockable();
+    //title.setText("Vehicles Production by Month");
+    //titles.add(title);
+    //chart1.getAxisY().getTitle().setText("Number of Vehicles");
+    var chartDiv = document.getElementById('container-dd');
+    chart1.create(chartDiv);
+    
+    $('svg#chart g').find(".LegendItem").hide();
+    
+    function PopulateCarProduction(chart1) {
+      
+      var arrayOfData = new Array(
+          enGraphData,
+          damGraphData,
+          duongGraphData,
+          beoGraphData
+      );
+      
+        var items = [{
+            "Thực tế": arrayOfData[0][0],
+            "Thiếu": arrayOfData[0][1],
+            "Thừa": arrayOfData[0][2],
+            "Name": "Năng lượng"
         }, {
-            name: 'Thiếu',
-            data: [enGraphData[1], damGraphData[1], duongGraphData[1], beoGraphData[1]],
-            stack: '1'
+           "Thực tế": arrayOfData[1][0],
+            "Thiếu": arrayOfData[1][1],
+            "Thừa": arrayOfData[1][2],
+            "Name": "Đạm"
         }, {
-            name: 'Thực tế',
-            data: [enGraphData[0], damGraphData[0], duongGraphData[0], beoGraphData[0]],
-            stack: '1'
-        }]
-    });
+          "Thực tế": arrayOfData[2][0],
+            "Thiếu": arrayOfData[2][1],
+            "Thừa": arrayOfData[2][2],
+            "Name": "Đường"
+        }, {
+          "Thực tế": arrayOfData[3][0],
+            "Thiếu": arrayOfData[3][1],
+            "Thừa": arrayOfData[3][2],
+            "Name": "Béo"
+        }];
+    
+    
+        chart1.setDataSource(items);
+        
+        
+    }
+
+    
+    
+    //chart1.getAnimations().getLoad().setEnabled(true);
+    //chart1.setGallery(cfx.Gallery.Bar);
+    //chart1.getToolTips().setEnabled(false);
+    //
+    //var data = chart1.getData();
+    //
+    //chart1.getData().setSeries(3);
+    //
+    //// draw graph
+    //var arrayOfData = new Array(
+    //    enGraphData,
+    //    damGraphData,
+    //    duongGraphData,
+    //    beoGraphData
+    //);
+    //
+    //for (var i = 0; i <= 3; i++) {
+    //    // thuc te
+    //    data.setItem(0, i, (arrayOfData[i][0]));
+    //    // thieu
+    //    if (arrayOfData[i][1] > 0) {
+    //        data.setItem(1, i, (arrayOfData[i][1]));
+    //    }
+    //    // thua
+    //    if (arrayOfData[i][2] > 0) {
+    //        data.setItem(2, i, (arrayOfData[i][2]));
+    //    }
+    //}
+    //
+    //chart1.getSeries().getItem(0).setColor('#108F1A'); // thuc te (xanh)
+    //chart1.getSeries().getItem(0).setText("Thực Tế");
+    //var point0 = chart1.getSeries().getItem(0).getPointLabels();
+    //point0.setLineAlignment(cfx.StringAlignment.Center);
+    //point0.setTextColor("#FFFFFF");
+    //
+    //chart1.getSeries().getItem(1).setColor('#FFF035'); // thieu (vang)
+    //chart1.getSeries().getItem(1).setText("Thiếu");
+    //// point 1 (thieu)
+    //var point1 = chart1.getSeries().getItem(1).getPointLabels();
+    //point1.setTextColor("#000000");
+    //point1.setLineAlignment(cfx.StringAlignment.Near);
+    //
+    //chart1.getSeries().getItem(2).setColor('#E83A3B'); // thua (do)
+    //chart1.getSeries().getItem(2).setText("Thừa");
+    //var point2 = chart1.getSeries().getItem(2).getPointLabels();
+    //point2.setLineAlignment(cfx.StringAlignment.Near);
+    //point2.setTextColor("#FFFFFF");
+    //
+    //var axis;
+    //axis = chart1.getAxisX();
+    //axis.getLabels().setItem(0, "");
+    //axis.getLabels().setItem(1, "");
+    //axis.getLabels().setItem(2, "");
+    //axis.getLabels().setItem(3, "");
+    //
+    //var pointLabels = chart1.getAllSeries().getPointLabels();
+    //pointLabels.setVisible(true);
+    //
+    //chart1.getAllSeries().setStacked(cfx.Stacked.Normal);
+    //chart1.getAllSeries().setBarShape(cfx.BarShape.Cylinder);
+    //chart1.getAllSeries().setVolume(50);
+    //chart1.getView3D().setEnabled(true);
+    //chart1.getView3D().setAngleX(20);
+    //chart1.getView3D().setAngleY(0);
+    //
+    //// set max
+    //if (total.nangluong > nangluong.standardEnergy) {
+    //    chart1.getAxisY().setMax(total.nangluong + 500);
+    //} else {
+    //    chart1.getAxisY().setMax(nangluong.standardEnergy + 500);
+    //}
+    //
+    //chart1.getLegendBox().setDock(cfx.DockArea.Right);
+    //
+    //var chartDiv = document.getElementById('container-dd');
+    //chart1.create(chartDiv);
+    //$('svg#C1s g').remove();
+    
+
+    
+
+    //$('#container-dd').highcharts({
+    //
+    //    chart: {
+    //        type: 'column',
+    //        options3d: {
+    //            enabled: true,
+    //            alpha: 15,
+    //            beta: 15,
+    //            viewDistance: 25,
+    //            depth: 40
+    //        },
+    //        marginTop: 80,
+    //        marginRight: 40
+    //    },
+    //
+    //    title: {
+    //        text: 'PHÂN TÍCH THÀNH PHẦN DINH DƯỠNG'
+    //    },
+    //
+    //    xAxis: {
+    //        categories: ['Tổng năng lượng', 'Đạm', 'Đường', 'Béo']
+    //    },
+    //
+    //    yAxis: {
+    //        allowDecimals: false,
+    //        min: 0,
+    //        title: {
+    //            text: 'KCAL'
+    //        }
+    //    },
+    //
+    //    tooltip: {
+    //        headerFormat: '<b>{point.key}</b><br>',
+    //        pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: {point.y} / {point.stackTotal}'
+    //    },
+    //
+    //    plotOptions: {
+    //        column: {
+    //            stacking: 'normal',
+    //            depth: 40
+    //        }
+    //    },
+    //
+    //    series: [{
+    //        name: 'Thừa',
+    //        data: [enGraphData[2], damGraphData[2], duongGraphData[2], beoGraphData[2]],
+    //        stack: '1'
+    //    }, {
+    //        name: 'Thiếu',
+    //        data: [enGraphData[1], damGraphData[1], duongGraphData[1], beoGraphData[1]],
+    //        stack: '1'
+    //    }, {
+    //        name: 'Thực tế',
+    //        data: [enGraphData[0], damGraphData[0], duongGraphData[0], beoGraphData[0]],
+    //        stack: '1'
+    //    }]
+    //});
 }
 
 function calPTLK() {
@@ -665,23 +989,35 @@ function calPTLK() {
         }
     }
     
-    var weaks_male = [12.6,19.4,28.5,32.6,35.7,36.8,37.7,36.0,35.8,35.5,34.7,32.9,30.7,30.2,28.2,21.3];
-    //var default_male = [12.6,19.4,28.5,32.6,35.7,36.8,37.7,36.0,35.8,35.5,34.7,32.9,30.7,30.2,28.2,21.3];
-    var strongs_male = [22.4,31.2,44.3,52.4,55.5,56.6,57.5,55.8,55.6,55.3,54.5,50.7,48.5,48.0,44.0,35.1];
-    var weaks_female = [11.8,14.6,15.5,17.2,19.2,21.5,25.6,21.5,20.3,18.9,18.6,18.1,17.7,17.2,15.4,14.7];
-    //var default_female = [11.8,14.6,15.5,17.2,19.2,21.5,25.6,21.5,20.3,18.9,18.6,18.1,17.7,17.2,15.4,14.7];
-    var strongs_female = [21.6,24.4,27.3,29.0,31.0,35.3,41.4,35.3,34.1,32.7,32.4,31.9,31.5,31.0,27.2,24.5];
+  var weaks_male = [12.6,19.4,28.5,32.6,35.7,36.8,37.7,36.0,35.8,35.5,34.7,32.9,30.7,30.2,28.2,21.3];    
+  var strongs_male = [22.4,31.2,44.3,52.4,55.5,56.6,57.5,55.8,55.6,55.3,54.5,50.7,48.5,48.0,44.0,35.1];
+  var default_male = [];
+  
+  for(var i=0;i<weaks_male.length;i++){
+    default_male[i] = (weaks_male[i]+strongs_male[i])/2;
+  } 
 
+  var weaks_female = [11.8,14.6,15.5,17.2,19.2,21.5,25.6,21.5,20.3,18.9,18.6,18.1,17.7,17.2,15.4,14.7];  
+  var strongs_female = [21.6,24.4,27.3,29.0,31.0,35.3,41.4,35.3,34.1,32.7,32.4,31.9,31.5,31.0,27.2,24.5];
+  var default_female = [];
+  
+  for(var i=0;i<weaks_female.length;i++){
+    default_female[i] = (weaks_female[i]+strongs_female[i])/2;
+  }
+ 
 
     var strongs = [];          
     var weaks = [];
+    var defaultPull = [];
     
     if (user.sex == '0') {
       strongs = strongs_male;
       weaks = weaks_male;
+      defaultPull = default_male;
     }else if (user.sex == '1') {
       strongs = strongs_female;
       weaks = weaks_female;
+      defaultPull = default_female;
     }
     
 
@@ -690,10 +1026,7 @@ function calPTLK() {
             type: 'spline'
         },
         title: {
-            text: 'PHÂN TÍCH LỰC KÉO',
-            style: {                
-                fontWeight: 'bold'
-            }
+            text: null,            
         },
 
         xAxis: {
@@ -726,17 +1059,23 @@ function calPTLK() {
             data: strongs
 
         },{
-            name: 'Yếu',
+            name: 'Bình thường',
             marker: {
                 symbol: 'diamond'
             },
-            data: weaks
-        }, {
+            data: defaultPull
+        },{
             name: 'Bạn',
             marker: {
                 symbol: 'diamond'
             },
             data: user_pulls
+        },{
+            name: 'Yếu',
+            marker: {
+                symbol: 'diamond'
+            },
+            data: weaks
         }]
     }, function(chart){
       

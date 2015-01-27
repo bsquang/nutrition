@@ -14,13 +14,26 @@
       margin-top: 70px;
   }
   #container-dd {
-      height: 600px; 
-      min-width: 980px; 
+    
+    height: 600px; 
+    width: 980px;
+    
       /*max-width: 800px;*/
-      margin: 0 auto;
+    
+    margin: 0 auto;
+    margin-top: 70px;
       
-      margin-top: 70px;
+    /*float: left;
+    width: 450px;
+    height: 230px;*/
   }
+  
+  #divForGraph {
+  float: left;
+  width: 450px;
+  height: 230px;
+}
+  
   .panel{
     width: 1024px;
     height:768px;
@@ -41,7 +54,9 @@
   #panel-06{
     background: url('resources/BGR-END.png');
   }
-  
+  #panel-05{
+    background: url('resources/NUTRITION-REPORT.png');
+  }
   
   
   .logo-luvitas{
@@ -96,7 +111,7 @@
   }
   #btt-next-intro{
     background: none;
-    border: 1px solid;
+    /*border: 1px solid;*/
     left: 40px;
     top: 290px;
     width: 200px;
@@ -278,6 +293,18 @@
 
 .table th {
     width: 150px;    
+}
+  
+.panel-title{
+    text-align: center;
+    width: 100%;
+    
+    margin-top: 30px;
+    position: absolute;    
+}
+.panel-title p{
+    font-size: 30px;
+    font-weight: bold;
 }
   
   .group:before,

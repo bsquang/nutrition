@@ -1,4 +1,4 @@
-// 260115
+ï»¿// 260115
 // Nutrition
 
 -Sync server done.
@@ -13,53 +13,54 @@
 
 -User interface
 
--Ti?ng vi?t t?t c?
--Thêm autocomplete "ph??ng t?nh thành" ?? phân tích s? li?u
+-Tiáº¿ng viá»‡t táº¥t cáº£
+-ThÃªm autocomplete "phÆ°á»ng tá»‰nh thÃ nh" Ä‘á»ƒ phÃ¢n tÃ­ch sá»‘ liá»‡u
 -done sql
 -add districts to customers
--??ng b? hóa d? li?u v?i tinhthanh
+-Äá»“ng bá»™ hÃ³a dá»¯ liá»‡u tinhthanh
 -autocomplete tinhthanh
 
 
 Ch? ?? phân tích thêm "c? hai"
 -?ã add option select "c? hai"
-Panel cho ch? ?? c? hai
+Panel cho cáº£ hai
 Ph?n ?? th? chung cho ch? ?? c? hai
 
 
-Phân tích ch? ?? dinh d??ng:
-Thêm t?a ?? Phân Tích Ch? ?? Dinh D??ng
+PhÃ¢n tÃ­ch dinh dÆ°á»¡ng:
+-ThÃªm tá»±a Ä‘á» PhÃ¢n TÃ­ch Dinh DÆ°á»¡ng
 -Ph?n món ?n chuy?n l?i thành autocomplete
 -Thêm nút "B? ?i" - lo?i ra cái cu?i cùng
 -S?p x?p l?i sáng chi?u t?i khi add vào m?i m?t th?c ?n
-?i l?i màu ? m?y td vàng
-Bi?u ?? l?y l?i bi?u ?? c? không c?n t??ng tác
-?i màu cho ?úng v?i yêu c?u bi?u ??
+-Äá»•i láº¡i mÃ u máº¥y TD vÃ ng
+Láº¥y láº¡i biá»ƒu Ä‘á»“ cÅ©
+Äi mÃ u láº¡i biá»ƒu Ä‘á»“
 -Fix l?i c?ng ?úng các giá tr?
+-Check nháº­p tÃªn thá»©c Äƒn má»›i cho add
+
 
 L?c kéo:
-Thêm t?a ?? PHÂN TÍCH L?C KÉO
-Design l?i l?n l?n chút các ??i t??ng
+-ThÃªm tá»±a PhÃ¢n tÃ­ch lá»±c kÃ©o
+Design láº¡i cho to hÆ¡n cÃ¡c input
 -B? "lao ??ng nh? trung bình hay n?ng"
-
 -Bi?u ?? t? hi?n popup info khi init
+-ÄÆ°á»ng trung bÃ¬nh
 
 Trang in:
-Design l?i nút in
-Thêm m?c g?i email k?t qu? cho khách hàng 
-Input email | Button save
--> Nên v? nhà t? send thông qua panel trong lamhongdata.com
-
-account gmail : lamhong2@gmail.com | Lh123456
+Design láº¡i button in;
+ThÃªm má»¥c gá»­i email cho khÃ¡ch hÃ ng -> save vÃ´ database -> vá» nhÃ  sau khi sync tá»± check email nÃ o Ä‘Æ°á»£c gá»Ÿi Ä‘i hay lÃ  chÆ°a
+-account gmail : lamhong2@gmail.com | Lh123456
 
 (Ch?a có giao di?n thi?t k? c?a ph?n in)
--icon app (Ch?a cung c?p)
--splash screen app (Ch?a cung c?p)
-/Bi?u ?? thêm ???ng trung bình (trong tài li?u không có s? li?u trung bình)
-(? ch? ?? c? hai s? hi?n th? ra sao khi in ra b?n k? qu? ?)
+-iconApp
+-splash screen app (ChÆ°a cung cáº¥p)
 
-Thêm nút clear data
-Check number l?i t?t c? nh?ng n?i nh?p number
+Design tá» report lá»±c kÃ©o riÃªng
+Design tá» report thÃ nh pháº§n dinh dÆ°á»¡ng
+-Design tá» report cáº£ hai
+
+ThÃªm nÃºt Clear Data
+Check number láº¡i táº¥t cáº£ cÃ¡c input number
 - fix save data ? ch? ?? ptdd
 
 

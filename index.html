@@ -8,6 +8,9 @@
       <title>Nutrition</title>
 	  
 	  <link rel="stylesheet" media="all" href="css.css">
+      <link rel="stylesheet" type="text/css" href="resources/jchartfx/styles/Attributes/jchartfx.attributes.topbar.css" />
+      <link rel="stylesheet" type="text/css" href="resources/jchartfx/styles/Palettes/jchartfx.palette.topbar.css" />
+    
       <script src="phonegap.js"></script>
 	  
 	  
@@ -53,7 +56,10 @@
           <p class='button-1' id='btt-next-info'></p>
         </div>
         <div class='panel' id='panel-02'>
-          <div class='info-top'>
+          <div class='panel-title'>
+            <p id='panel-title'>PHÂN TÍCH THÀNH PHẦN DINH DƯỠNG</p>
+          </div>
+          <div class='info-top group'>
             <div class='item-box group'>
               <div class='item-row'>
                 <label>Giới tính:</label>
@@ -66,7 +72,7 @@
               </div>
               <div class='item-row' style='width:400px;' id='div-typework'>
                 <label>Lao động:</label>
-                <input type="radio" value="0" name="type-work" checked> Nhẹ
+                <input type="radio" value="0" name="type-work"> Nhẹ
                 <input type="radio" value="1" name="type-work"> Trung bình
                 <input type="radio" value="2" name="type-work"> Nặng
               </div>            
@@ -102,7 +108,7 @@
               <br>
               
               
-            </div>
+            </div>           
             
             
             
@@ -120,10 +126,10 @@
           <table class="table" id='table-info'>
             <thead class="fontTitle">
               <tr>
-                <th style="width:40px;background: #FFEA00;">STT</th>
-                <th style="width:180px;background: #FFEA00;">Bữa ăn</th>
-                <th style="width:250px;background: #FFEA00;">Món ăn</th>
-                <th style="width:80px;background: #FFEA00;">Số lượng</th>
+                <th style="width:40px;background: #00A1D3;">STT</th>
+                <th style="width:180px;background: #00A1D3;">Bữa ăn</th>
+                <th style="width:250px;background: #00A1D3;">Món ăn</th>
+                <th style="width:80px;background: #00A1D3;">Số lượng</th>
                 <th style='background: #F48120'>Năng lượng<br/>(Kcal)</th>
                 <th style='background: #F48120'>Đạm<br/>(Kcal)</th>
                 <th style='background: #F48120'>Đường<br/>(Kcal)</th>
@@ -174,19 +180,25 @@
           <p class='button-1' id='btt-next-ptdd'></p>
         </div>
         <div class='panel' id='panel-03'>
+          <div class='panel-title'>
+            <p>LỰC KÉO</p>
+          </div>
           <div id="container-pull" ></div>
           <br>
           <p class='button-1' id='btt-next-ptlk'></p> 
         </div>
         <div class='panel' id='panel-04'>
+          <div class='panel-title'>
+            <p>THÀNH PHẦN DINH DƯỠNG</p>
+          </div>
           <div id="container-dd" ></div>
           <br>
           <p class='button-1' id='btt-next-tpdd'></p> 
         </div>
         <div class='panel' id='panel-05'>
-          <div class='btt-print' id='btt-print'>
+          <!--<div class='btt-print' id='btt-print'>
               <p>In kết quả phân tích</p>
-          </div>
+          </div>-->
           <p class='button-1' id='btt-next-print'></p>
         </div>
         <div class='panel' id='panel-06'>
@@ -206,7 +218,10 @@
       
       <script src="resources/highcharts/highcharts.js"></script>
       <script src="resources/highcharts/highcharts-3d.js"></script>
-      <script src="resources/highcharts/exporting.js"></script>
+      <script src="resources/highcharts/exporting.js"></script>      
+     
+      <script type="text/javascript" src="resources/jchartfx/jchartfx.full.js"></script>
+     
       
       <script src="database.js"></script>      
       <script src="game.js?89"></script>
