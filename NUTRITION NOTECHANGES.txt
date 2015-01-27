@@ -1,4 +1,4 @@
-﻿// 260115
+﻿// 270115
 // Nutrition
 
 -Sync server done.
@@ -10,7 +10,6 @@
 -Save data before load chart
 -Phonegap build
 
-
 -User interface
 
 -Tiếng việt tất cả
@@ -21,29 +20,28 @@
 -autocomplete tinhthanh
 
 
-Ch? ?? ph�n t�ch th�m "c? hai"
--?� add option select "c? hai"
-Panel cho cả hai
-Ph?n ?? th? chung cho ch? ?? c? hai
+Phân tích mode cả hai:
+-Thêm mode select "cả hai"
+Phần in chung cho cả hai (Tạm cái hình để lên)
 
 
 Phân tích dinh dưỡng:
 -Thêm tựa đề Phân Tích Dinh Dưỡng
--Ph?n m�n ?n chuy?n l?i th�nh autocomplete
--Th�m n�t "B? ?i" - lo?i ra c�i cu?i c�ng
--S?p x?p l?i s�ng chi?u t?i khi add v�o m?i m?t th?c ?n
+-Món ăn autocomplete
+-Button "Bỏ đi" - loại ra món vừa được add vào
+-Sắp xếp lại sáng chiều tối khi add vào một thức ăn mới
 -Đổi lại màu mấy TD vàng
-Lấy lại biểu đồ cũ
+-Lấy lại biểu đồ cũ
 Đi màu lại biểu đồ
--Fix l?i c?ng ?�ng c�c gi� tr?
+-Fix lại cộng đúng các giá trị
 -Check nhập tên thức ăn mới cho add
 
 
-L?c k�o:
+Phân tích lực kéo:
 -Thêm tựa Phân tích lực kéo
 Design lại cho to hơn các input
--B? "lao ??ng nh? trung b�nh hay n?ng"
--Bi?u ?? t? hi?n popup info khi init
+-Bỏ lao động ""trung bình nặng hay nhẹ""
+-popup info khi init
 -Đường trung bình
 
 Trang in:
@@ -51,7 +49,7 @@ Design lại button in;
 Thêm mục gửi email cho khách hàng -> save vô database -> về nhà sau khi sync tự check email nào được gởi đi hay là chưa
 -account gmail : lamhong2@gmail.com | Lh123456
 
-(Ch?a c� giao di?n thi?t k? c?a ph?n in)
+Giao diện phần in (Mới đưa 2 dạng thôi, còn dạng lực kéo, phân tích dinh dưỡng riêng thì chưa)
 -iconApp
 -splash screen app (Chưa cung cấp)
 
@@ -61,7 +59,7 @@ Design tờ report thành phần dinh dưỡng
 
 Thêm nút Clear Data
 Check number lại tất cả các input number
-- fix save data ? ch? ?? ptdd
+- fix save data ptdd
 
 
 // Note
