@@ -149,20 +149,22 @@ function enableMode(val){
 
 $("#btt-next-ptdd").bind('touchstart', function() {
    
-  
-  var temp = $('#input-pull').val();    
-  if (temp == '') {
-    alert("Yêu cầu nhập vào kết quả đo lực kéo!")
-    return;
+  if (cal_mode == 2) {
+    
+    var temp = $('#input-pull').val();    
+    if (temp == '') {
+      alert("Yêu cầu nhập vào kết quả đo lực kéo!")
+      return;
+    }
   }
   
   saveDataUser(); // Save data here
   
+  if (cal_mode == 2) calPTLK();
+  
   calTPDD();
   
-  if (cal_mode == 2) {
-    calPTLK();
-  }
+  
   
   next();
   
