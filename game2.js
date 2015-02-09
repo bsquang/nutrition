@@ -198,6 +198,19 @@ function enableMode(val){
 }
 
 function calMode(type){
+  
+  if ($( "#input-name" ).val() == '' ||
+      $( "#input-address" ).val() == '' ||
+      $( "#input-districts" ).val() == '' ||
+      $( "#input-phone" ).val() == '' ||
+      $( "#input-age" ).val() == ''      
+  ) {
+    
+    alert("Yêu cầu nhập lại đầy đủ thông tin");
+    return;
+    
+  }
+  
   if (type == 0) {
     $("#div-meal").show();
   }
@@ -1332,6 +1345,24 @@ function data2Local(data){
   localStorage.list_data_local = data_json; 
 }
 
+function loadDataFromLIUser(val) {
+  var temp_data = list_data_local[val];
+  putData2Input(temp_data);
+}
+
+function resetForm() {
+  $( "#input-name" ).val( '' );
+  $( "#input-address" ).val( '' );
+  $( "#input-districts" ).val( '' );
+  $( "#input-phone" ).val( '' );
+  $( "#input-age" ).val( '' );
+  
+  $('#select-gender').val(0);
+  $('#select-type-work').val(0);
+  
+  
+  
+}
 
 initAutocomplete();
 function initAutocomplete(){
@@ -1340,6 +1371,21 @@ function initAutocomplete(){
     localStorage.setItem('list_data_autocomplete','[]')
     
   }
+  
+  
+  $("#list-user").html('');
+  for(var i=0;i<list_data_local.length;i++){
+    
+    var temp = list_data_local[i];
+    
+    var tempLi = '<li ontouchstart="loadDataFromLIUser('+i+')">'+temp.name+'</li>';
+    
+    $("#list-user").append(tempLi);
+    
+    
+  }
+  
+  
   
   var temp = JSON.parse(localStorage.list_data_autocomplete);          
   list_data_autocomplete = temp;
