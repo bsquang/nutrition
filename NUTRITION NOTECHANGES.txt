@@ -12,6 +12,8 @@
 
 -User interface
 
+
+
 -Tiếng việt tất cả
 -Thêm autocomplete "phường tỉnh thành" để phân tích số liệu
 -done sql
@@ -60,6 +62,8 @@ Design tờ report thành phần dinh dưỡng
 Thêm nút Clear Data
 Check number lại tất cả các input number
 - fix save data ptdd
+
+UDID LAMHONG-IPAD2 = 2a230ce098d0f656197a94d118830135ad707a4f
 
 
 // Note
