@@ -1,4 +1,10 @@
-//$(".bsq-panel").bind("touchstart",function(){
+$("input").bind('touchstart',function(){
+  
+  $(this).focus();
+  
+})
+
+ //$(".bsq-panel").bind("touchstart",function(){
 //  document.activeElement.blur();
 //})
 
@@ -21,24 +27,24 @@
 //  });
 //}
 
-(function($) {
-  var IS_IOS = /iphone|ipad/i.test(navigator.userAgent);
-  $.fn.nodoubletapzoom = function() {
-    if (IS_IOS)
-      $(this).bind('touchstart', function preventZoom(e) {
-        var t2 = e.timeStamp
-          , t1 = $(this).data('lastTouch') || t2
-          , dt = t2 - t1
-          , fingers = e.originalEvent.touches.length;
-        $(this).data('lastTouch', t2);
-        if (!dt || dt > 500 || fingers > 1) return; // not double-tap
-
-        e.preventDefault(); // double tap - prevent the zoom
-        // also synthesize click events we just swallowed up
-        $(this).trigger('click').trigger('click');
-      });
-  };
-})(jQuery);
+//(function($) {
+//  var IS_IOS = /iphone|ipad/i.test(navigator.userAgent);
+//  $.fn.nodoubletapzoom = function() {
+//    if (IS_IOS)
+//      $(this).bind('touchstart', function preventZoom(e) {
+//        var t2 = e.timeStamp
+//          , t1 = $(this).data('lastTouch') || t2
+//          , dt = t2 - t1
+//          , fingers = e.originalEvent.touches.length;
+//        $(this).data('lastTouch', t2);
+//        if (!dt || dt > 500 || fingers > 1) return; // not double-tap
+//
+//        e.preventDefault(); // double tap - prevent the zoom
+//        // also synthesize click events we just swallowed up
+//        $(this).trigger('click').trigger('click');
+//      });
+//  };
+//})(jQuery);
 
 
 function showPanel(id) {
@@ -52,7 +58,7 @@ function showPanel(id) {
 var bForceMove = true;
 
 $(".panel").bind("touchstart",function(){
-  document.activeElement.blur();
+  //document.activeElement.blur();
 })
 
 window.addEventListener("touchmove", function(e) {
@@ -1347,6 +1353,9 @@ function data2Local(data){
 
 function loadDataFromLIUser(val) {
   var temp_data = list_data_local[val];
+  
+  changeTab(2); // Tab view info user
+  
   putData2Input(temp_data);
 }
 
@@ -1512,4 +1521,66 @@ function initStatusSync(){
   
   var temp = localStorage.sync_last;
   $("#btt-sync").val("Sync now (Last:"+temp+")")
+}
+
+// Change tab 030315
+
+function changeTab(id){
+  $(".bsq-tab").hide();
+  $(".bsq-tab[bsq-id="+id+"]").fadeIn();
+  
+  if (id==1) {
+    $("#title-top").html('')
+  }
+  if (id==2) {
+    $("#title-top").html('THÔNG TIN KHÁCH HÀNG')
+  }
+  if (id==3) {
+    clearInputReg();
+    $("#title-top").html('TẠO MỚI KHÁCH HÀNG')
+    setTimeout(function(){ $($(".bsq-step")[0]).find('input').focus(); }, 500);    
+  }
+}
+
+var currentStepInputId = 1;
+function nextStepInput(bBlur){
+  
+  currentStepInputId += 1;
+  
+  $(".bsq-step").hide();
+  $(".bsq-step[bsq-id="+currentStepInputId+"]").fadeIn();
+  setTimeout(function(){ $(".bsq-step[bsq-id="+currentStepInputId+"]").find('input').focus(); }, 500);
+  
+  if (bBlur == true) {
+    document.activeElement.blur();
+  }
+}
+function prevStepInput() {
+  currentStepInputId -= 1;
+  if (currentStepInputId <= 0) {
+    currentStepInputId = 1;
+  }
+  
+  $(".bsq-step").hide();
+  $(".bsq-step[bsq-id="+currentStepInputId+"]").fadeIn();
+  
+  setTimeout(function(){ $(".bsq-step[bsq-id="+currentStepInputId+"]").find('input').focus(); }, 500);
+}
+
+function resetStep(){
+  currentStepInputId = 1;
+  $(".bsq-step").hide();
+  $(".bsq-step[bsq-id="+currentStepInputId+"]").show();
+}
+function clearInputReg(){
+  
+}
+
+function cancleStep() {
+  if(confirm("Bạn có muốn hủy bỏ?")){
+    
+    resetStep();
+    changeTab(1);
+    
+  }  
 }
