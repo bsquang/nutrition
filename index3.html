@@ -19,176 +19,229 @@
       </script>
     </head>
     <body>
-      <!--<div class='bsq-wrapper'>
-        
-        <div class='bsq-panel' id='panel-01'>          
-          <div class="group">
-            <div class="bsq-col6">
-              <div class='bsq-header'>Khách hàng</div>
-              <div class='bsq-list'>
-                <ul>
-                  <li>Nguyễn Văn A</li>
-                  <li>Nguyễn Văn A</li>
-                  <li>Nguyễn Văn A</li>
-                  <li>Nguyễn Văn A</li>
-                </ul>
-              </div>
-            </div>
-            <div class="bsq-col12">
-              <div class='bsq-header'>Thông tin khách hàng</div>
-              <div class='bsq-form'>
-                
-                
-                <div class='bsq-row group'>
-                  <p>Họ và tên: </p>
-                  <input id='input-name' class='input-info'/>          
-                </div>
-                <div class='bsq-row group'>
-                  <p>Ngày sinh: </p>
-                  <input id='input-birth' class='input-info'/>
-                </div>
-                <div class='bsq-row group'>
-                  <p>Địa chỉ: </p>
-                  <input id='input-address' class='input-info'/>
-                </div>
-                <div class='bsq-row group'>
-                  <p>Tỉnh thành: </p>
-                  <input id='input-districts' class='input-info'/>
-                </div>
-                <div class='bsq-row group'>
-                  <p>Điện thoại: </p>
-                  <input id='input-phone' class='input-info'/>
-                </div>
-                <div class='bsq-row group'>
-                  <p>Lao động: </p>
-                  <input id='input-typeWork' class='input-info'/>
-                </div>
-                
-                <div class='bsq-row group' ontouchstart='showPanel("#panel-02")'>
-                  <button class='bsq-button-primary btn'>Kiểm tra tình trạng dinh dưỡng</button>
-                </div>
-                <div class='bsq-row group'>
-                  <button class='bsq-button-primary btn' ontouchstart='showPanel("#panel-033")'>Kiểm tra lực kéo</button>
-                </div>
-                <div class='bsq-row group'>
-                  <button class='bsq-button-primary btn' ontouchstart='showPanel("#panel-02")'>Kiểm tra tình trạng dinh dưỡng và lực kéo</button>
-                </div>
-                
-                <div class='bsq-row group'>
-                  <button class='bsq-button-danger btn'>Xem kết quả</button>
-                </div>
-                
-              </div>
-            </div>        
-          </div>
-          
-        </div>
-        
-        <div class='bsq-panel' id='panel-02'>
-          <img src='resources/BGR-PTDD.jpg' style='width:1024px;' ontouchstart='showPanel("#panel-03")' />          
-        </div>
-        
-        <div class='bsq-panel' id='panel-03'>
-          <img src='resources/BGR-RESULT1.jpg' style='width:1024px;' ontouchstart='showPanel("#panel-033")' />
-        </div>
-        
-        <div class='bsq-panel' id='panel-033'>
-          <img src='resources/BGR-PTLK.jpg' style='width:1024px;' ontouchstart='showPanel("#panel-04")' />
-        </div>
-        
-        <div class='bsq-panel' id='panel-04'>
-          <img src='resources/BGR-RESULT2.jpg' style='width:1024px;' ontouchstart='showPanel("#panel-05")' />
-        </div>
-        
-        <div class='bsq-panel' id='panel-05'>
-          <img src='resources/BGR-END.png' style='width:1024px;' ontouchstart='showPanel("#panel-01")' />
-        </div>       
-        
-      
-      </div>-->
       
       <div class='wrapper'>
         <!--<div class='logo-luvitas'></div>-->
         <div class='panel' id='panel-00' style='display: block'>
           <p class='button-1' id='btt-next-intro'></p>
         </div>
+        
+        
         <div class='panel' id='panel-01'>
           
-          <div class="group">
-            <div class="bsq-col6" style='position: relative; height: 768px;'>
-              <div class='bsq-header'>Khách hàng</div>
+          <div class='bsq-row group'>
+            <div class="bsq-col6">
+              <div class='bsq-header'>KHÁCH HÀNG</div>
+            </div>
+            <div class="bsq-col12">                
+                <div class='bsq-row group' style='background: white;'>                  
+                  <div class='col-70 col-left' id='title-top' style='padding: 20px;'></div>
+                  <div class='col-30 col-left' style='text-align: center; padding: 20px'>CONFIG</div>
+                </div>
+            </div>
+          </div>
+          
+          <div class='bsq-row group'>
+            <div class="bsq-col6" style='height: 600px'>
               <div class='bsq-list'>
                 <ul id='list-user'>                
                 </ul>
               </div>
-              <div class='bsq-footer' ontouchstart='resetForm()'>Thêm</div>
+              
+              <!--<div class='bsq-row-button' ontouchstart='resetForm()'>Thêm</div>-->
+              
             </div>
+              
             <div class="bsq-col12">
-              <div class='bsq-header'>Thông tin khách hàng</div>
-              <div class='bsq-form'>
-                
-                
-                <div class='bsq-row group'>
-                  <div class="bsq-col6">
-                    <p>Họ và tên: </p>
+              
+              <div class='bsq-tab' bsq-id='1'>
+                <div class='bsq-row row-center' style='padding: 20px'>
+                  <h1>Tab 1</h1>
+                  <br>
+                  <div class='bsq-row group'>
+                    <div class='bsq-row-button' style='margin-bottom: 10px;' ontouchstart="changeTab(3)">Thêm khách hàng mới</div>
                   </div>
-                  <div class="bsq-col12">
-                    <input id='input-name' class='input-info'/>
+                  
+                </div>                
+              </div>
+              
+              <div class='bsq-tab' bsq-id='2' style='display: none;'>
+                <!--<div class='bsq-row row-center' style='padding: 20px'>-->
+                <!--  <p>Tab 2</p>                  -->
+                <!--</div>  -->
+                <div class='bsq-row'>                  
+                  <div class='bsq-form'>
+                    <br>
+                    <div class='bsq-row group'>
+                      <div class="bsq-col6" style='padding: 10px;'>
+                        <p>Họ và tên: </p>
+                      </div>
+                      <div class="bsq-col12">
+                        <input id='input-name' class='input-info'/>
+                      </div>
+                    </div>
+                    
+                    <div class='bsq-row group'>
+                      <div class="bsq-col6" style='padding: 10px;'<p>Năm sinh: </p></div>
+                      <div class="bsq-col12"><input id='input-age' class='input-info'/></div>
+                    </div>
+                    <div class='bsq-row group'>
+                      <div class="bsq-col6" style='padding: 10px;'<p>Giới tính: </p></div>
+                      <div class="bsq-col12">
+                        <select style='width: 100%;padding: 10px;' id='select-gender'>
+                          <option value=0>Nam</option>
+                          <option value=1>Nữ</option>
+                        </select>                    
+                      </div>
+                    </div>
+                    <div class='bsq-row group'>
+                      <div class="bsq-col6" style='padding: 10px;'<p>Địa chỉ: </p></div>
+                      <div class="bsq-col12"><input id='input-address' class='input-info'/></div>
+                    </div>
+                    <div class='bsq-row group'>
+                      <div class="bsq-col6" style='padding: 10px;'<p>Tỉnh thành: </p></div>
+                      <div class="bsq-col12"><input id='input-districts' class='input-info'/></div>
+                    </div>
+                    <div class='bsq-row group'>
+                      <div class="bsq-col6" style='padding: 10px;'<p>Điện thoại: </p></div>
+                      <div class="bsq-col12"><input id='input-phone' class='input-info'/></div>
+                    </div>
+                    <div class='bsq-row group'>
+                      <div class="bsq-col6" style='padding: 10px;'<p>Lao động: </p></div>
+                      <div class="bsq-col12">
+                        <select style='width: 100%;padding: 10px;' id='select-type-work'>
+                          <option value=0>Nhẹ</option>
+                          <option value=1>Trung Bình</option>
+                          <option value=2>Nặng</option>
+                        </select>   
+                      </div>
+                    </div>
+                    
+                    
+                    <br>
+                    
+                    <div class='bsq-row group'>
+                      <div class='col-50 col-left'>
+                        <div class='bsq-row-button' ontouchstart='calMode(0)'>Kiểm tra mới tình trạng dinh dưỡng</div>  
+                      </div>
+                      <div class='col-50 col-left'>
+                        <div class='bsq-row-button'  ontouchstart='calMode(1)'>Kiểm tra mới lực kéo</div>
+                      </div>
+                    </div>
+                    
+                    <div class='bsq-row group'>
+                      <div class='bsq-row-button' style='margin-bottom: 10px;' ontouchstart='calMode(2)'>Kiểm tra mới tình trạng dinh dưỡng và lực kéo</div>
+                    </div>
+                    <br>
+                    <div class='bsq-row group'>
+                      <div class='bsq-row-button'>Xem lại kết quả lần kiểm tra gần nhất</div>
+                    </div>
+                    <br>
+                    <div class='bsq-row group'>                    
+                      <div class='col-left col-30'>
+                        <div class='bsq-row-button' ontouchstart="changeTab(1)">Quay lại</div>
+                      </div>
+                    </div>  
+                    
+                  <!--bsq-form--></div>                  
+                <!--bsq-row--></div>                
+              </div>
+              
+              
+            
+              <div class='bsq-tab' bsq-id='3' style='display: none; padding: 20px;'>
+                
+                <div class='bsq-step' bsq-id='1'>
+                  <div class='bsq-row'>
+                    <input id='input-test' type='text' style='font-size: 20px;padding: 15px;width: 100%;' placeholder='Nhập vào họ tên' />
                   </div>
-                </div>
-                <div class='bsq-row group'>
-                  <div class="bsq-col6"><p>Năm sinh: </p></div>
-                  <div class="bsq-col12"><input id='input-age' class='input-info'/></div>
-                </div>
-                <div class='bsq-row group'>
-                  <div class="bsq-col6"><p>Giới tính: </p></div>
-                  <div class="bsq-col12">
-                    <select style='width: 100%;' id='select-gender'>
-                      <option value=0>Nam</option>
-                      <option value=1>Nữ</option>
-                    </select>                    
+                  <div class='bsq-row group' style='margin-top: 10px;'>
+                    <div class='col-left col-70'>
+                      <p style='font-size: 18px;padding: 15px;'>Ví dụ: Nguyễn Văn A</p>
+                    </div>
+                    <div class='col-left col-30'>                      
+                      <div class='bsq-row-button' ontouchend="nextStepInput()">Tiếp</div>
+                    </div>
+                  </div>  
+                </div>                
+                
+                <div class='bsq-step' bsq-id='2' style='display: none;'>
+                  <div class='bsq-row'>
+                    <input type='number' style='font-size: 20px;padding: 15px;width: 100%;' placeholder='Nhập vào năm sinh' />
                   </div>
-                </div>
-                <div class='bsq-row group'>
-                  <div class="bsq-col6"><p>Địa chỉ: </p></div>
-                  <div class="bsq-col12"><input id='input-address' class='input-info'/></div>
-                </div>
-                <div class='bsq-row group'>
-                  <div class="bsq-col6"><p>Tỉnh thành: </p></div>
-                  <div class="bsq-col12"><input id='input-districts' class='input-info'/></div>
-                </div>
-                <div class='bsq-row group'>
-                  <div class="bsq-col6"><p>Điện thoại: </p></div>
-                  <div class="bsq-col12"><input id='input-phone' class='input-info'/></div>
-                </div>
-                <div class='bsq-row group'>
-                  <div class="bsq-col6"><p>Lao động: </p></div>
-                  <div class="bsq-col12">
-                    <select style='width: 100%;' id='select-type-work'>
-                      <option value=0>Nhẹ</option>
-                      <option value=1>Trung Bình</option>
-                      <option value=2>Nặng</option>
-                    </select>   
+                  <div class='bsq-row group' style='margin-top: 10px;'>
+                    <div class='col-left col-70'>
+                      <p style='font-size: 18px;padding: 15px;'>Ví dụ: 1980</p>
+                    </div>
+                    <div class='col-left col-30'>
+                      <div class='bsq-row-button' ontouchend="nextStepInput()">Tiếp</div>
+                    </div>
                   </div>
+                  <div class='bsq-row group'>                    
+                    <div class='col-left col-30'>
+                      <div class='bsq-row-button' ontouchstart="prevStepInput()">Quay lại</div>
+                    </div>
+                  </div>  
                 </div>
                 
-                <div class='bsq-row group' >
-                  <button class='bsq-button-primary btn' ontouchstart='calMode(0)'>Kiểm tra tình trạng dinh dưỡng</button>
-                </div>
-                <div class='bsq-row group'>
-                  <button class='bsq-button-primary btn' ontouchstart='calMode(1)'>Kiểm tra lực kéo</button>
-                </div>
-                <div class='bsq-row group'>
-                  <button class='bsq-button-primary btn' ontouchstart='calMode(2)'>Kiểm tra tình trạng dinh dưỡng và lực kéo</button>
+                <div class='bsq-step' bsq-id='3' style='display: none;'>
+                  <div class='bsq-row'>
+                    <input type='number' style='font-size: 20px;padding: 15px;width: 100%;' placeholder='Nhập vào số điện thoại' />
+                  </div>
+                  <div class='bsq-row group' style='margin-top: 10px;'>
+                    <div class='col-left col-70'>
+                      <p style='font-size: 18px;padding: 15px;'>Ex: 0123456789</p>
+                    </div>
+                    <div class='col-left col-30'>
+                      <div class='bsq-row-button' ontouchend="nextStepInput(true)">Tiếp</div>
+                    </div>
+                  </div>
+                  <div class='bsq-row group'>                    
+                    <div class='col-left col-30'>
+                      <div class='bsq-row-button' ontouchstart="prevStepInput()">Quay lại</div>
+                    </div>
+                  </div>  
                 </div>
                 
-                <div class='bsq-row group'>
-                  <button class='bsq-button-danger btn'>Xem kết quả</button>
+                <div class='bsq-step' bsq-id='4' style='display: none;'>
+                  <div class='bsq-row'>
+                    <h1>Chọn chế độ kiểm tra</h1>
+                  </div>
+                  <br>
+                  <div class='bsq-row group'>
+                    <div class='bsq-row-button' style='margin-bottom: 10px;' ontouchstart='calMode(0)'>Kiểm tra tình trạng dinh dưỡng</div>
+                  </div>
+                  <div class='bsq-row group'>
+                    <div class='bsq-row-button' style='margin-bottom: 10px;' ontouchstart='calMode(1)'>Kiểm tra lực kéo</div>
+                  </div>
+                  <div class='bsq-row group'>
+                    <div class='bsq-row-button' style='margin-bottom: 10px;' ontouchstart='calMode(2)'>Kiểm tra tình trạng dinh dưỡng và lực kéo</div>
+                  </div>
+                  
+                  <div class='bsq-row group'>                    
+                    <div class='col-left col-30'>
+                      <div class='bsq-row-button' ontouchstart="prevStepInput()">Quay lại</div>
+                    </div>
+                  </div>
+                  <div class='bsq-row group'>                    
+                    <div class='col-left col-30'>
+                      <div class='bsq-row-button' ontouchstart="cancleStep()">Hủy bỏ</div>
+                    </div>
+                  </div>
                 </div>
                 
               </div>
-            </div>        
-          </div>
+            
+            </div>
+          </div>  
+          
+              
+            
+            
+          
+          </div>        
+          
+        
           
           
           <!--<div id='div-info-parent'>
