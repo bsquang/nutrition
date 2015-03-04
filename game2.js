@@ -4,16 +4,27 @@ $("input").bind('touchstart',function(){
   
 })
 
+$("select").bind('touchstart',function(){
+  
+  $(this).focus();
+  
+})
+
+$(".panel").css({
+  'min-height':'768px'
+})
+
  //$(".bsq-panel").bind("touchstart",function(){
 //  document.activeElement.blur();
 //})
 
 //disallowOverscroll();
 //function disallowOverscroll(){
+//  
 //  $(document).on('touchmove',function(e){
 //    e.preventDefault();
 //  });
-//  $('body').on('touchstart','.scrollable',function(e) {
+//  $('body').on('touchstart','.ui-autocomplete',function(e) {
 //    if (e.currentTarget.scrollTop === 0) {
 //      e.currentTarget.scrollTop = 1;
 //    } else if (e.currentTarget.scrollHeight
@@ -22,7 +33,8 @@ $("input").bind('touchstart',function(){
 //      e.currentTarget.scrollTop -= 1;
 //    }
 //  });
-//  $('body').on('touchmove','.scrollable',function(e) {
+//  
+//  $('body').on('touchmove','.ui-autocomplete',function(e) {
 //    e.stopPropagation();
 //  });
 //}
@@ -63,7 +75,7 @@ $(".panel").bind("touchstart",function(){
 
 window.addEventListener("touchmove", function(e) {
     if (bForceMove) {
-      e.preventDefault();
+      //e.preventDefault();
     }    
 })
 
@@ -1354,6 +1366,8 @@ function data2Local(data){
 function loadDataFromLIUser(val) {
   var temp_data = list_data_local[val];
   
+  $("#list-user li").removeClass('ios-list-item-select');
+  $($("#list-user li")[val]).addClass('ios-list-item-select');
   changeTab(2); // Tab view info user
   
   putData2Input(temp_data);
@@ -1387,7 +1401,7 @@ function initAutocomplete(){
     
     var temp = list_data_local[i];
     
-    var tempLi = '<li ontouchstart="loadDataFromLIUser('+i+')">'+temp.name+'</li>';
+    var tempLi = '<li class="ios-list-item" ontouchstart="loadDataFromLIUser('+i+')">'+temp.name+'</li>';
     
     $("#list-user").append(tempLi);
     
@@ -1527,7 +1541,7 @@ function initStatusSync(){
 
 function changeTab(id){
   $(".bsq-tab").hide();
-  $(".bsq-tab[bsq-id="+id+"]").fadeIn();
+  $(".bsq-tab[bsq-id="+id+"]").fadeIn(200);
   
   if (id==1) {
     $("#title-top").html('')

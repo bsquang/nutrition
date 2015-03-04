@@ -23,7 +23,10 @@
       
       <div class='wrapper'>
         <!--<div class='logo-luvitas'></div>-->
-        <div class='panel' id='panel-00' style='display: block'>
+        
+        
+        
+        <div class='panel' id='panel-00'  style='display: block'>
           <p class='button-1' id='btt-next-intro'></p>
         </div>
         
@@ -32,12 +35,18 @@
           
           <div class='bsq-row group'>
             <div class="bsq-col6">
-              <div class='bsq-header'>KHÁCH HÀNG</div>
+              <div class='bsq-row ios-toolbar ios-toolbar-light' style='height: 42px;'>
+                <p style='text-align: center; line-height: 42px;'>KHÁCH HÀNG</p>
+              </div>
             </div>
             <div class="bsq-col12">                
-                <div class='bsq-row group' style='background: white;'>                  
-                  <div class='col-70 col-left' id='title-top' style='padding: 20px;'></div>
-                  <div class='col-30 col-left' style='text-align: center; padding: 20px'>CONFIG</div>
+                <div class='bsq-row group ios-toolbar ios-toolbar-dark' style='height: 42px;'>
+                  
+                  <div class='ios-button-toolbar' style='right: 0; top: 0;'>Bảng điều khiển</div>
+                  <p style='text-align: center;line-height: 42px;'>NUTRITION CALCULATED</p>
+                  
+                  <!--<div class='col-70 col-left' id='title-top' style='line-height: 42px;padding: 0 8px;'><p>-</p></div>-->
+                  <!--<div class='col-30 col-left' style='text-align: center; line-height: 42px;'>CONFIG</div>-->
                 </div>
             </div>
           </div>
@@ -57,10 +66,10 @@
               
               <div class='bsq-tab' bsq-id='1'>
                 <div class='bsq-row row-center' style='padding: 20px'>
-                  <h1>Tab 1</h1>
+                  <h1>TÊN CHƯƠNG TRÌNH</h1>
                   <br>
                   <div class='bsq-row group'>
-                    <div class='bsq-row-button' style='margin-bottom: 10px;' ontouchstart="changeTab(3)">Thêm khách hàng mới</div>
+                    <div class='ios-button ios-button-confirm' style='margin-bottom: 10px;' ontouchstart="changeTab(3)">Thêm khách hàng mới</div>
                   </div>
                   
                 </div>                
@@ -74,20 +83,20 @@
                   <div class='bsq-form'>
                     <br>
                     <div class='bsq-row group'>
-                      <div class="bsq-col6" style='padding: 10px;'>
-                        <p>Họ và tên: </p>
+                      <div class="bsq-col6">
+                        <p class='ios-input-title' >Họ và tên: </p>
                       </div>
                       <div class="bsq-col12">
-                        <input id='input-name' class='input-info'/>
+                        <input id='input-name' class='ios-input'/>
                       </div>
                     </div>
                     
                     <div class='bsq-row group'>
-                      <div class="bsq-col6" style='padding: 10px;'<p>Năm sinh: </p></div>
-                      <div class="bsq-col12"><input id='input-age' class='input-info'/></div>
+                      <div class="bsq-col6"><p class='ios-input-title'>Năm sinh: </p></div>
+                      <div class="bsq-col12"><input id='input-age' class='ios-input'/></div>
                     </div>
                     <div class='bsq-row group'>
-                      <div class="bsq-col6" style='padding: 10px;'<p>Giới tính: </p></div>
+                      <div class="bsq-col6"><p class='ios-input-title'>Giới tính: </p></div>
                       <div class="bsq-col12">
                         <select style='width: 100%;padding: 10px;' id='select-gender'>
                           <option value=0>Nam</option>
@@ -96,19 +105,19 @@
                       </div>
                     </div>
                     <div class='bsq-row group'>
-                      <div class="bsq-col6" style='padding: 10px;'<p>Địa chỉ: </p></div>
-                      <div class="bsq-col12"><input id='input-address' class='input-info'/></div>
+                      <div class="bsq-col6" ><p class='ios-input-title'>Địa chỉ: </p></div>
+                      <div class="bsq-col12"><input id='input-address' class='ios-input'/></div>
                     </div>
                     <div class='bsq-row group'>
-                      <div class="bsq-col6" style='padding: 10px;'<p>Tỉnh thành: </p></div>
-                      <div class="bsq-col12"><input id='input-districts' class='input-info'/></div>
+                      <div class="bsq-col6" ><p class='ios-input-title'>Tỉnh thành: </p></div>
+                      <div class="bsq-col12"><input id='input-districts' class='ios-input'/></div>
                     </div>
                     <div class='bsq-row group'>
-                      <div class="bsq-col6" style='padding: 10px;'<p>Điện thoại: </p></div>
-                      <div class="bsq-col12"><input id='input-phone' class='input-info'/></div>
+                      <div class="bsq-col6" ><p class='ios-input-title'>Điện thoại: </p></div>
+                      <div class="bsq-col12"><input id='input-phone' class='ios-input'/></div>
                     </div>
                     <div class='bsq-row group'>
-                      <div class="bsq-col6" style='padding: 10px;'<p>Lao động: </p></div>
+                      <div class="bsq-col6" ><p class='ios-input-title'>Lao động: </p></div>
                       <div class="bsq-col12">
                         <select style='width: 100%;padding: 10px;' id='select-type-work'>
                           <option value=0>Nhẹ</option>
@@ -123,24 +132,24 @@
                     
                     <div class='bsq-row group'>
                       <div class='col-50 col-left'>
-                        <div class='bsq-row-button' ontouchstart='calMode(0)'>Kiểm tra mới tình trạng dinh dưỡng</div>  
+                        <div class='ios-button ios-button-confirm' ontouchend='calMode(0)'>Kiểm tra mới tình trạng dinh dưỡng</div>  
                       </div>
                       <div class='col-50 col-left'>
-                        <div class='bsq-row-button'  ontouchstart='calMode(1)'>Kiểm tra mới lực kéo</div>
+                        <div class='ios-button ios-button-confirm'  ontouchend='calMode(1)'>Kiểm tra mới lực kéo</div>
                       </div>
                     </div>
                     
                     <div class='bsq-row group'>
-                      <div class='bsq-row-button' style='margin-bottom: 10px;' ontouchstart='calMode(2)'>Kiểm tra mới tình trạng dinh dưỡng và lực kéo</div>
+                      <div class='ios-button ios-button-confirm' style='margin-bottom: 10px;' ontouchend='calMode(2)'>Kiểm tra mới tình trạng dinh dưỡng và lực kéo</div>
                     </div>
                     <br>
                     <div class='bsq-row group'>
-                      <div class='bsq-row-button'>Xem lại kết quả lần kiểm tra gần nhất</div>
+                      <div class='ios-button ios-button-confirm'>Xem lại kết quả lần kiểm tra gần nhất</div>
                     </div>
                     <br>
                     <div class='bsq-row group'>                    
                       <div class='col-left col-30'>
-                        <div class='bsq-row-button' ontouchstart="changeTab(1)">Quay lại</div>
+                        <div class='ios-button ios-button-normal' ontouchend="changeTab(1)">Quay lại</div>
                       </div>
                     </div>  
                     
@@ -150,7 +159,7 @@
               
               
             
-              <div class='bsq-tab' bsq-id='3' style='display: none; padding: 20px;'>
+              <div class='bsq-tab' bsq-id='3' style='display: none; padding: 10px;'>
                 
                 <div class='bsq-step' bsq-id='1'>
                   <div class='bsq-row'>
@@ -161,7 +170,7 @@
                       <p style='font-size: 18px;padding: 15px;'>Ví dụ: Nguyễn Văn A</p>
                     </div>
                     <div class='col-left col-30'>                      
-                      <div class='bsq-row-button' ontouchend="nextStepInput()">Tiếp</div>
+                      <div class='ios-button ios-button-confirm' ontouchend="nextStepInput()">Tiếp</div>
                     </div>
                   </div>  
                 </div>                
@@ -175,12 +184,12 @@
                       <p style='font-size: 18px;padding: 15px;'>Ví dụ: 1980</p>
                     </div>
                     <div class='col-left col-30'>
-                      <div class='bsq-row-button' ontouchend="nextStepInput()">Tiếp</div>
+                      <div class='ios-button ios-button-confirm' ontouchend="nextStepInput()">Tiếp</div>
                     </div>
                   </div>
                   <div class='bsq-row group'>                    
                     <div class='col-left col-30'>
-                      <div class='bsq-row-button' ontouchstart="prevStepInput()">Quay lại</div>
+                      <div class='ios-button ios-button-normal' ontouchstart="prevStepInput()">Quay lại</div>
                     </div>
                   </div>  
                 </div>
@@ -194,39 +203,40 @@
                       <p style='font-size: 18px;padding: 15px;'>Ex: 0123456789</p>
                     </div>
                     <div class='col-left col-30'>
-                      <div class='bsq-row-button' ontouchend="nextStepInput(true)">Tiếp</div>
+                      <div class='ios-button ios-button-confirm' ontouchend="nextStepInput(true)">Tiếp</div>
                     </div>
                   </div>
                   <div class='bsq-row group'>                    
                     <div class='col-left col-30'>
-                      <div class='bsq-row-button' ontouchstart="prevStepInput()">Quay lại</div>
+                      <div class='ios-button ios-button-normal' ontouchstart="prevStepInput()">Quay lại</div>
                     </div>
                   </div>  
                 </div>
                 
                 <div class='bsq-step' bsq-id='4' style='display: none;'>
                   <div class='bsq-row'>
-                    <h1>Chọn chế độ kiểm tra</h1>
+                    <h1>Chọn chế độ kiểm tra :</h1>
                   </div>
                   <br>
                   <div class='bsq-row group'>
-                    <div class='bsq-row-button' style='margin-bottom: 10px;' ontouchstart='calMode(0)'>Kiểm tra tình trạng dinh dưỡng</div>
+                    <div class='ios-button ios-button-normal' style='margin-bottom: 10px;' ontouchstart='calMode(0)'>Kiểm tra tình trạng dinh dưỡng</div>
                   </div>
                   <div class='bsq-row group'>
-                    <div class='bsq-row-button' style='margin-bottom: 10px;' ontouchstart='calMode(1)'>Kiểm tra lực kéo</div>
+                    <div class='ios-button ios-button-normal' style='margin-bottom: 10px;' ontouchstart='calMode(1)'>Kiểm tra lực kéo</div>
                   </div>
                   <div class='bsq-row group'>
-                    <div class='bsq-row-button' style='margin-bottom: 10px;' ontouchstart='calMode(2)'>Kiểm tra tình trạng dinh dưỡng và lực kéo</div>
+                    <div class='ios-button ios-button-normal' style='margin-bottom: 10px;' ontouchstart='calMode(2)'>Kiểm tra tình trạng dinh dưỡng và lực kéo</div>
                   </div>
                   
                   <div class='bsq-row group'>                    
                     <div class='col-left col-30'>
-                      <div class='bsq-row-button' ontouchstart="prevStepInput()">Quay lại</div>
+                      <div class='ios-button ios-button-normal' ontouchstart="prevStepInput()">Quay lại</div>
                     </div>
                   </div>
+                  <br>
                   <div class='bsq-row group'>                    
                     <div class='col-left col-30'>
-                      <div class='bsq-row-button' ontouchstart="cancleStep()">Hủy bỏ</div>
+                      <div class='ios-button ios-button-decline' ontouchstart="cancleStep()">Hủy bỏ</div>
                     </div>
                   </div>
                 </div>
@@ -379,7 +389,8 @@
           
           <p class='button-1' id='btt-next-ptdd'></p>
         </div>
-        <div class='panel' id='panel-03'>
+        
+        <div class='panel' id='panel-03'>          
           <div class='panel-title'>
             <p>LỰC KÉO</p>
           </div>
@@ -411,6 +422,122 @@
         <p class='button-config' id='btt-config'></p>
         <p class='button-reload' id='btt-reload'></p> 
       </div>
+      
+      
+      <!--Panel KTTTDD-->
+        <div class='panel' id='panel-022'>
+          <div class='bsq-row ios-toolbar ios-toolbar-dark'>
+            <div class='ios-button-toolbar' style='left: 0; top: 0;'>Quay lại</div>
+            <p style='text-align: center;line-height: 42px;'>KIỂM TRA TÌNH TRẠNG DINH DƯỠNG</p>
+          </div>
+          
+          <div class='bsq-row group' style='padding:5px'>
+            
+            <div class='col-40 col-left' style='background: white; border: 1px solid;padding: 5px;'>
+              <p class='col-30 col-left height-42'>Bữa:</p>
+              <div class='col-70 col-left height-42'>
+                <select id='select-time-meal' style='height: 38px;width: 100%;'>
+                  <option value="0">Sáng</option>
+                  <option value="1">Trưa</option>
+                  <option value="2">Chiều tối</option>
+                  <option value="3">Trái cây & thức uống</option>
+                </select>
+              </div>
+            </div>
+            <div class='col-40 col-left' style='background: white; border: 1px solid;padding: 5px;'>
+              <!--<p class='col-30 col-left height-42'>Món ăn:</p>-->
+              <!--<div class='col-70 col-left height-42'>-->
+                <input id='input-meal' class='ios-input' placeholder='Món ăn'/>
+              <!--</div>-->
+            </div>
+            <div class='col-20 col-left' style='background: white; border: 1px solid;padding: 5px;'>
+              <p class='col-50 col-left height-42' >Số lượng:</p>
+              <input class='ios-input col-left' id='input-quantity' style='width:50%' type='number' />
+            </div>
+                        
+            <div class='col-20 col-right' style='padding: 5px;'>
+              <div class='ios-button ios-button-confirm'>Thêm vào</div>
+              <div class='ios-button ios-button-decline'>Bỏ ra</div>              
+            </div>
+            
+          </div>
+          
+          <div class='bsq-row'>            
+            <div class='info-bottom'>  
+              <table class="table" id='table-info'>
+                <thead class="fontTitle table-head" style='margin-bottom: 20px;line-height: 20px;'>
+                  <tr>
+                    <th style="width:40px;">STT</th>
+                    <th style="width:180px;">Bữa ăn</th>
+                    <th style="width:250px;">Món ăn</th>
+                    <th style="width:80px;">Số lượng</th>
+                    <th>Năng lượng<br/>(Kcal)</th>
+                    <th>Đạm<br/>(Kcal)</th>
+                    <th>Đường<br/>(Kcal)</th>
+                    <th>Béo<br/>(Kcal)</th>        
+                    <th>Vitamin<br/>(Kcal)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1</td>
+                    <td>Sáng</td>
+                    <td>Cơm</td>
+                    <td>1</td>
+                    
+                    <td>1</td>                
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                  </tr>
+                  <tr>
+                    <td colspan="4" class='table-bottom-1'>Năng lượng 1 ngày</td>
+                    <td class='table-bottom-2'>1</td>
+                    <td class='table-bottom-2'>1</td>
+                    <td class='table-bottom-2'>1</td>
+                    <td class='table-bottom-2'>1</td>     
+                    <td class='table-bottom-2'>1</td>
+                  </tr>
+                  <tr>
+                    <td colspan="5" class='table-bottom-1'>Tỉ lệ phần trăm năng lượng trong 1 ngày</td>
+                    <td class='table-bottom-2'>1%</td>
+                    <td class='table-bottom-2'>1%</td>
+                    <td class='table-bottom-2'>1%</td>     
+                    
+                  </tr>                  
+                </tbody>
+              </table>
+              
+              </div>
+            
+          </div>
+          
+          <div class='bsq-row group' style='padding: 5px'>
+            <div class='col-20 col-right ios-button ios-button-confirm' style='margin: 5px;'>Xem kiểm tra</div>
+          </div>
+        </div>
+        <!--END-->
+        
+        <!--Panel PTLK-->
+        <div class='panel' id='panel-033' >
+          <div class='bsq-row ios-toolbar ios-toolbar-dark'>
+            <div class='ios-button-toolbar' style='left: 0; top: 0;'>Quay lại</div>
+            <p style='text-align: center;line-height: 42px;'>PHÂN TÍCH LỰC KÉO</p>
+          </div>
+          
+          <div class='row-60' style='padding-top: 50px'>
+            <div class='bsq-row'>
+              <input id='input-test' type='text' style='font-size: 20px;padding: 15px;width: 100%;' placeholder='Nhập vào kết quả đo lực kéo' />
+            </div>
+            <div class='bsq-row group' style='margin-top: 10px;'>              
+              <div class='col-right col-30'>                      
+                <div class='ios-button ios-button-confirm' ontouchend="nextStepInput()">Kiểm tra</div>
+              </div>
+            </div> 
+          </div>          
+        </div>
+        <!--END-->
       
       
       <script type="text/javascript" src="resources/jquery-2.1.3.min.js"></script>
