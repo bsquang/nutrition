@@ -1,10 +1,10 @@
-$("input").bind('touchstart',function(){
+$("input").bind('touchend',function(){
   
   $(this).focus();
   
 })
 
-$("select").bind('touchstart',function(){
+$("select").bind('touchend',function(){
   
   $(this).focus();
   
@@ -75,7 +75,7 @@ $(".panel").bind("touchstart",function(){
 
 window.addEventListener("touchmove", function(e) {
     if (bForceMove) {
-      //e.preventDefault();
+      e.preventDefault();
     }    
 })
 
@@ -175,10 +175,11 @@ function getCurrentDateCreated() {
   return current.getDate()+"/"+(current.getMonth()+1)+"/"+current.getFullYear()+" "+current.getHours()+":"+current.getMinutes();
   
 }
-var current = 0;
+
+var current = 1;
 
 $("#btt-next-intro").bind('touchstart', function() {
-  next();
+  nextBUTTON();
 })
 //$("#btt-next-info").bind('touchstart', function() {
 //  
@@ -195,153 +196,225 @@ $("#btt-next-intro").bind('touchstart', function() {
 var cal_mode = 0;
 
 function enableMode(val){
-  if (val == 0) {
-    
-    cal_mode = 0;    
-    
-  }else if(val == 1){
-    
-    $("#panel-title").html('PHÂN TÍCH LỰC KÉO');
-    
-    cal_mode = 1;    
-    
-  }else{
-    
-    $("#panel-title").html('PHÂN TÍCH THÀNH PHẦN DINH DƯỠNG VÀ LỰC KÉO');
-    cal_mode = 2;
-    
-  }
-  
-  
+  cal_mode = val;  
 }
 
 function calMode(type){
   
-  if ($( "#input-name" ).val() == '' ||
-      $( "#input-address" ).val() == '' ||
-      $( "#input-districts" ).val() == '' ||
-      $( "#input-phone" ).val() == '' ||
-      $( "#input-age" ).val() == ''      
-  ) {
-    
-    alert("Yêu cầu nhập lại đầy đủ thông tin");
-    return;
-    
-  }
+  //if ($( "#input-name" ).val() == '' ||
+  //    $( "#input-address" ).val() == '' ||
+  //    $( "#input-districts" ).val() == '' ||
+  //    $( "#input-phone" ).val() == '' ||
+  //    $( "#input-age" ).val() == ''      
+  //) {
+  //  
+  //  alert("Yêu cầu nhập lại đầy đủ thông tin");
+  //  return;
+  //  
+  //} 
   
-  if (type == 0) {
-    $("#div-meal").show();
-  }
-  
-  if (type == 1) {
-    $("#div-pull").show();
-  }
-  if (type == 2) {
-    $("#div-pull").show();
-    $("#div-meal").show();
-  }
   enableMode(type);
   
-  next();
+  if (cal_mode == 0) {
+    gotoPanel(3)
+  }
+  if (cal_mode == 1) {
+    gotoPanel(5)
+  }
+  if (cal_mode == 2) {
+    gotoPanel(3)
+  }
+    
 }
 
-$("#btt-next-ptdd").bind('touchstart', function() {
-   
-  if (cal_mode == 2) {
+function gotoPanel(id){
+  
+  if (id == 3) {
+     bForceMove = false;
+     
+     $(".panel").css({
+       'overflow':'auto'
+     })
+     
+   }else{
     
-    var temp = $('#input-pull').val();    
-    if (temp == '') {
-      alert("Yêu cầu nhập vào kết quả đo lực kéo!")
-      return;
-    }
+    bForceMove = true;
+     
+     $(".panel").css({
+       'overflow':'hidden'
+     })
+     
+   }
+  
+  $(".panel").hide();
+  $(".panel[bsq-id="+id+"]").show();
+  
+  current = id;
+}
+
+function checkPTTPDD() {
+  saveDataUser(); // Save data here
+  calTPDD();
+  
+  gotoPanel(4); //DIARGRAM PTTPDD
+}
+
+function checkPTLK() {
+  calPTLK();
+  gotoPanel(6);
+}
+
+function nextBUTTON() {
+  
+  if (current == 8) { // IF FINAL
+    window.location.href = '';
+    return;
   }
   
-  saveDataUser(); // Save data here
+  if (cal_mode == 0) {
+    if (current == 4) { //PANEL DIARGRAM PTTPDD
+      current = 7;
+    }else{
+      current += 1;  
+    }    
+    gotoPanel(current);  
+  }
+  if (cal_mode == 1) {
+    if (current == 6) { //PANEL DIARGRAM PTLK
+      current = 7;
+    }else{
+      current += 1;  
+    }    
+    gotoPanel(current);  
+  }
+  if (cal_mode == 2) {    
+    current += 1; 
+    gotoPanel(current);  
+  }
   
-  if (cal_mode == 2) calPTLK();
-  
-  calTPDD();  
-  
-  next();
-  
-})
-$("#btt-next-ptlk").bind('touchstart', function() {  
-  next();
-})
-$("#btt-next-tpdd").bind('touchstart', function() {        
-  next();
-})
+}
 
-$("#btt-next-print").bind('touchstart', function() {  
-  next();
+
+function prevBUTTON() {
   
-  setTimeout(function(){
-    
-    window.location.href = '';
-    
-  },3000);
+  if (cal_mode == 0) {
+    if (current == 7) { //PANEL REPORT
+      current = 4;
+    }else{
+      current -= 1;  
+    }    
+    gotoPanel(current);  
+  }
+  if (cal_mode == 1) {
+    if (current == 5) { //PANEL PTLK
+      current = 2;
+    }else{
+      current -= 1;  
+    }    
+    gotoPanel(current);  
+  }
+  if (cal_mode == 2) {    
+    current -= 1; 
+    gotoPanel(current);  
+  }
   
-  
-})
+}
+
+//$("#btt-next-ptdd").bind('touchend', function() {
+//  
+//  saveDataUser(); // Save data here
+//  
+//  //if (cal_mode == 2) calPTLK();
+//  
+//  calTPDD();  
+//  
+//  gotoPanel(4); //DIARGRAM PTTPDD
+//  
+//  //next();
+//  
+//})
+//$("#btt-next-ptlk").bind('touchstart', function() {  
+//  next();
+//})
+//$("#btt-next-tpdd").bind('touchstart', function() {        
+//  next();
+//})
+//
+//$("#btt-next-print").bind('touchstart', function() {  
+//  next();
+//  
+//  setTimeout(function(){
+//    
+//    window.location.href = '';
+//    
+//  },3000);
+//  
+//  
+//})
 
 
 function next() {
   
-    if (current == 2) {
-      if (cal_mode == 0) {
-        $($(".panel")[current]).hide();
-        
-        current += 2;
-        
-        $($(".panel")[current]).fadeIn();
-      }else{
-        $($(".panel")[current]).hide();
-        
-        current += 1;
-        
-        $($(".panel")[current]).fadeIn();
-      }
-    }else if (current == 3) {
-      if (cal_mode == 1) {
-        $($(".panel")[current]).hide();
-        
-        current += 2;
-        
-        $($(".panel")[current]).fadeIn();
-      }else{
-        $($(".panel")[current]).hide();
-        
-        current += 1;
-        
-        $($(".panel")[current]).fadeIn();
-      }
-    }
-    else{
-      $($(".panel")[current++]).hide();
-      $($(".panel")[current]).fadeIn();
-    }
+  //current += 1;
+  //$(".panel").hide();
+  //$($(".panel")[current]).fadeIn();
+  
+  
+    //if (current == 2) {
+    //  if (cal_mode == 0) {
+    //    $($(".panel")[current]).hide();
+    //    
+    //    current += 2;
+    //    
+    //    $($(".panel")[current]).fadeIn();
+    //  }else{
+    //    $($(".panel")[current]).hide();
+    //    
+    //    current += 1;
+    //    
+    //    $($(".panel")[current]).fadeIn();
+    //  }
+    //}else if (current == 3) {
+    //  if (cal_mode == 1) {
+    //    $($(".panel")[current]).hide();
+    //    
+    //    current += 2;
+    //    
+    //    $($(".panel")[current]).fadeIn();
+    //  }else{
+    //    $($(".panel")[current]).hide();
+    //    
+    //    current += 1;
+    //    
+    //    $($(".panel")[current]).fadeIn();
+    //  }
+    //}
+    //else{
+    //  $($(".panel")[current++]).hide();
+    //  $($(".panel")[current]).fadeIn();
+    //}
   
     
     
-    if (current == 2) {
-      bForceMove = false;
-      
-      $(".panel").css({
-        'overflow':'auto'
-      })
-      
-      
-      
-    }else{
-      bForceMove = true;
-      
-      $(".panel").css({
-        'overflow':'hidden'
-      })
-      
-      
-      
-    }
+    //if (current == 2) {
+    //  bForceMove = false;
+    //  
+    //  $(".panel").css({
+    //    'overflow':'auto'
+    //  })
+    //  
+    //  
+    //  
+    //}else{
+    //  bForceMove = true;
+    //  
+    //  $(".panel").css({
+    //    'overflow':'hidden'
+    //  })
+    //  
+    //  
+    //  
+    //}
 }
 
 // USER INPUT
@@ -370,34 +443,34 @@ $('#select-type-work').change(function(){
 });
 
 //if (!bPhoneGap) {
-  $('#input-pull').change(function(){        
+$('#input-pull').change(function(){        
+  
+  var temp = $('#input-pull').val();    
+  total.pull = bsqStringToNumber(temp);
+  $("#td-pull").html(total.pull);
+  
+  if(cal_mode == 1) showButtonPTLK();
+
+});
+  
+function showButtonPTLK() {
+  $("#btt-ptlk").show();
+  $("#btt-ptlk").bind("touchstart", function(){
     
-    var temp = $('#input-pull').val();    
-    total.pull = bsqStringToNumber(temp);
-    $("#td-pull").html(total.pull);
+    saveDataUser(); // Save data here
+
+    calPTLK();
+    next();
     
-    if(cal_mode == 1) showButtonPTLK();
+  })
+}
   
-  });
-  
-  function showButtonPTLK() {
-    $("#btt-ptlk").show();
-    $("#btt-ptlk").bind("touchstart", function(){
-      
-      saveDataUser(); // Save data here
-  
-      calPTLK();
-      next();
-      
-    })
-  }
-  
-  function bsqStringToNumber(content){
-    var temp = content;    
-    temp = '{"a":'+temp+'}';    
-    temp = JSON.parse(temp);    
-    return temp.a;
-  }
+function bsqStringToNumber(content){
+  var temp = content;    
+  temp = '{"a":'+temp+'}';    
+  temp = JSON.parse(temp);    
+  return temp.a;
+}
   
 //}else{
 //  
@@ -641,7 +714,9 @@ function calPercent(val,total){
 }
 
 function calTPDD() {
-
+  
+  $("#container-dd").html('');
+  
     var nangluong = identifyEnergyLevel();
 
     var enGraphData = calculateGraphData(total.nangluong, nangluong.standardEnergy);
@@ -660,6 +735,7 @@ function calTPDD() {
     
     
     var chart1 = new cfx.Chart();
+    
     //chart1.setGallery(cfx.Gallery.Bar);
     //chart1.getLegendBox().setVisible(false);
     //chart1.getAllSeries().setStacked(cfx.Stacked.Normal);
@@ -1012,6 +1088,8 @@ function calTPDD() {
 }
 
 function calPTLK() {
+    $("#container-lk").html('');
+    
     var age1 = ['11', '13', '15', '17', '19', '24', '29', '34', '39', '44', '49', '54', '59', '64', '69', '99'];
     
     var age = ['10-11', '12-13', '14-15', '16-17', '18-19', '20-24', '25-29', '30-34', '35-39',

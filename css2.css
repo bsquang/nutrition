@@ -39,20 +39,17 @@ body, html, input, textarea{
   #container-pull {
       height: 600px; 
       min-width: 980px; 
-      /*max-width: 950px;*/
-      margin: 0 auto;
-      
-      margin-top: 70px;
+      /*max-width: 950px;*/      
   }
   #container-dd {
     
-    height: 600px; 
+    height: 600px;
     width: 980px;
     
       /*max-width: 800px;*/
     
-    margin: 0 auto;
-    margin-top: 70px;
+    /*margin: 0 auto;*/
+    /*margin-top: 70px;*/
       
     /*float: left;
     width: 450px;
@@ -75,7 +72,7 @@ body, html, input, textarea{
     display: none;
   }
   #panel-00{
-    /*background: url('resources/BGR-INTRO.png');*/
+    background: url('resources/BGR-INTRO.png');
   }
   #panel-01{
     
@@ -83,8 +80,8 @@ body, html, input, textarea{
   #panel-02{
     
   }
-  #panel-06{
-    /*background: url('resources/BGR-END.png');*/
+  #panel-07{
+    background: url('resources/BGR-END.png');
   }
   #panel-05{
     /*background: url('resources/NUTRITION-REPORT.png');*/
@@ -143,11 +140,11 @@ body, html, input, textarea{
   }
   #btt-next-intro{
     background: none;
-    border: 1px solid;
+    /*border: 1px solid;*/
     left: 40px;
     top: 290px;
-    width: 200px;
-    height: 30px;
+    width: 218px;
+    height: 50px;
   }
   #btt-next-info
   {
