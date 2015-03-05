@@ -490,6 +490,8 @@ body{
     color: #fff;
     text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.5);
     font-weight: bold;
+    
+    
 }
 .ios-button-normal{
     color: #000;
@@ -648,15 +650,16 @@ body{
 
 
 .bsq-list{
-  width: 100%;  
-  overflow: hidden;
+    width: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 .bsq-list li{
-  
-  
-  
-  
   list-style: none;
+}
+
+.highcharts-button{
+    display: none;
 }
 
 .group:before,

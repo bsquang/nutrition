@@ -1,3 +1,5 @@
+var user_mode = 0; // 0:new 1:list
+
 $("input").bind('touchend',function(){
   
   $(this).focus();
@@ -14,7 +16,7 @@ $(".panel").css({
   'min-height':'768px'
 })
 
- //$(".bsq-panel").bind("touchstart",function(){
+//$(".bsq-panel").bind("touchstart",function(){
 //  document.activeElement.blur();
 //})
 
@@ -69,7 +71,7 @@ function showPanel(id) {
 
 var bForceMove = true;
 
-$(".panel").bind("touchstart",function(){
+$(".panel").bind("touchend",function(){
   //document.activeElement.blur();
 })
 
@@ -105,6 +107,15 @@ $("#input-url").change(function(){
 
 // End
 
+function controlBUTTON() {
+  
+  var temp = prompt("Password?");
+  if(temp == "ppp"){
+    $(".panel").hide();
+    $("#panel-config").show();
+  }
+}
+
 $("#btt-sync").bind('touchstart', function(){
   if (navigator.onLine){
     if(confirm("Do you want to sync data ?")){          
@@ -114,13 +125,7 @@ $("#btt-sync").bind('touchstart', function(){
     alert("Thiet bi chua ket noi vao internet!");
   }
 })
-$("#btt-config").bind('touchstart', function(){
-  var temp = prompt("Password?");
-  if(temp == "ppp"){
-    $(".panel").hide();
-    $("#panel-config").show();
-  }
-})
+
 $("#btt-reload").bind('touchstart', function(){
   if(confirm("Do you want to reload ?")){
     window.location.href = '';
@@ -143,7 +148,8 @@ var user = {
   'districts':1,
   'phone':'',
   'typework':0,
-  'date_created':getCurrentDateCreated()
+  'date_created':getCurrentDateCreated(),
+  'deleted':0
 }
 
 var result = {
@@ -199,7 +205,26 @@ function enableMode(val){
   cal_mode = val;  
 }
 
+function getInfoWithMode(mode){
+  if (mode == 0) {
+    
+    user.name = $("#input-user-name").val();
+    user.address = $("#input-user-address").val();
+    user.phone = $("#input-user-phone").val();
+    user.age = $("#input-user-birth").val();
+    user.sex = $("#select-user-gender").val();
+    user.typework = $("#select-user-work").val();
+    
+    //user.districts = $("#input-user-district").val(); //Auto bottom code
+    
+  }
+}
+
 function calMode(type){
+  
+  if(user_mode == 0){
+    getInfoWithMode(user_mode);
+  }
   
   //if ($( "#input-name" ).val() == '' ||
   //    $( "#input-address" ).val() == '' ||
@@ -229,7 +254,11 @@ function calMode(type){
 
 function gotoPanel(id){
   
-  if (id == 3) {
+  if (id == 5) {
+    setTimeout(function(){ $($(".panel[bsq-id=5]").find('input')).focus() } , 300);
+  }
+  
+  if (id == 3 || id == 2) {
      bForceMove = false;
      
      $(".panel").css({
@@ -253,6 +282,8 @@ function gotoPanel(id){
 }
 
 function checkPTTPDD() {
+  document.activeElement.blur();
+  
   saveDataUser(); // Save data here
   calTPDD();
   
@@ -260,6 +291,10 @@ function checkPTTPDD() {
 }
 
 function checkPTLK() {
+  document.activeElement.blur();
+  if (cal_mode == 1) {
+    saveDataUser();
+  }
   calPTLK();
   gotoPanel(6);
 }
@@ -296,6 +331,8 @@ function nextBUTTON() {
 
 
 function prevBUTTON() {
+  
+  document.activeElement.blur();
   
   if (cal_mode == 0) {
     if (current == 7) { //PANEL REPORT
@@ -353,116 +390,48 @@ function prevBUTTON() {
 //})
 
 
-function next() {
-  
-  //current += 1;
-  //$(".panel").hide();
-  //$($(".panel")[current]).fadeIn();
-  
-  
-    //if (current == 2) {
-    //  if (cal_mode == 0) {
-    //    $($(".panel")[current]).hide();
-    //    
-    //    current += 2;
-    //    
-    //    $($(".panel")[current]).fadeIn();
-    //  }else{
-    //    $($(".panel")[current]).hide();
-    //    
-    //    current += 1;
-    //    
-    //    $($(".panel")[current]).fadeIn();
-    //  }
-    //}else if (current == 3) {
-    //  if (cal_mode == 1) {
-    //    $($(".panel")[current]).hide();
-    //    
-    //    current += 2;
-    //    
-    //    $($(".panel")[current]).fadeIn();
-    //  }else{
-    //    $($(".panel")[current]).hide();
-    //    
-    //    current += 1;
-    //    
-    //    $($(".panel")[current]).fadeIn();
-    //  }
-    //}
-    //else{
-    //  $($(".panel")[current++]).hide();
-    //  $($(".panel")[current]).fadeIn();
-    //}
-  
-    
-    
-    //if (current == 2) {
-    //  bForceMove = false;
-    //  
-    //  $(".panel").css({
-    //    'overflow':'auto'
-    //  })
-    //  
-    //  
-    //  
-    //}else{
-    //  bForceMove = true;
-    //  
-    //  $(".panel").css({
-    //    'overflow':'hidden'
-    //  })
-    //  
-    //  
-    //  
-    //}
-}
 
 // USER INPUT
 // INFO
-$('#input-name').bind('input', function(){        
-  user.name = $(this).val();
-});
-$('#input-address').bind('input', function(){        
-  user.address = $(this).val();
-});
-$('#input-phone').bind('input', function(){        
-  user.phone = $(this).val();
-});
-
-// INSIDE
-$('#input-age').bind('input', function(){        
-  user.age = $(this).val();
-});
-
-$('#select-gender').change(function(){        
-  user.sex = $(this).val();  
-});
-
-$('#select-type-work').change(function(){        
-  user.typework = $(this).val();
-});
+//$('#input-name').bind('input', function(){        
+//  user.name = $(this).val();
+//});
+//$('#input-address').bind('input', function(){        
+//  user.address = $(this).val();
+//});
+//$('#input-phone').bind('input', function(){        
+//  user.phone = $(this).val();
+//});
+//
+//
+//$('#input-age').bind('input', function(){        
+//  user.age = $(this).val();
+//});
+//
+//$('#select-gender').change(function(){        
+//  user.sex = $(this).val();  
+//});
+//
+//$('#select-type-work').change(function(){        
+//  user.typework = $(this).val();
+//});
 
 //if (!bPhoneGap) {
+
 $('#input-pull').change(function(){        
   
   var temp = $('#input-pull').val();    
   total.pull = bsqStringToNumber(temp);
   $("#td-pull").html(total.pull);
   
-  if(cal_mode == 1) showButtonPTLK();
+  showButtonPTLK();
 
 });
   
 function showButtonPTLK() {
-  $("#btt-ptlk").show();
-  $("#btt-ptlk").bind("touchstart", function(){
-    
-    saveDataUser(); // Save data here
-
-    calPTLK();
-    next();
-    
-  })
+  
+  $("#button-ptlk").show();
+  
 }
   
 function bsqStringToNumber(content){
@@ -505,9 +474,10 @@ function setVal2IndexArray(index,value,array){
 // List meal
 $("#select-time-meal").change(function(){        
   loadListMeal($("#select-time-meal")[0].value);
-})      
-$("#button-add-meal").bind('touchstart',function(){
-  
+})
+
+// BUTTON EVENT MEAL
+function addMEALBUTTON() {
   if($("#input-meal").val() == ''){
     alert("Yêu cầu nhập vào món ăn!");
     return;
@@ -517,15 +487,13 @@ $("#button-add-meal").bind('touchstart',function(){
   $("#table").show();
   
   var qty = $("#input-quantity").val();
-  addItem(qty);        
-})
-
-$("#button-remove-meal").bind('touchstart',function(){
-  
-  //$("#table").show();  
-  //var qty = $("#input-quantity").val();
+  addItem(qty);
+}
+function removeMEALBUTTON(){
   removeItem();
-})
+}
+
+
 
 var meal_autocomplete = [];
 var meal_current = 0;
@@ -667,29 +635,22 @@ function loadTable(){
   
   temp_div += "<tr>";
   temp_div +=          
-  '<td colspan="4" style="background: #00A1D3;">Năng lượng 1 ngày</td>'        
-  +"<td style='background: #F48120'>"+total.nangluong+"</td>"
-  +"<td style='background: #F48120'>"+total.dam+"</td>"
-  +"<td style='background: #F48120'>"+total.duong+"</td>"
-  +"<td style='background: #F48120'>"+total.beo+"</td>"
-  +"<td style='background: #F48120'>"+total.vitamin+"</td>"
+  '<td colspan="4" class="table-bottom-1">Năng lượng 1 ngày</td>'        
+  +"<td class='table-bottom-2'>"+total.nangluong+"</td>"
+  +"<td class='table-bottom-2'>"+total.dam+"</td>"
+  +"<td class='table-bottom-2'>"+total.duong+"</td>"
+  +"<td class='table-bottom-2'>"+total.beo+"</td>"
+  +"<td class='table-bottom-2'>"+total.vitamin+"</td>"
   temp_div += "</tr>";
   
   temp_div += "<tr>";
   temp_div +=          
-  '<td colspan="5" style="background: #00A1D3;">Tỉ lệ phần trăm năng lượng trong 1 ngày</td>'        
-  +"<td style='background: #F48120'>"+percents.dam+"%</td>"
-  +"<td style='background: #F48120'>"+percents.duong+"%</td>"
-  +"<td style='background: #F48120'>"+percents.beo+"%</td>"
+  '<td colspan="5" class="table-bottom-1">Tỉ lệ phần trăm năng lượng trong 1 ngày</td>'        
+  +"<td class='table-bottom-2'>"+percents.dam+"%</td>"
+  +"<td class='table-bottom-2'>"+percents.duong+"%</td>"
+  +"<td class='table-bottom-2'>"+percents.beo+"%</td>"
   //+"<td></td>"        
   temp_div += "</tr>";
-  
-  if (cal_mode == 2) {
-    temp_div += "<tr><td colspan='5' style='background: #00A1D3;'>Kết quả đo lực kéo</td><td id='td-pull' style='background: #F48120'>"+total.pull
-    +"</td>"
-    //+"<td></td><td></td><td></td>"
-    +"</tr>"
-  }
   
   
   
@@ -884,9 +845,11 @@ function calTPDD() {
     chart1.getAllSeries().setStacked(cfx.Stacked.Normal);
     chart1.getView3D().setEnabled(true);
     
-    chart1.getSeries().getItem(0).setColor('#EC1C24');
-    chart1.getSeries().getItem(1).setColor('#E47E25');
-    chart1.getSeries().getItem(2).setColor('#257B3D');
+    chart1.getSeries().getItem(0).setColor('#FF773B');
+    chart1.getSeries().getItem(1).setColor('#FF3021');
+    chart1.getSeries().getItem(2).setColor('#1F8B40');
+    
+    chart1.getAllSeries().getPointLabels().setVisible(true);
     
     // set max
     if (total.nangluong > nangluong.standardEnergy) {
@@ -1028,63 +991,6 @@ function calTPDD() {
 
     
 
-    //$('#container-dd').highcharts({
-    //
-    //    chart: {
-    //        type: 'column',
-    //        options3d: {
-    //            enabled: true,
-    //            alpha: 15,
-    //            beta: 15,
-    //            viewDistance: 25,
-    //            depth: 40
-    //        },
-    //        marginTop: 80,
-    //        marginRight: 40
-    //    },
-    //
-    //    title: {
-    //        text: 'PHÂN TÍCH THÀNH PHẦN DINH DƯỠNG'
-    //    },
-    //
-    //    xAxis: {
-    //        categories: ['Tổng năng lượng', 'Đạm', 'Đường', 'Béo']
-    //    },
-    //
-    //    yAxis: {
-    //        allowDecimals: false,
-    //        min: 0,
-    //        title: {
-    //            text: 'KCAL'
-    //        }
-    //    },
-    //
-    //    tooltip: {
-    //        headerFormat: '<b>{point.key}</b><br>',
-    //        pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: {point.y} / {point.stackTotal}'
-    //    },
-    //
-    //    plotOptions: {
-    //        column: {
-    //            stacking: 'normal',
-    //            depth: 40
-    //        }
-    //    },
-    //
-    //    series: [{
-    //        name: 'Thừa',
-    //        data: [enGraphData[2], damGraphData[2], duongGraphData[2], beoGraphData[2]],
-    //        stack: '1'
-    //    }, {
-    //        name: 'Thiếu',
-    //        data: [enGraphData[1], damGraphData[1], duongGraphData[1], beoGraphData[1]],
-    //        stack: '1'
-    //    }, {
-    //        name: 'Thực tế',
-    //        data: [enGraphData[0], damGraphData[0], duongGraphData[0], beoGraphData[0]],
-    //        stack: '1'
-    //    }]
-    //});
 }
 
 function calPTLK() {
@@ -1158,6 +1064,8 @@ function calPTLK() {
             categories: age
         },
         yAxis: {
+            max: 90,
+            min: 0,
             title: {
                 text: 'Lực kéo'
             },
@@ -1171,6 +1079,11 @@ function calPTLK() {
             enabled: false
         },
         plotOptions: {
+            series: {
+                marker: {
+                    enabled: false
+                }
+            },
             spline: {
                 marker: {
                     radius: 4,
@@ -1181,26 +1094,27 @@ function calPTLK() {
         },
         series: [{
             name: 'Mạnh',
-            data: strongs
+            data: strongs,
+            color: '#32BF49'
 
         },{
             name: 'Bình thường',
             marker: {
                 symbol: 'diamond'
             },
-            data: defaultPull
+            data: defaultPull,
+            color: '#0C2E59'
         },{
-            name: 'Bạn',
-            marker: {
-                symbol: 'diamond'
-            },
-            data: user_pulls
+            name: 'Bạn',            
+            data: user_pulls,
+            
         },{
             name: 'Yếu',
             marker: {
                 symbol: 'diamond'
             },
-            data: weaks
+            data: weaks,
+            color: '#FF5362'
         }]
     }, function(chart){
       
@@ -1216,17 +1130,43 @@ function calPTLK() {
       tempDIV += "</b><br>";
       tempDIV += "Yếu: " + pos_weaks;
     
-      var point = chart.series[2].data[pos],
-          text = chart.renderer.text(
-              tempDIV,
-              point.plotX + chart.plotLeft + 45,
-              point.plotY + chart.plotTop - 10
-          ).attr({
-              zIndex: 5
-          }).add(),
-          box = text.getBBox();
-
-      chart.renderer.rect(box.x - 5, box.y - 5, box.width + 10, box.height + 10, 5)
+      var point = chart.series[2].data[pos];
+      
+      var text = chart.renderer.text( tempDIV,
+                                     point.plotX + chart.plotLeft + 45,
+                                     point.plotY + chart.plotTop).attr({ zIndex: 5 }).add();
+      
+      box = text.getBBox();
+          
+      var position = {
+        'x':point.plotX + chart.plotLeft,
+        'y':point.plotY + chart.plotTop
+      }
+          
+      chart.renderer.circle(position.x, position.y, 10).attr({
+          fill: '#FCFFC5',
+          stroke: 'black',
+          'stroke-width': 1
+      }).add();
+      
+      var pos_box={
+        'x':box.x - 5,
+        'y':box.y - 5
+      }
+      
+      chart.renderer.path(['M', position.x, position.y,
+                           'L', pos_box.x, pos_box.y,
+                           'L', pos_box.x, pos_box.y+10,
+                           'L', position.x, position.y,
+                           'Z'])
+            .attr({
+                'stroke-width': 1,
+                stroke: 'gray',
+                fill: '#FFFFEF'
+            })
+            .add();
+      
+      chart.renderer.rect(pos_box.x, pos_box.y, box.width + 10, box.height + 10, 5)
           .attr({
               'font-size':'16px',
               fill: '#FFFFEF',
@@ -1237,6 +1177,8 @@ function calPTLK() {
           .add();
     
     });
+    
+    $("text").last().hide();
 }
 
 
@@ -1357,6 +1299,10 @@ function saveDataUser(){
     var temp = list_data_local[i];
     if (temp.phone == user.phone) {
       bExist = true;
+      
+      //list_data_local[i].deleted = user.deleted; //For ipad reload check
+      // IF DELEDTED -> php check and remove in this
+      
       break;
     }
   }
@@ -1413,6 +1359,7 @@ function getDataList() {
       },
       success: function (msg) {
         var temp = JSON.parse(msg);
+        
         data2Local(temp); // Store list local
         data2AutoComplete(temp); // Store list autocomplete
       }
@@ -1442,13 +1389,20 @@ function data2Local(data){
 }
 
 function loadDataFromLIUser(val) {
-  var temp_data = list_data_local[val];
+  document.activeElement.blur(); //Hide keyboard
   
-  $("#list-user li").removeClass('ios-list-item-select');
-  $($("#list-user li")[val]).addClass('ios-list-item-select');
-  changeTab(2); // Tab view info user
+  if(confirm("Bạn đồng ý mở lại dữ liệu khách hàng ?")){
+    
+    user_mode = 1; //LIST
+    var temp_data = list_data_local[val];
+    
+    $("#list-user li").removeClass('ios-list-item-select');
+    $("#list-user li[bsq-id="+val+"]").addClass('ios-list-item-select');
+    changeTab(2); // Tab view info user
+    
+    putData2Input(temp_data);
   
-  putData2Input(temp_data);
+  }
 }
 
 function resetForm() {
@@ -1474,15 +1428,14 @@ function initAutocomplete(){
   }
   
   
-  $("#list-user").html('');
+  //$("#list-user").html('');
   for(var i=0;i<list_data_local.length;i++){
-    
     var temp = list_data_local[i];
-    
-    var tempLi = '<li class="ios-list-item" ontouchstart="loadDataFromLIUser('+i+')">'+temp.name+'</li>';
-    
-    $("#list-user").append(tempLi);
-    
+    //if (temp.deleted == 0) {
+      var tempLi = '<li class="ios-list-item" bsq-id="'+i+'" ontouchstart="loadDataFromLIUser('+i+')">'+temp.name+'</li>';
+      
+      $("#list-user").prepend(tempLi);
+    //}
     
   }
   
@@ -1510,14 +1463,14 @@ function initAutocomplete(){
     }
   });
   
-  $( "#input-districts" ).autocomplete({
+  $( "#input-user-district" ).autocomplete({
     minLength: 0,
     source: tinhthanhArray,      
     select: function( event, ui ) {
       
       
       user.districts = ui.item.value;
-      $( "#input-districts" ).val( getTinhThanhString(user.districts) );
+      $( "#input-user-district" ).val( getTinhThanhString(user.districts) );
       //var temp_data = list_data_local[ui.item.value-1];
       //putData2Input(temp_data);
       
@@ -1622,7 +1575,7 @@ function changeTab(id){
   $(".bsq-tab[bsq-id="+id+"]").fadeIn(200);
   
   if (id==1) {
-    $("#title-top").html('')
+    $("#title-top").html('NUTRITION CALCULATED')
   }
   if (id==2) {
     $("#title-top").html('THÔNG TIN KHÁCH HÀNG')
@@ -1637,15 +1590,50 @@ function changeTab(id){
 var currentStepInputId = 1;
 function nextStepInput(bBlur){
   
-  currentStepInputId += 1;
+  var bCheckInput = false;
   
-  $(".bsq-step").hide();
-  $(".bsq-step[bsq-id="+currentStepInputId+"]").fadeIn();
-  setTimeout(function(){ $(".bsq-step[bsq-id="+currentStepInputId+"]").find('input').focus(); }, 500);
-  
-  if (bBlur == true) {
-    document.activeElement.blur();
+  if (currentStepInputId == 1) {
+    if ($("#input-user-name").val()=='') {
+      //alert("Vui lòng nhập vào họ và tên");
+      bCheckInput = true;
+      //return;
+    }
   }
+  if (currentStepInputId == 2) {
+    if ($("#input-user-birth").val()=='') {
+      //alert("Vui lòng nhập vào năm sinh");
+      bCheckInput = true;
+      //return;
+    }
+  }
+  if (currentStepInputId == 5) {
+    if ($("#input-user-district").val()=='') {
+      //alert("Vui lòng nhập vào quận huyện");
+      bCheckInput = true;
+      //return;
+    }
+  }
+  if (currentStepInputId == 6) {
+    if ($("#input-user-phone").val()=='') {
+      //alert("Vui lòng nhập vào số điện thoại");
+      bCheckInput = true;
+      //return;
+    }
+  }
+  
+  if (!bCheckInput) {
+    currentStepInputId += 1;
+  
+    $(".bsq-step").hide();
+    $(".bsq-step[bsq-id="+currentStepInputId+"]").fadeIn();
+    setTimeout(function(){ $(".bsq-step[bsq-id="+currentStepInputId+"]").find('input').focus(); }, 500);
+    
+    if (bBlur == true) {
+      document.activeElement.blur();
+    }  
+  }
+  
+  
 }
 function prevStepInput() {
   currentStepInputId -= 1;
@@ -1660,19 +1648,67 @@ function prevStepInput() {
 }
 
 function resetStep(){
+  
   currentStepInputId = 1;
   $(".bsq-step").hide();
   $(".bsq-step[bsq-id="+currentStepInputId+"]").show();
+  
+  //Reset user class
+  user = {
+    'name':'',
+    'age':0,
+    'sex':0,
+    'address':'',
+    'districts':1,
+    'phone':'',
+    'typework':0,
+    'date_created':getCurrentDateCreated(),
+    'deleted':0
+  }
+  
 }
 function clearInputReg(){
+  
+  resetStep();
+  
+  $("#input-user-name").val('');
+  $("#input-user-birth").val('');
+  $("#input-user-phone").val('');
+  $("#input-user-address").val('');
+  $("#input-user-district").val('');
+  
+  $("#select-user-gender").select(0);
+  $("#select-user-work").select(0);
   
 }
 
 function cancleStep() {
   if(confirm("Bạn có muốn hủy bỏ?")){
     
-    resetStep();
+    clearInputReg();
     changeTab(1);
     
   }  
+}
+
+function newUSER(){
+  user_mode = 0; //NEW
+  
+  clearInputReg();
+  changeTab(3);
+}
+
+function removeUSERBUTTON(){
+  
+  alert("Đang xây dựng");
+  
+  //if (confirm('Bạn có thật sự chắc chắn muốn xóa khách hàng này?')) {
+  //  user.deleted = 1;
+  //  
+  //  saveDataUser();
+  //  save2LocalStorage();
+  //  
+  //  window.location.href = '';
+  //}
+  
 }
