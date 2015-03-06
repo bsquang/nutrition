@@ -1,3 +1,144 @@
+var list_meal_added = [];
+
+var list_data_user_created = []; // User data-add
+var list_data_autocomplete = []; // Sync data-autocomplete
+var list_data_local = []; // User data-local
+
+var user = {
+  'name':'',
+  'age':0,
+  'sex':0,
+  'address':'',
+  'districts':1,
+  'phone':'',
+  'typework':0,
+  'date_created':getCurrentDateCreated(),
+  'deleted':0
+}
+
+var result = {
+    'energy': 2314,
+    'dam': 391.6,
+    'duong': 1514.8,
+    'beo': 409.5
+}
+
+var total = {
+    'pull':0,
+    'nangluong':1968,
+    'dam':386.4,
+    'duong':1154.4,
+    'beo':426.6,
+    'vitamin':9,
+    'date_created':getCurrentDateCreated()
+}
+
+
+
+$('#slider').noUiSlider({
+	start: [ 0 ],
+    margin: 20,
+	range: {
+		'min': [  -20 ],
+		'max': [ 20 ]
+	}
+});
+var chart;
+
+
+
+function createNEWGRAP(){
+  
+  var nangluong = identifyEnergyLevel();
+
+  var enGraphData = calculateGraphData(total.nangluong, nangluong.standardEnergy);
+
+  var damGraphData = calculateGraphData(total.dam,
+      calculateStandardKcal(nangluong.standardEnergy, STANDARD_DETAIL['dam'].minValue),
+      calculateStandardKcal(nangluong.standardEnergy, STANDARD_DETAIL['dam'].maxValue));
+
+  var duongGraphData = calculateGraphData(total.duong,
+      calculateStandardKcal(nangluong.standardEnergy, STANDARD_DETAIL['duong'].minValue),
+      calculateStandardKcal(nangluong.standardEnergy, STANDARD_DETAIL['duong'].maxValue));
+
+  var beoGraphData = calculateGraphData(total.beo,
+      calculateStandardKcal(nangluong.standardEnergy, STANDARD_DETAIL['beo'].minValue),
+      calculateStandardKcal(nangluong.standardEnergy, STANDARD_DETAIL['beo'].maxValue));
+  
+  chart = new Highcharts.Chart({  
+  
+      chart: {
+          renderTo: 'container-dd',
+          type: 'column',
+          options3d: {
+              enabled: true,
+              alpha: 1,
+              beta: 0,
+              viewDistance: 25,
+              depth: 40
+          },
+          marginTop: 20,
+          marginRight: 40
+      },
+  
+      title: {
+          text: ''
+      },
+  
+      xAxis: {
+          categories: ['Tổng năng lượng', 'Đạm', 'Đường', 'Béo']
+      },
+  
+      yAxis: {
+          allowDecimals: false,
+          min: 0,
+          title: {
+              text: 'KCAL'
+          }
+      },
+  
+      tooltip: {
+          headerFormat: '<b>{point.key}</b><br>',
+          pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: {point.y} / {point.stackTotal}'
+      },
+  
+      plotOptions: {
+          column: {
+              stacking: 'normal',
+              depth: 40
+          }
+      },
+  
+      series: [{
+          name: 'Thừa',
+          data: [enGraphData[2], damGraphData[2], duongGraphData[2], beoGraphData[2]],
+          stack: '1'
+      }, {
+          name: 'Thiếu',
+          data: [enGraphData[1], damGraphData[1], duongGraphData[1], beoGraphData[1]],
+          stack: '1'
+      }, {
+          name: 'Thực tế',
+          data: [enGraphData[0], damGraphData[0], duongGraphData[0], beoGraphData[0]],
+          stack: '1'
+      }]
+  });
+  
+  
+  $('#slider').Link('lower').to(handleValueSlide);
+  
+}
+
+function handleValueSlide(val) {
+    
+  chart.options.chart.options3d.beta = val;  
+  chart.redraw(false);
+  
+  console.log(val);
+}
+
+
+
 var user_mode = 0; // 0:new 1:list
 
 $("input").bind('touchend',function(){
@@ -134,40 +275,7 @@ $("#btt-reload").bind('touchstart', function(){
 
 
 
-var list_meal_added = [];
 
-var list_data_user_created = []; // User data-add
-var list_data_autocomplete = []; // Sync data-autocomplete
-var list_data_local = []; // User data-local
-
-var user = {
-  'name':'',
-  'age':0,
-  'sex':0,
-  'address':'',
-  'districts':1,
-  'phone':'',
-  'typework':0,
-  'date_created':getCurrentDateCreated(),
-  'deleted':0
-}
-
-var result = {
-    'energy': 2314,
-    'dam': 391.6,
-    'duong': 1514.8,
-    'beo': 409.5
-}
-
-var total = {
-    'pull':0,
-    'nangluong':0,
-    'dam':0,
-    'duong':0,
-    'beo':0,
-    'vitamin':0,
-    'date_created':getCurrentDateCreated()
-}
 
 ///
 
@@ -285,7 +393,9 @@ function checkPTTPDD() {
   document.activeElement.blur();
   
   saveDataUser(); // Save data here
-  calTPDD();
+  createNEWGRAP();
+  
+  //calTPDD();
   
   gotoPanel(4); //DIARGRAM PTTPDD
 }
