@@ -25,99 +25,12 @@
       <div class='wrapper'>
         <!--<div class='logo-luvitas'></div>-->
         
-        <div class='panel' id='panel-066' style='display: block; background: white'>
-          <div class='bsq-row ios-toolbar ios-toolbar-dark'>
-            <div class='ios-button-toolbar' style='left: 0; top: 0;' ontouchend='prevBUTTON()'>Quay lại</div>
-            <p style='text-align: center;line-height: 42px;'>BÁO CÁO</p>
-            <div class='ios-button-toolbar' style='right: 0; top: 0;' ontouchend='controlBUTTON()'>Bảng điều khiển</div>
-          </div>
-          
-          <div class='bsq-row group' style='padding: 10px 20px;'>
-            <div class='col-50 col-left'>
-              <p class='col-20 col-left'>Họ và tên:<br>Địa chỉ:</p>
-              <p class='col-80 col-left' id='report-name-address'>Nguyễn Đông Quang<br>324 Võ Văn Kiệt phường Cô Giang quận 1</p>
-            </div>
-            <div class='col-50 col-left'>
-              <p class='col-40 col-left'>Số điện thoại:</p>
-              <p class='col-60 col-left' id='report-phone'>01264814 025</p>
-            </div>
-          </div>
-          
-          <div class='bsq-row group' style='padding: 10px 20px;'>
-            <div class='col-50 col-left'>
-              <p style='font-weight: bold;padding-bottom: 10px;'>Phân tích thành phần dinh dưỡng</p>
-              <div class='bsq-row group'>
-                <div class='col-50 col-left'>Năng lượng trong 1 ngày</div>
-                <div class='col-10 col-left col-center'>1</div>
-                <div class='col-10 col-left col-center'>2</div>
-                <div class='col-10 col-left col-center'>3</div>
-                <div class='col-10 col-left col-center'>4</div>
-                <div class='col-10 col-left col-center'>5</div>
-              </div>
-              <div class='bsq-row group'>
-                <div class='col-50 col-left'>Tỉ lệ % năng lượng trong 1 ngày</div>
-                <div class='col-10 col-left col-center'>1</div>                
-                <div class='col-10 col-left col-center'>2</div>
-                <div class='col-10 col-left col-center'>3</div>
-                <div class='col-10 col-left col-center'>4</div>
-                <div class='col-10 col-left col-center'>5</div>
-              </div>
-              <br>
-              <div class='bsq-row'>
-                <div id='mini-dd'></div>
-              </div>
-              
-            </div>
-            <div class='col-50 col-left'>
-              <p style='font-weight: bold;padding-bottom: 10px;'>Phân tích lực kéo</p>              
-              <div class='bsq-row group'>
-                <div class='col-40 col-left'>Kết quả đo lực kéo</div>
-                <div class='col-20 col-left'>1</div>                                  
-              </div>
-              <div class='bsq-row group'>
-                <div class='col-50 col-left'>Tỉ lệ % năng lượng trong 1 ngày</div>
-                <div class='col-10 col-left'>1</div>                
-                <div class='col-10 col-left'>2</div>
-                <div class='col-10 col-left'>3</div>
-                <div class='col-10 col-left'>4</div>
-                <div class='col-10 col-left'>5</div>
-              </div>
-              <br>
-              <div class='bsq-row'>
-                <div id='mini-lk'></div>
-              </div>
-            </div>
-          </div>
-          
-          <br>
-          <div class='bsq-row' style='  padding: 10px 20px;'>
-            <div class='bsq-row group' style='min-height: 100px;border: 2px solid black;'>
-              <div class='col-20 col-left'>
-                <p style='padding: 10px;background: black;color: white;text-align: center;'>Đánh giá</p>
-              </div>
-              <div class='col-80 col-left'>
-                <p style='padding: 10px;' id='text-evaluate'>This is a content</p>
-              </div>
-            </div>
-            <br>
-            <div class='bsq-row group' style='min-height: 100px;border: 2px solid black;'>
-              <div class='col-20 col-left'>
-                <p style='padding: 10px;background: black;color: white;text-align: center;'>Khuyến nghị</p>
-              </div>
-              <div class='col-80 col-left'>
-                <p style='padding: 10px;' id='text-recommend'>This is a content</p>
-              </div>
-            </div>
-          </div>
-          
-          <div class='bsq-row'>
-            
-          </div>
-          
-        </div>
+        
+        
+        
         
         <!--PANEL INTRO-->
-        <div class='panel' id='panel-00'  style='display: none' bsq-id='1'>
+        <div class='panel' id='panel-00'  style='display: block' bsq-id='1'>
           
           <p class='button-1' id='btt-next-intro'></p>
         </div>
@@ -177,7 +90,7 @@
                 </ul>
               </div>
               
-              <!--<div class='bsq-row-button' ontouchstart='resetForm()'>Thêm</div>-->
+              <!--<div class='bsq-row-button' ontouchend='resetForm()'>Thêm</div>-->
               
             </div>
               
@@ -188,7 +101,7 @@
                   <!--<h1>TÊN CHƯƠNG TRÌNH</h1>-->
                   <!--<br>-->
                   <div class='bsq-row group'>
-                    <div class='ios-button ios-button-confirm' style='margin-bottom: 10px;' ontouchstart="newUSER()">Thêm khách hàng mới</div>
+                    <div class='ios-button ios-button-confirm' style='margin-bottom: 10px;' ontouchend="newUSER()">Thêm khách hàng mới</div>
                   </div>
                   
                 </div>                
@@ -306,7 +219,7 @@
                       <div class='ios-button ios-button-confirm' ontouchend="nextStepInput(true)">Tiếp</div>
                     </div>
                     <div class='col-left col-30'>
-                      <div class='ios-button ios-button-normal' ontouchstart="prevStepInput()">Quay lại</div>
+                      <div class='ios-button ios-button-normal' ontouchend="prevStepInput()">Quay lại</div>
                     </div>
                   </div>                  
                 </div>
@@ -324,7 +237,7 @@
                       <div class='ios-button ios-button-confirm' ontouchend="nextStepInput()">Tiếp</div>
                     </div>
                     <div class='col-left col-30'>
-                      <div class='ios-button ios-button-normal' ontouchstart="prevStepInput()">Quay lại</div>
+                      <div class='ios-button ios-button-normal' ontouchend="prevStepInput()">Quay lại</div>
                     </div>
                   </div>                  
                 </div>                
@@ -339,7 +252,7 @@
                       <div class='ios-button ios-button-confirm' ontouchend="nextStepInput()">Tiếp</div>
                     </div>
                      <div class='col-left col-30'>
-                      <div class='ios-button ios-button-normal' ontouchstart="prevStepInput()">Quay lại</div>
+                      <div class='ios-button ios-button-normal' ontouchend="prevStepInput()">Quay lại</div>
                     </div>
                   </div>
                   <div class='bsq-row group'>                    
@@ -357,7 +270,7 @@
                       <div class='ios-button ios-button-confirm' ontouchend="nextStepInput()">Tiếp</div>
                     </div>
                     <div class='col-left col-30'>
-                      <div class='ios-button ios-button-normal' ontouchstart="prevStepInput()">Quay lại</div>
+                      <div class='ios-button ios-button-normal' ontouchend="prevStepInput()">Quay lại</div>
                     </div>
                   </div>                
                 </div>
@@ -372,7 +285,7 @@
                       <div class='ios-button ios-button-confirm' ontouchend="nextStepInput(true)">Tiếp</div>
                     </div>
                     <div class='col-left col-30'>
-                      <div class='ios-button ios-button-normal' ontouchstart="prevStepInput()">Quay lại</div>
+                      <div class='ios-button ios-button-normal' ontouchend="prevStepInput()">Quay lại</div>
                     </div>
                   </div>
                 </div>
@@ -391,7 +304,7 @@
                       <div class='ios-button ios-button-confirm' ontouchend="nextStepInput(true)">Tiếp</div>
                     </div>
                     <div class='col-left col-30'>
-                      <div class='ios-button ios-button-normal' ontouchstart="prevStepInput()">Quay lại</div>
+                      <div class='ios-button ios-button-normal' ontouchend="prevStepInput()">Quay lại</div>
                     </div>
                   </div>                  
                 </div>
@@ -402,24 +315,24 @@
                   </div>
                   <br>
                   <div class='bsq-row group'>
-                    <div class='ios-button ios-button-normal' style='margin-bottom: 10px;' ontouchstart='calMode(0)'>Kiểm tra tình trạng dinh dưỡng</div>
+                    <div class='ios-button ios-button-normal' style='margin-bottom: 10px;' ontouchend='calMode(0)'>Kiểm tra tình trạng dinh dưỡng</div>
                   </div>
                   <div class='bsq-row group'>
-                    <div class='ios-button ios-button-normal' style='margin-bottom: 10px;' ontouchstart='calMode(1)'>Kiểm tra lực kéo</div>
+                    <div class='ios-button ios-button-normal' style='margin-bottom: 10px;' ontouchend='calMode(1)'>Kiểm tra lực kéo</div>
                   </div>
                   <div class='bsq-row group'>
-                    <div class='ios-button ios-button-normal' style='margin-bottom: 10px;' ontouchstart='calMode(2)'>Kiểm tra tình trạng dinh dưỡng và lực kéo</div>
+                    <div class='ios-button ios-button-normal' style='margin-bottom: 10px;' ontouchend='calMode(2)'>Kiểm tra tình trạng dinh dưỡng và lực kéo</div>
                   </div>
                   
                   <div class='bsq-row group'>                    
                     <div class='col-left col-30'>
-                      <div class='ios-button ios-button-normal' ontouchstart="prevStepInput()">Quay lại</div>
+                      <div class='ios-button ios-button-normal' ontouchend="prevStepInput()">Quay lại</div>
                     </div>
                   </div>
                   <br>
                   <div class='bsq-row group'>                    
                     <div class='col-left col-30'>
-                      <div class='ios-button ios-button-decline' ontouchstart="cancleStep()">Hủy bỏ</div>
+                      <div class='ios-button ios-button-decline' ontouchend="cancleStep()">Hủy bỏ</div>
                     </div>
                   </div>
                 </div>
@@ -614,19 +527,115 @@
         <!--END-->
         
         <!--PRINT PANEL-->
-        <div class='panel' id='panel-06' bsq-id='7'>
+        <div class='panel' id='panel-066' bsq-id='7' style='background: white;'>
           <div class='bsq-row ios-toolbar ios-toolbar-dark'>
             <div class='ios-button-toolbar' style='left: 0; top: 0;' ontouchend='prevBUTTON()'>Quay lại</div>
             <p style='text-align: center;line-height: 42px;'>BÁO CÁO</p>
             <div class='ios-button-toolbar' style='right: 0; top: 0;' ontouchend='controlBUTTON()'>Bảng điều khiển</div>
           </div>
           
-          <div>
-            <h1>REPORT</h1>
+          <div class='bsq-row' id='content-report'>
+            <div class='bsq-row group' style='padding: 10px 20px;'>
+              <div class='col-50 col-left'>
+                <p class='col-20 col-left' style='font-weight: bold'>Họ và tên:<br>Địa chỉ:</p>
+                <p class='col-80 col-left' id='report-name-address'>Nguyễn Đông Quang<br>324 Võ Văn Kiệt phường Cô Giang quận 1</p>
+              </div>
+              <div class='col-50 col-left'>
+                <p class='col-40 col-left' style='font-weight: bold'>Số điện thoại:</p>
+                <p class='col-60 col-left' id='report-phone'>01264814 025</p>
+              </div>
+            </div>
+            
+            <div class='bsq-row group' style='padding: 10px 20px;' >
+              <div class='col-50 col-left' id='report-ptdd-top'>
+                <p style='font-weight: bold;padding-bottom: 10px;'>Phân tích thành phần dinh dưỡng</p>
+                <table>
+                  
+                </table>
+                <div class='bsq-row group' style='padding-right: 10px;'>
+                  
+                  <table class="mini-table">
+                    <thead class="">
+                      <tr>
+                        <th></th>                        
+                        <th>Năng lượng<br/>(Kcal)</th>
+                        <th>Đạm<br/>(Kcal)</th>
+                        <th>Đường<br/>(Kcal)</th>
+                        <th>Béo<br/>(Kcal)</th>        
+                        <th>Vitamin<br/>(Kcal)</th>
+                      </tr>
+                    </thead>
+                    <tbody>                      
+                      <tr>
+                        <td class='mini-table-bottom-1'>Năng lượng 1 ngày</td>
+                        <td class='mini-table-bottom-2 col-center' id='report-energy'>1</td>
+                        <td class='mini-table-bottom-2 col-center' id='report-dam'>1</td>
+                        <td class='mini-table-bottom-2 col-center' id='report-duong'>1</td>
+                        <td class='mini-table-bottom-2 col-center' id='report-beo'>1</td>     
+                        <td class='mini-table-bottom-2 col-center' id='report-vitamin'>1</td>
+                      </tr>
+                      <tr>
+                        <td colspan="2" class='mini-table-bottom-1'>Tỉ lệ % năng lượng trong 1 ngày</td>
+                        <td class='mini-table-bottom-2 col-center' id='report-dam-per'>1%</td>
+                        <td class='mini-table-bottom-2 col-center' id='report-duong-per'>1%</td>
+                        <td class='mini-table-bottom-2 col-center' id='report-beo-per'>1%</td>
+                      </tr>                  
+                    </tbody>
+                  </table>
+                  
+                </div>
+                <br>
+                <div class='bsq-row'>
+                  <div id='mini-dd'></div>
+                </div>
+                
+              </div>
+              <div class='col-50 col-left' id='report-ptlk-top'>
+                <p style='font-weight: bold;padding-bottom: 10px;'>Phân tích lực kéo</p>              
+                <div class='bsq-row group' style='height: 100px;'>
+                  <div class='col-40 col-left' style='border: 1px solid;padding: 5px 5px;font-size: 12px;'>Kết quả đo lực kéo</div>
+                  <div class='col-20 col-left' style='border: 1px solid;padding: 5px 5px;font-size: 12px;margin-left: 2px;' id='report-pull'>1</div>
+                </div>
+                <!--<div class='bsq-row group'>
+                  <div class='col-50 col-left'>Tỉ lệ % năng lượng trong 1 ngày</div>
+                  <div class='col-10 col-left'>1</div>                
+                  <div class='col-10 col-left'>2</div>
+                  <div class='col-10 col-left'>3</div>
+                  <div class='col-10 col-left'>4</div>
+                  <div class='col-10 col-left'>5</div>
+                </div>-->
+                <br>
+                <div class='bsq-row'>
+                  <div id='mini-lk'></div>
+                </div>
+              </div>
+            </div>
+            
+            <br>
+            <div class='bsq-row' style='  padding: 10px 20px;'>
+              <div class='bsq-row group' style='min-height: 100px;border: 2px solid black;'>
+                <div class='col-20 col-left'>
+                  <p style='padding: 10px;background: black;color: white;text-align: center;'>Đánh giá</p>
+                </div>
+                <div class='col-80 col-left'>
+                  <p style='padding: 10px;' id='text-evaluate'></p>
+                </div>
+              </div>
+              <br>
+              <div class='bsq-row group' style='min-height: 100px;border: 2px solid black;'>
+                <div class='col-20 col-left'>
+                  <p style='padding: 10px;background: black;color: white;text-align: center;'>Khuyến nghị</p>
+                </div>
+                <div class='col-80 col-left'>
+                  <p style='padding: 10px;' id='text-recommend'></p>
+                </div>
+              </div>
+            </div>
+            
+            <br>
           </div>
           
-          <br>
-          <div class='bsq-row group' style='padding: 10px;position: absolute;bottom: 0;'>
+          <div class='bsq-row group' style='padding: 10px;'>
             <div class='ios-button ios-button-confirm col-right col-20' ontouchend='nextBUTTON()'>Tiếp</div>
           </div>
         </div>

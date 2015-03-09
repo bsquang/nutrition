@@ -33,12 +33,52 @@ var total = {
     'date_created':getCurrentDateCreated()
 }
 
-function createREPORT(){
+//createREPORT(0);
+
+function createREPORT(type){
+  
   $("#report-name-address").html(user.name + '<br>' + user.address + " " + getTinhThanhString(user.districts));
   $("#report-phone").html(user.phone);
   
-  miniCHARTDD();
-  calPTLK(2);
+  if (type == 0 || type == 2) {
+    
+    $("#report-energy").html(total.nangluong);
+    $("#report-dam").html(total.dam);
+    $("#report-duong").html(total.duong);
+    $("#report-beo").html(total.beo);
+    $("#report-vitamin").html(total.vitamin);
+    
+    var total_energy = total.dam + total.duong + total.beo + total.vitamin;
+    var percents = {
+      'dam':calPercent(total.dam,total_energy),
+      'duong':calPercent(total.duong,total_energy),
+      'beo':calPercent(total.beo,total_energy)
+    }
+    
+    $("#report-dam-per").html(percents.dam+"%");
+    $("#report-duong-per").html(percents.duong+"%");
+    $("#report-beo-per").html(percents.beo+"%");
+    
+    
+    $('#report-ptdd-top').show();    
+    
+    
+    miniCHARTDD();
+    
+    
+  }
+  if (type == 1 || type == 2) {
+    
+    $("#report-pull").html(total.pull);
+    $('#report-ptlk-top').show();    
+    
+    calPTLK(2);
+  }
+  
+  
+  
+  setTimeout(function(){  $(window).resize(); }, 500);  
+  
 }
 
 
@@ -119,15 +159,18 @@ function miniCHARTDD() {
 	series: [{
           name: 'Thừa',
           data: [enGraphData[2], damGraphData[2], duongGraphData[2], beoGraphData[2]],
-          stack: '1'
+          stack: '1',
+          color: '#FF3021'
       }, {
           name: 'Thiếu',
           data: [enGraphData[1], damGraphData[1], duongGraphData[1], beoGraphData[1]],
-          stack: '1'
+          stack: '1',
+          color: '#FF773B'
       }, {
           name: 'Thực tế',
           data: [enGraphData[0], damGraphData[0], duongGraphData[0], beoGraphData[0]],
-          stack: '1'
+          stack: '1',
+          color: '#1F8B40'
       }]
 });
   
@@ -150,6 +193,8 @@ var chart;
 
 
 function createNEWGRAP(){
+  
+  $("#container-dd").html('');
   
   var nangluong = identifyEnergyLevel();
 
@@ -214,21 +259,25 @@ function createNEWGRAP(){
       series: [{
           name: 'Thừa',
           data: [enGraphData[2], damGraphData[2], duongGraphData[2], beoGraphData[2]],
-          stack: '1'
+          stack: '1',
+          color: '#FF3021'
       }, {
           name: 'Thiếu',
           data: [enGraphData[1], damGraphData[1], duongGraphData[1], beoGraphData[1]],
-          stack: '1'
+          stack: '1',
+          color: '#FF773B'
       }, {
           name: 'Thực tế',
           data: [enGraphData[0], damGraphData[0], duongGraphData[0], beoGraphData[0]],
-          stack: '1'
+          stack: '1',
+          color: '#1F8B40'
       }]
   });
   
   
   $('#slider').Link('lower').to(handleValueSlide);
   
+  $("#container-dd").find("text").last().hide();
 }
 
 function handleValueSlide(val) {
@@ -320,7 +369,7 @@ $(".panel").bind("touchend",function(){
 
 window.addEventListener("touchmove", function(e) {
     if (bForceMove) {
-      //e.preventDefault();
+      e.preventDefault();
     }    
 })
 
@@ -394,7 +443,7 @@ function getCurrentDateCreated() {
 
 var current = 1;
 
-$("#btt-next-intro").bind('touchstart', function() {
+$("#btt-next-intro").bind('touchend', function() {
   nextBUTTON();
 })
 //$("#btt-next-info").bind('touchstart', function() {
@@ -451,15 +500,31 @@ function calMode(type){
   enableMode(type);
   
   if (cal_mode == 0) {
+    clearTABLEMEAL();
     gotoPanel(3)
   }
   if (cal_mode == 1) {
+    clearPULL();
     gotoPanel(5)
   }
   if (cal_mode == 2) {
+    clearTABLEMEAL();
+    clearPULL();
     gotoPanel(3)
   }
     
+}
+
+function clearTABLEMEAL() {
+  list_meal_added = [];
+  $("#group-table-meal").hide();
+  $("#button-remove-meal").hide();
+  $("#button-check-ttdd").hide();
+  $("#input-meal").val('');
+}
+function clearPULL() {
+  $("#input-pull").val('');
+  $("#button-ptlk").hide();
 }
 
 function gotoPanel(id){
@@ -468,7 +533,7 @@ function gotoPanel(id){
     setTimeout(function(){ $($(".panel[bsq-id=5]").find('input')).focus() } , 300);
   }
   
-  if (id == 3 || id == 2) {
+  if (id == 3 || id == 2 || id==7) {
      bForceMove = false;
      
      $(".panel").css({
@@ -493,6 +558,7 @@ function gotoPanel(id){
 
 function checkPTTPDD() {
   document.activeElement.blur();
+  $(window).scrollTop(0);
   
   saveDataUser(); // Save data here
   createNEWGRAP();
@@ -504,6 +570,8 @@ function checkPTTPDD() {
 
 function checkPTLK() {
   document.activeElement.blur();
+  $(window).scrollTop(0);
+  
   if (cal_mode == 1) {
     saveDataUser();
   }
@@ -512,6 +580,8 @@ function checkPTLK() {
 }
 
 function nextBUTTON() {
+    
+  $(window).scrollTop(0);
   
   if (current == 8) { // IF FINAL
     window.location.href = '';
@@ -520,7 +590,10 @@ function nextBUTTON() {
   
   if (cal_mode == 0) {
     if (current == 4) { //PANEL DIARGRAM PTTPDD
-      current = 7;
+      
+      current = 7;      
+      createREPORT(cal_mode);
+      
     }else{
       current += 1;  
     }    
@@ -528,13 +601,21 @@ function nextBUTTON() {
   }
   if (cal_mode == 1) {
     if (current == 6) { //PANEL DIARGRAM PTLK
+      
       current = 7;
+      createREPORT(cal_mode);
+      
     }else{
       current += 1;  
     }    
     gotoPanel(current);  
   }
-  if (cal_mode == 2) {    
+  if (cal_mode == 2) {
+    
+    if (current == 6) {
+      createREPORT(cal_mode);
+    }
+    
     current += 1; 
     gotoPanel(current);  
   }
@@ -544,6 +625,7 @@ function nextBUTTON() {
 
 function prevBUTTON() {
   
+  $(window).scrollTop(0);
   document.activeElement.blur();
   
   if (cal_mode == 0) {

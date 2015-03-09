@@ -688,6 +688,40 @@ body{
     display: none;
 }
 
+#mini-dd{
+    max-width: 480px;
+}
+#mini-lk{
+    max-width: 480px;
+}
+
+#report-ptdd-top{
+    display: none;
+}
+#report-ptlk-top{
+    display: none;
+}
+
+.mini-table th {
+    font-size: 12px;
+    min-width: 70px;
+    border: 1px solid black;
+    padding: 5px 0px;
+}
+.mini-table td {
+    font-size: 12px;
+    min-width: 70px;
+    border: 1px solid black;
+    padding: 5px 0px;
+}
+
+.mini-table-bottom-2{
+    
+}
+.mini-table-bottom-1{
+    
+}
+
 .highcharts-button{
     display: none;
 }
