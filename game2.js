@@ -518,6 +518,7 @@ function calMode(type){
 function clearTABLEMEAL() {
   list_meal_added = [];
   $("#group-table-meal").hide();
+  $("#button-add-meal").hide();
   $("#button-remove-meal").hide();
   $("#button-check-ttdd").hide();
   $("#input-meal").val('');
