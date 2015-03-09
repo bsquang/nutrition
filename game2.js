@@ -6,7 +6,7 @@ var list_data_local = []; // User data-local
 
 var user = {
   'name':'',
-  'age':0,
+  'age':1989,
   'sex':0,
   'address':'',
   'districts':1,
@@ -24,13 +24,115 @@ var result = {
 }
 
 var total = {
-    'pull':0,
+    'pull': 32,
     'nangluong':1968,
     'dam':386.4,
     'duong':1154.4,
     'beo':426.6,
     'vitamin':9,
     'date_created':getCurrentDateCreated()
+}
+
+function createREPORT(){
+  $("#report-name-address").html(user.name + '<br>' + user.address + " " + getTinhThanhString(user.districts));
+  $("#report-phone").html(user.phone);
+  
+  miniCHARTDD();
+  calPTLK(2);
+}
+
+
+function miniCHARTDD() {
+  
+  var nangluong = identifyEnergyLevel();
+  
+  $("#text-evaluate").html(nangluong.evaluate);
+  $("#text-recommend").html(nangluong.recommend);
+
+  var enGraphData = calculateGraphData(total.nangluong, nangluong.standardEnergy);
+
+  var damGraphData = calculateGraphData(total.dam,
+      calculateStandardKcal(nangluong.standardEnergy, STANDARD_DETAIL['dam'].minValue),
+      calculateStandardKcal(nangluong.standardEnergy, STANDARD_DETAIL['dam'].maxValue));
+
+  var duongGraphData = calculateGraphData(total.duong,
+      calculateStandardKcal(nangluong.standardEnergy, STANDARD_DETAIL['duong'].minValue),
+      calculateStandardKcal(nangluong.standardEnergy, STANDARD_DETAIL['duong'].maxValue));
+
+  var beoGraphData = calculateGraphData(total.beo,
+      calculateStandardKcal(nangluong.standardEnergy, STANDARD_DETAIL['beo'].minValue),
+      calculateStandardKcal(nangluong.standardEnergy, STANDARD_DETAIL['beo'].maxValue));
+  
+  $('#mini-dd').highcharts({
+	chart: {
+		type: 'column'
+	},
+	title: {
+		text: null
+	},
+	xAxis: {
+		 categories: ['Tổng năng lượng', 'Đạm', 'Đường', 'Béo']
+	 },
+	yAxis: {
+		min: 0,
+		title: {
+			text: 'KCAL'
+		},
+		stackLabels: {
+			enabled: true,
+			style: {
+				fontWeight: 'bold',
+				color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+			}
+		}
+	},
+	legend: {
+		align: 'right',
+		x: -30,
+		verticalAlign: 'top',
+		y: 25,
+		floating: true,
+		backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+		borderColor: '#CCC',
+		borderWidth: 1,
+		shadow: false
+	},
+	tooltip: {
+		formatter: function () {
+			return '<b>' + this.x + '</b><br/>' +
+				this.series.name + ': ' + this.y + '<br/>' +
+				'Total: ' + this.point.stackTotal;
+		}
+	},
+	plotOptions: {
+		column: {
+			stacking: 'normal',
+			dataLabels: {
+				enabled: true,
+				color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
+				style: {
+					textShadow: '0 0 3px black'
+				}
+			}
+		}
+	},
+	series: [{
+          name: 'Thừa',
+          data: [enGraphData[2], damGraphData[2], duongGraphData[2], beoGraphData[2]],
+          stack: '1'
+      }, {
+          name: 'Thiếu',
+          data: [enGraphData[1], damGraphData[1], duongGraphData[1], beoGraphData[1]],
+          stack: '1'
+      }, {
+          name: 'Thực tế',
+          data: [enGraphData[0], damGraphData[0], duongGraphData[0], beoGraphData[0]],
+          stack: '1'
+      }]
+});
+  
+  $("#mini-dd").find("text").last().hide();
+  
 }
 
 
@@ -218,7 +320,7 @@ $(".panel").bind("touchend",function(){
 
 window.addEventListener("touchmove", function(e) {
     if (bForceMove) {
-      e.preventDefault();
+      //e.preventDefault();
     }    
 })
 
@@ -405,7 +507,7 @@ function checkPTLK() {
   if (cal_mode == 1) {
     saveDataUser();
   }
-  calPTLK();
+  calPTLK(1);
   gotoPanel(6);
 }
 
@@ -593,9 +695,9 @@ function addMEALBUTTON() {
     return;
   }
   
-  $("#button-remove-meal").show();
-  $("#table").show();
-  
+  //$("#button-remove-meal").show();
+  //$("#group-table-meal").show();
+  //
   var qty = $("#input-quantity").val();
   addItem(qty);
 }
@@ -637,6 +739,8 @@ function loadListMeal(selectIndex) {
       meal_current = ui.item.value;
       $( "#input-meal" ).val( ui.item.label );
       
+	  $("#button-add-meal").show();
+	  
       // blur after autocomplete done!
       document.activeElement.blur();
       
@@ -671,8 +775,9 @@ function addItem(quantity){
   
   loadTable();
   
-  $("#table-info").show();
-  $("#btt-next-ptdd").show();
+  $("#button-remove-meal").show();
+  $("#group-table-meal").show();
+  $("#button-check-ttdd").show();
 }
 
 function removeItem(){
@@ -681,8 +786,9 @@ function removeItem(){
   if (list_meal_added.length > 0) {
     loadTable();
   }else{
-    $("#table-info").hide();
-    $("#btt-next-ptdd").hide();
+	
+    $("#group-table-meal").hide();
+    $("#button-check-ttdd").hide();
     $("#button-remove-meal").hide();
   }
   
@@ -1103,8 +1209,15 @@ function calTPDD() {
 
 }
 
-function calPTLK() {
-    $("#container-lk").html('');
+function calPTLK(type) {
+    var divTarget;
+	if (type == 1) {
+	  divTarget = $("#container-pull");
+	}else if (type == 2) {
+	  divTarget = $("#mini-lk");
+	}
+	
+	divTarget.html('');
     
     var age1 = ['11', '13', '15', '17', '19', '24', '29', '34', '39', '44', '49', '54', '59', '64', '69', '99'];
     
@@ -1162,7 +1275,7 @@ function calPTLK() {
     }
     
 
-    $('#container-pull').highcharts({
+    divTarget.highcharts({
         chart: {
             type: 'spline'
         },
@@ -1288,7 +1401,7 @@ function calPTLK() {
     
     });
     
-    $("text").last().hide();
+    divTarget.find("text").last().hide();
 }
 
 
@@ -1358,14 +1471,14 @@ function calculateGraphData(actualEnergy, standardEnergyMin, standardEnergyMax) 
     }
 
     if (actualEnergy < standardEnergyMin) { // less
-        rs = [actualEnergy, (standardEnergyMin - actualEnergy), 0];
+        rs = [Math.round(actualEnergy), Math.round(standardEnergyMin - actualEnergy), null];
     } else if (actualEnergy > standardEnergyMax) { // more
-        rs = [standardEnergyMax, 0, (actualEnergy - standardEnergyMax)];
+        rs = [Math.round(standardEnergyMax), null, Math.round(actualEnergy - standardEnergyMax)];
     } else { // enough
-        rs = [actualEnergy, 0, 0];
+        rs = [Math.round(actualEnergy), null, null];
     }
 
-    console.log(rs)
+    //console.log(rs)
     return rs;
 };
 
