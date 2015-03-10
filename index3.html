@@ -632,6 +632,7 @@
           </div>
           
           <div class='bsq-row group' style='padding: 10px;'>
+            <div class='ios-button ios-button-decline col-left col-20' ontouchend='printREPORT()'>In kết quả</div>
             <div class='ios-button ios-button-confirm col-right col-20' ontouchend='nextBUTTON()'>Tiếp</div>
           </div>
         </div>
@@ -706,109 +707,7 @@
       <script src="database.js"></script>      
       <script src="game2.js?89"></script>
       
-      <!--OLD PTTPDD-->
-        <!--<div class='panel' id='panel-02'>-->
-        <!--  <div class='panel-title'>-->
-        <!--    <p id='panel-title'>PHÂN TÍCH THÀNH PHẦN DINH DƯỠNG</p>-->
-        <!--  </div>-->
-        <!--  <div class='info-top group'>-->
-        <!--    <div id='div-meal' class='group'>-->
-        <!--      <div class='item-row' style='width: 300px;'>-->
-        <!--        Bữa ăn :-->
-        <!--        <select id='select-time-meal'>-->
-        <!--          <option value="0">Sáng</option>-->
-        <!--          <option value="1">Trưa</option>-->
-        <!--          <option value="2">Chiều tối</option>-->
-        <!--          <option value="3">Trái cây & thức uống</option>-->
-        <!--        </select>-->
-        <!--      </div>-->
-        <!--      <div class='item-row'>-->
-        <!--        Món ăn :-->
-        <!--        <input id='input-meal' placeholder='Món ăn'/>-->
-        <!--        -->
-        <!--      </div>-->
-        <!--      <div class='item-row'>-->
-        <!--        Số lượng : <input id='input-quantity' value='1' style='width: 40px;'/>-->
-        <!--      </div>-->
-        <!--      <div class='item-row'>-->
-        <!--        <input type='button' id='button-add-meal' value='Thêm vào'>-->
-        <!--        <input type='button' id='button-remove-meal' value='Bỏ đi' style='display: none'>-->
-        <!--      </div>-->
-        <!--      <br>-->
-        <!--      -->
-        <!--      -->
-        <!--    </div>           -->
-        <!--    -->
-        <!--    -->
-        <!--    -->
-        <!--    <div class='item-row' id='div-pull' style='width: 340px;'>-->
-        <!--        Nhập kết quả đo lực kéo : <input id='input-pull' style='width: 60px;'/>-->
-        <!--       -->
-        <!--    </div>-->
-        <!--    -->
-        <!--    <div class='btt-ptlk' id='btt-ptlk'>-->
-        <!--      <p>Phân tích kết quả</p>-->
-        <!--    </div>-->
-        <!--  </div>-->
-        <!--  -->
-        <!--  <div class='info-bottom'>  -->
-        <!--  <table class="table" id='table-info'>-->
-        <!--    <thead class="fontTitle">-->
-        <!--      <tr>-->
-        <!--        <th style="width:40px;background: #00A1D3;">STT</th>-->
-        <!--        <th style="width:180px;background: #00A1D3;">Bữa ăn</th>-->
-        <!--        <th style="width:250px;background: #00A1D3;">Món ăn</th>-->
-        <!--        <th style="width:80px;background: #00A1D3;">Số lượng</th>-->
-        <!--        <th style='background: #F48120'>Năng lượng<br/>(Kcal)</th>-->
-        <!--        <th style='background: #F48120'>Đạm<br/>(Kcal)</th>-->
-        <!--        <th style='background: #F48120'>Đường<br/>(Kcal)</th>-->
-        <!--        <th style='background: #F48120'>Béo<br/>(Kcal)</th>        -->
-        <!--        <th style='background: #F48120'>Vitamin<br/>(Kcal)</th>-->
-        <!--      </tr>-->
-        <!--    </thead>-->
-        <!--    <tbody>-->
-        <!--      <tr>-->
-        <!--        <td>1</td>-->
-        <!--        <td>Sáng</td>-->
-        <!--        <td>Cơm</td>-->
-        <!--        <td>1</td>-->
-        <!--        -->
-        <!--        <td>1</td>                -->
-        <!--        <td>1</td>-->
-        <!--        <td>1</td>-->
-        <!--        <td>1</td>-->
-        <!--        <td>1</td>-->
-        <!--      </tr>-->
-        <!--      <tr>-->
-        <!--        <td colspan="4">Năng lượng 1 ngày</td>-->
-        <!--        <td>1</td>-->
-        <!--        <td>1</td>-->
-        <!--        <td>1</td>-->
-        <!--        <td>1</td>     -->
-        <!--        <td>1</td>-->
-        <!--      </tr>-->
-        <!--      <tr>-->
-        <!--        <td colspan="5">Tỉ lệ phần trăm năng lượng trong 1 ngày</td>-->
-        <!--        <td>1%</td>-->
-        <!--        <td>1%</td>-->
-        <!--        <td>1%</td>     -->
-        <!--        <td></td>-->
-        <!--      </tr>-->
-        <!--      <tr>-->
-        <!--        <td colspan="5">Kết quả đo lực kéo</td>-->
-        <!--        <td id='td-pull'></td>-->
-        <!--        <td></td>-->
-        <!--        <td></td>     -->
-        <!--        <td></td>-->
-        <!--      </tr>-->
-        <!--    </tbody>-->
-        <!--  </table>-->
-        <!--  -->
-        <!--  </div>-->
-        <!--  -->
-        <!--  <p class='button-1' id='btt-next-ptdd'></p>-->
-        <!--</div>-->
-        <!--END-->
+      
       
     </body>
     

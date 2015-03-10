@@ -2018,3 +2018,21 @@ function removeUSERBUTTON(){
   //}
   
 }
+
+function printREPORT(){
+  cordova.plugins.printer.isAvailable(
+      function (isAvailable) {
+          
+          alert(isAvailable ? 'Service is available' : 'Service NOT available');
+          
+          if (isAvailable) {
+            var contentReport = $("#content-report").html();
+          
+            cordova.plugins.printer.print(contentReport, { name:'Nutrition Report', landscape:true }, function () {
+                alert('printing finished or canceled')
+            });
+          }
+          
+      }
+  );
+}
