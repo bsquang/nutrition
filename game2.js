@@ -2019,52 +2019,76 @@ function removeUSERBUTTON(){
   
 }
 
+var bPrint = false;
 function printREPORT() {
 //  var svg_lk = $("#mini-lk").find('svg')[0];
 //  if (svg_lk != undefined) {
 //	svg2image(svg_lk);
 //  }
   
-  svg2image("#mini-dd");
-  svg2image("#mini-lk");
-  
-  var image;
-  
-  var contentReport = $("#content-report").html();
-    html2canvas($("#content-report")[0], {
-  	onrendered: function(canvas) {
-  	  
-  	  var png = canvas.toDataURL("image/png");
-	  
-	  //alert(png);
-	  
-	  image = '<img style="width:1024px" src="'+png+'"/>';	  
-	  $("body").append(image);
-	  
-	  if (bPhoneGap) {
-		cordova.plugins.printer.isAvailable(
-			function (isAvailable) {
-				
-				alert(isAvailable ? 'Service is available' : 'Service NOT available');
-				
-				if (isAvailable) {
-				  var contentReport = image;
+  if (bPrint == false) {
+	svg2image("#mini-dd");
+	svg2image("#mini-lk");
+	
+	var image;
+	
+	var contentReport = $("#content-report").html();
+	  html2canvas($("#content-report")[0], {
+	  onrendered: function(canvas) {
+		
+		var png = canvas.toDataURL("image/png");
+		
+		//alert(png);
+		
+		image = '<img style="width:1024px" src="'+png+'"/>';	  
+		//$("body").append(image);
+		
+		if (bPhoneGap) {
+		  cordova.plugins.printer.isAvailable(
+			  function (isAvailable) {
 				  
-				  alert(image)
-				
-				  cordova.plugins.printer.print(contentReport, { name:'Nutrition Report', landscape:false }, function () {
-					  alert('printing finished or canceled')
-				  });
-				}
-				
-			}
-		);
+				  //alert(isAvailable ? 'Service is available' : 'Service NOT available');
+				  
+				  if (isAvailable) {
+					var contentReport = image;
+									  
+					cordova.plugins.printer.print(contentReport, { name:'Nutrition Report', landscape:false }, function () {
+						bPrint = true;
+						
+						alert('printing finished or canceled')			
+						
+					});
+				  }
+				  
+			  }
+		  );
+		}
+		
+		
+		
 	  }
-	  
-	  
-  	  
-  	}
-  });
+	});
+  }else{
+	
+	if (bPhoneGap) {
+	  cordova.plugins.printer.isAvailable(
+		  function (isAvailable) {
+			  
+			  if (isAvailable) {
+				var contentReport = image;
+			  
+				cordova.plugins.printer.print(contentReport, { name:'Nutrition Report', landscape:false }, function () {
+					alert('printing finished or canceled')
+				});
+			  }
+			  
+		  }
+	  );
+	}
+	
+  }
+  
+  
   
   
   
