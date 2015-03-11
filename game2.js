@@ -2046,14 +2046,16 @@ function printREPORT() {
   	}
   });
   
-  if (bPhoneGap) {
+  //if (bPhoneGap) {
 	cordova.plugins.printer.isAvailable(
 		function (isAvailable) {
 			
-			//alert(isAvailable ? 'Service is available' : 'Service NOT available');
+			alert(isAvailable ? 'Service is available' : 'Service NOT available');
 			
 			if (isAvailable) {
 			  var contentReport = image;
+			  
+			  alert(image)
 			
 			  cordova.plugins.printer.print(contentReport, { name:'Nutrition Report', landscape:true }, function () {
 				  alert('printing finished or canceled')
@@ -2062,7 +2064,7 @@ function printREPORT() {
 			
 		}
 	);
-  }
+  //}
   
 }
 
