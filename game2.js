@@ -2038,7 +2038,7 @@ function printREPORT() {
 	  
 	  //alert(png);
 	  
-	  image = '<img style="width:480px" src="'+png+'"/>';	  
+	  image = '<img style="width:1024px" src="'+png+'"/>';	  
 	  $("body").append(image);
 	  
 	  if (bPhoneGap) {
@@ -2052,7 +2052,7 @@ function printREPORT() {
 				  
 				  alert(image)
 				
-				  cordova.plugins.printer.print(contentReport, { name:'Nutrition Report', landscape:true }, function () {
+				  cordova.plugins.printer.print(contentReport, { name:'Nutrition Report', landscape:false }, function () {
 					  alert('printing finished or canceled')
 				  });
 				}
