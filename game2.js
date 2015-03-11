@@ -2027,16 +2027,63 @@ function printREPORT(){
   
   
   //SVG -> CANVAS -> IMAGE -> <img> -> IMAGE -> PRINT
+  var svg_lk = $("#mini-lk").find('svg')[0];
+  
+  var svgString = new XMLSerializer().serializeToString(svg_lk);
+  var canvas = document.getElementById("canvasPRINT");
+  //var canvas = document.createElement("canvas");
+  
+  $(canvas).width(1024);
+  $(canvas).height(728);
+  
+  var ctx = canvas.getContext("2d");
+  var DOMURL = self.URL || self.webkitURL || self;
+  
+  var img = new Image();
+  
+  var svg = new Blob([svgString], {type: "image/svg+xml;charset=utf-8"});
+  var url = DOMURL.createObjectURL(svg);
+  
+  alert(url);
+  
+//  img.onload = function() {
+//	  
+//	  ctx.drawImage(img, 0, 0, $(svg_lk).width(), $(svg_lk).height());
+//	  var png = canvas.toDataURL("image/png");
+//	  
+//	  //document.querySelector('#png-container').innerHTML = '<img src="'+png+'"/>';
+//	  $("#mini-lk").html('<img style="width:480px" src="'+png+'"/>');
+//	  DOMURL.revokeObjectURL(png);	  
+//	  
+//  };
+//  img.src = url;
+
+
+  //$("#mini-lk").html('<img style="width:480px" src="'+url+'"/>');
+
+  img.onload = function() {
+	  
+	  ctx.drawImage(img, 0, 0, $(svg_lk).width(), $(svg_lk).height());
+	  var png = canvas.toDataURL("image/png");
+	  
+	  //document.querySelector('#png-container').innerHTML = '<img src="'+png+'"/>';
+	  $("#mini-lk").html('<img style="width:480px" src="'+png+'"/>');
+	  DOMURL.revokeObjectURL(png);	  
+	  
+  };
+  img.src = url;
+  
+  
   
   
   //var contentReport = $("#content-report").html();
-  html2canvas($("#content-report")[0], {
-	onrendered: function(canvas) {
-	  
-	  
-	  document.body.appendChild(canvas);
-	}
-  });
+//  html2canvas($("#content-report")[0], {
+//	onrendered: function(canvas) {
+//	  
+//	  
+//	  document.body.appendChild(canvas);
+//	}
+//  });
   
   //cordova.plugins.printer.isAvailable(
   //    function (isAvailable) {
