@@ -2020,19 +2020,37 @@ function removeUSERBUTTON(){
 }
 
 function printREPORT(){
-  cordova.plugins.printer.isAvailable(
-      function (isAvailable) {
-          
-          alert(isAvailable ? 'Service is available' : 'Service NOT available');
-          
-          if (isAvailable) {
-            var contentReport = $("#content-report").html();
-          
-            cordova.plugins.printer.print(contentReport, { name:'Nutrition Report', landscape:true }, function () {
-                alert('printing finished or canceled')
-            });
-          }
-          
-      }
-  );
+  //http://www.inkfood.com/svg-to-canvas/
+  
+  //http://jsfiddle.net/02t09uud/
+  //http://bl.ocks.org/biovisualize/8187844
+  
+  
+  //SVG -> CANVAS -> IMAGE -> <img> -> IMAGE -> PRINT
+  
+  
+  //var contentReport = $("#content-report").html();
+  html2canvas($("#content-report")[0], {
+	onrendered: function(canvas) {
+	  
+	  
+	  document.body.appendChild(canvas);
+	}
+  });
+  
+  //cordova.plugins.printer.isAvailable(
+  //    function (isAvailable) {
+  //        
+  //        alert(isAvailable ? 'Service is available' : 'Service NOT available');
+  //        
+  //        if (isAvailable) {
+  //          var contentReport = $("#content-report").html();
+  //        
+  //          cordova.plugins.printer.print(contentReport, { name:'Nutrition Report', landscape:true }, function () {
+  //              alert('printing finished or canceled')
+  //          });
+  //        }
+  //        
+  //    }
+  //);
 }
