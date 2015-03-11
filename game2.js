@@ -2019,11 +2019,80 @@ function removeUSERBUTTON(){
   
 }
 
-function printREPORT(){
+function printREPORT() {
+//  var svg_lk = $("#mini-lk").find('svg')[0];
+//  if (svg_lk != undefined) {
+//	svg2image(svg_lk);
+//  }
+  
+  svg2image("#mini-dd");
+  svg2image("#mini-lk");
+  
+  var image;
+  
+  var contentReport = $("#content-report").html();
+    html2canvas($("#content-report")[0], {
+  	onrendered: function(canvas) {
+  	  
+  	  var png = canvas.toDataURL("image/png");
+	  
+	  //alert(png);
+	  
+	  image = '<img style="width:480px" src="'+png+'"/>';	  
+	  $("body").append(image);
+	  
+	  
+  	  
+  	}
+  });
+  
+  if (bPhoneGap) {
+	cordova.plugins.printer.isAvailable(
+		function (isAvailable) {
+			
+			//alert(isAvailable ? 'Service is available' : 'Service NOT available');
+			
+			if (isAvailable) {
+			  var contentReport = image;
+			
+			  cordova.plugins.printer.print(contentReport, { name:'Nutrition Report', landscape:true }, function () {
+				  alert('printing finished or canceled')
+			  });
+			}
+			
+		}
+	);
+  }
+  
+}
+
+function svg2image(target) {
+  
+  element = $(target).find('svg')[0];
+  
+  if (element != undefined) {
+	var canvas = document.createElement("canvas");  
+	$(canvas).width(480);
+	$(canvas).height(400);  
+	var oSerializer = new XMLSerializer();
+	var sXML = oSerializer.serializeToString(element); 
+	canvg(canvas, sXML,{ ignoreMouse: true, ignoreAnimation: true })  
+	var png = canvas.toDataURL("image/png");
+	
+	$(target).html('<img style="width:480px" src="'+png+'"/>');
+  }
+  
+  
+}
+
+
+function printREPORT2(){
   //http://www.inkfood.com/svg-to-canvas/
   
   //http://jsfiddle.net/02t09uud/
   //http://bl.ocks.org/biovisualize/8187844
+  
+  
   
   
   //SVG -> CANVAS -> IMAGE -> <img> -> IMAGE -> PRINT

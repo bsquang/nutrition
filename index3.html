@@ -530,7 +530,7 @@
             <div class='ios-button-toolbar' style='right: 0; top: 0;' ontouchend='controlBUTTON()'>Bảng điều khiển</div>
           </div>
           
-          <div class='bsq-row' id='content-report'>
+          <div class='bsq-row' id='content-report' style='background: white;'>
             <div class='bsq-row group' style='padding: 10px 20px;'>
               <div class='col-50 col-left'>
                 <p class='col-20 col-left' style='font-weight: bold'>Họ và tên:<br>Địa chỉ:</p>
@@ -630,9 +630,6 @@
             
             <br>
             
-            <canvas id="canvasPRINT" width="480" height="400" style='display: none;'></canvas>
-            <div id="png-container"></div>
-            
             <br>
           </div>
           
@@ -709,6 +706,10 @@
      
       <script src="resources/html2canvas.min.js"></script>
       <script src="resources/html2canvas.svg.min.js"></script>
+      
+      <script type="text/javascript" src="resources/rgbcolor.js"></script> 
+      <script type="text/javascript" src="resources/StackBlur.js"></script>
+      <script type="text/javascript" src="resources/canvg.js"></script>
       
       <script src="resources/jquery.nouislider.all.min.js"></script>
       
