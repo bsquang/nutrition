@@ -534,6 +534,10 @@ function gotoPanel(id){
     setTimeout(function(){ $($(".panel[bsq-id=5]").find('input')).focus() } , 300);
   }
   
+  if (id == 3) {
+    setTimeout(function(){ $($(".panel[bsq-id=3]").find('#input-meal')).focus() } , 300);
+  }
+  
   if (id == 3 || id == 2 || id==7) {
      bForceMove = false;
      
@@ -2020,17 +2024,22 @@ function removeUSERBUTTON(){
 }
 
 var bPrint = false;
+var imagePRINT;
+
 function printREPORT() {
 //  var svg_lk = $("#mini-lk").find('svg')[0];
 //  if (svg_lk != undefined) {
 //	svg2image(svg_lk);
 //  }
   
+  
+  
   if (bPrint == false) {
+	
 	svg2image("#mini-dd");
 	svg2image("#mini-lk");
 	
-	var image;
+	
 	
 	var contentReport = $("#content-report").html();
 	  html2canvas($("#content-report")[0], {
@@ -2040,7 +2049,7 @@ function printREPORT() {
 		
 		//alert(png);
 		
-		image = '<img style="width:1024px" src="'+png+'"/>';	  
+		imagePRINT = '<img style="width:1024px" src="'+png+'"/>';	  
 		//$("body").append(image);
 		
 		if (bPhoneGap) {
@@ -2050,7 +2059,7 @@ function printREPORT() {
 				  //alert(isAvailable ? 'Service is available' : 'Service NOT available');
 				  
 				  if (isAvailable) {
-					var contentReport = image;
+					var contentReport = imagePRINT;
 									  
 					cordova.plugins.printer.print(contentReport, { name:'Nutrition Report', landscape:false }, function () {
 						bPrint = true;
@@ -2065,7 +2074,7 @@ function printREPORT() {
 		}
 		
 		
-		
+		bPrint = true;
 	  }
 	});
   }else{
@@ -2075,7 +2084,7 @@ function printREPORT() {
 		  function (isAvailable) {
 			  
 			  if (isAvailable) {
-				var contentReport = image;
+				var contentReport = imagePRINT;
 			  
 				cordova.plugins.printer.print(contentReport, { name:'Nutrition Report', landscape:false }, function () {
 					alert('printing finished or canceled')
@@ -2084,6 +2093,10 @@ function printREPORT() {
 			  
 		  }
 	  );
+	}else{
+	  
+	  alert(bPrint);
+	  
 	}
 	
   }
@@ -2120,55 +2133,6 @@ function printREPORT2(){
   //http://jsfiddle.net/02t09uud/
   //http://bl.ocks.org/biovisualize/8187844
   
-  
-  
-  
-  //SVG -> CANVAS -> IMAGE -> <img> -> IMAGE -> PRINT
-  var svg_lk = $("#mini-lk").find('svg')[0];
-  
-  var svgString = new XMLSerializer().serializeToString(svg_lk);
-  var canvas = document.getElementById("canvasPRINT");
-  //var canvas = document.createElement("canvas");
-  
-  $(canvas).width(1024);
-  $(canvas).height(728);
-  
-  var ctx = canvas.getContext("2d");
-  var DOMURL = self.URL || self.webkitURL || self;
-  
-  var img = new Image();
-  
-  var svg = new Blob([svgString], {type: "image/svg+xml;charset=utf-8"});
-  var url = DOMURL.createObjectURL(svg);
-  
-  alert(url);
-  
-//  img.onload = function() {
-//	  
-//	  ctx.drawImage(img, 0, 0, $(svg_lk).width(), $(svg_lk).height());
-//	  var png = canvas.toDataURL("image/png");
-//	  
-//	  //document.querySelector('#png-container').innerHTML = '<img src="'+png+'"/>';
-//	  $("#mini-lk").html('<img style="width:480px" src="'+png+'"/>');
-//	  DOMURL.revokeObjectURL(png);	  
-//	  
-//  };
-//  img.src = url;
-
-
-  //$("#mini-lk").html('<img style="width:480px" src="'+url+'"/>');
-
-  img.onload = function() {
-	  
-	  ctx.drawImage(img, 0, 0, $(svg_lk).width(), $(svg_lk).height());
-	  var png = canvas.toDataURL("image/png");
-	  
-	  //document.querySelector('#png-container').innerHTML = '<img src="'+png+'"/>';
-	  $("#mini-lk").html('<img style="width:480px" src="'+png+'"/>');
-	  DOMURL.revokeObjectURL(png);	  
-	  
-  };
-  img.src = url;
   
   
   
