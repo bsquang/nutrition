@@ -1,3 +1,14 @@
+function twoDigits(d) {
+    if(0 <= d && d < 10) return "0" + d.toString();
+    if(-10 < d && d < 0) return "-0" + (-1*d).toString();
+    return d.toString();
+}
+
+Date.prototype.toMysqlFormat = function() {
+    return this.getFullYear() + "-" + twoDigits(1 + this.getMonth()) + "-" + twoDigits(this.getDate()) + " " + twoDigits(this.getHours()) + ":" + twoDigits(this.getMinutes()) + ":" + twoDigits(this.getSeconds());
+};
+
+
 var list_meal_added = [];
 
 var list_data_user_created = []; // User data-add
@@ -450,8 +461,10 @@ function refreshPage() {
 function getCurrentDateCreated() {
   
   var current = new Date();
+  current.toMysqlFormat();
   //return current.getDate()+"/"+(current.getMonth()+1)+"/"+current.getFullYear()+" "+current.getHours()+":"+current.getMinutes();
-  return current.getFullYear()+"-"+(current.getMonth()+1)+"-"+current.getDate()+" "+current.getHours()+":"+current.getMinutes()+":"+current.getSeconds();
+  //return current.getFullYear()+"-"+(current.getMonth()+1)+"-"+current.getDate()+" "+current.getHours()+":"+current.getMinutes()+":"+current.getSeconds();
+  return current.toMysqlFormat();
 }
 
 var current = 1;
@@ -1748,7 +1761,7 @@ function getDataList() {
         data2Local(temp); // Store list local
         data2AutoComplete(temp); // Store list autocomplete
         
-        alert('Sync done');
+        alert('Sync done!');
         window.location.href = '';
       }
   });
@@ -2258,5 +2271,14 @@ function checkOldRecord() {
   }
   
   gotoPanel(7);
+  
+}
+
+function clearAllData(){
+  if (confirm('Bạn có chắc chắn xóa hết dữ liệu trên máy này ?')) {
+    localStorage.clear();
+    alert("Xong!");
+  }
+  
   
 }
