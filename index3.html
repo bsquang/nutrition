@@ -8,8 +8,8 @@
       <title>Nutrition</title>
       
       <link rel="stylesheet" media="all" href="css2.css?89">
-      <link rel="stylesheet" type="text/css" href="resources/jchartfx/styles/Attributes/jchartfx.attributes.topbar.css" />
-      <link rel="stylesheet" type="text/css" href="resources/jchartfx/styles/Palettes/jchartfx.palette.topbar.css" />
+      <!--<link rel="stylesheet" type="text/css" href="resources/jchartfx/styles/Attributes/jchartfx.attributes.topbar.css" />-->
+      <!--<link rel="stylesheet" type="text/css" href="resources/jchartfx/styles/Palettes/jchartfx.palette.topbar.css" />-->
       
       <link href="resources/jquery.nouislider.min.css" rel="stylesheet">
       
@@ -173,7 +173,7 @@
                     </div>
                     <br>
                     <div class='bsq-row group'>
-                      <div class='ios-button ios-button-confirm'>Xem lại kết quả lần kiểm tra gần nhất</div>
+                      <div class='ios-button ios-button-confirm' ontouchend='gotoCheckRecord()'>Xem lại kết quả lần kiểm tra gần nhất</div>
                     </div>
                     <br>
                     <div class='bsq-row group'>                    
@@ -190,6 +190,23 @@
               </div>
               <!--END-->
               
+              <!--REVIEW OLD RECORDS-->
+              <div class='bsq-tab' bsq-id='4' style='display: none; padding: 10px;'>
+                
+                <p style='padding: 10px;'>Xin chọn ngày muốn xem lại kết quả:</p>                
+                <select id='select-old-record' style='width: 100%;padding: 10px 20px;font-size: 20px;'>
+                  <option value='0'>2015-03-16 03:03:00</option>
+                  <option value='1'>2015-03-16 03:49:00</option>
+                </select>
+                
+                <div class='bsq-row group' style='margin-top: 10px;'>                    
+                  <div class='col-right col-30'>                      
+                    <div class='ios-button ios-button-confirm' ontouchend="checkOldRecord()">Xem kết quả</div>
+                  </div>
+                </div>  
+                
+              </div>
+              <!--END-->
             
               <div class='bsq-tab' bsq-id='3' style='display: none; padding: 10px;'>
                 
@@ -635,7 +652,7 @@
           
           <div class='bsq-row group' style='padding: 10px;'>
             <div class='ios-button ios-button-decline col-left col-20' ontouchend='printREPORT()'>In kết quả</div>
-            <div class='ios-button ios-button-confirm col-right col-20' ontouchend='nextBUTTON()'>Tiếp</div>
+            <div class='ios-button ios-button-confirm col-right col-20' ontouchend='nextBUTTON()' id='button-next-print'>Tiếp</div>
           </div>
         </div>
         <!--END-->
@@ -657,14 +674,14 @@
         <!--END-->
         
         <!--CONTROLPANEL-->
-        <div class='panel' id='panel-config' bsq-id='9' style='padding: 20px;'>
-          <div class='bsq-row group'>
+        <div class='panel' id='panel-config' bsq-id='9' >
+          <div class='bsq-row group' style='padding: 20px;'>
             
             <div class="bsq-col6"><p class='ios-input-title'>URL-Sync: </p></div>
             <div class="bsq-col12"><input id='input-url' class='ios-input' type='url' /></div>            
             
           </div>          
-          <div class='bsq-row group' style='padding: 10px;'>                                    
+          <div class='bsq-row group' style='padding: 20px;'>                                    
             <input id='btt-sync' class='ios-button ios-button-decline col-30 col-right' type='button' value='Sync now'>            
           </div>
           
@@ -677,6 +694,10 @@
               <h3>Khách hàng đã tải về</h3>
               <h1>3</h1>
             </div>
+          </div>
+          
+          <div class='bsq-row group' style='padding: 10px;position: absolute;bottom: 0;'>
+            <div class='ios-button ios-button-decline col-left col-20' ontouchend='refreshPage()'>Khởi động lại</div>
           </div>
           
         </div>
@@ -693,6 +714,8 @@
         
       
       
+      <!--END WRAPPER-->
+      
       <script type="text/javascript" src="resources/jquery-2.1.3.min.js"></script>
       <script type="text/javascript" src="resources/jquery-ui.js"></script>
       <link rel="stylesheet" href="resources/jquery-ui.css">
@@ -702,7 +725,7 @@
       <script src="resources/highcharts/highcharts-3d.js"></script>
       <script src="resources/highcharts/exporting.js"></script>      
      
-      <script type="text/javascript" src="resources/jchartfx/jchartfx.full.js"></script>
+      <!--<script type="text/javascript" src="resources/jchartfx/jchartfx.full.js"></script>-->
      
       <script src="resources/html2canvas.min.js"></script>
       <script src="resources/html2canvas.svg.min.js"></script>

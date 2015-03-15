@@ -66,6 +66,19 @@ Check number lại tất cả các input number
 UDID LAMHONG-IPAD2 = 2a230ce098d0f656197a94d118830135ad707a4f
 
 
+-Xem lại post và get data khi sync
+-Xem lại date time khi synce
+Delete user
+-Xem lại history của user
+Thêm mục chương trình, phân loại chương trình mà user đã tham gia
+-Khi bấm vào mục xem lại kết quả cũ, hiện ra dropdown thể hiện thời gian đã tham gia. -> hiện ra báo cáo
+Làm menu bên tay phải khi bấm lòi ra sẽ có nút refresh, và nút bảng điều khiển
+Trong bảng điều khiển có nút xóa tất cả record hiện tại và nút refresh lại chương trình
+
+Quan trọng:
+-Khi đo cả 2, phải lưu data giai đoạn pull. (hiện tại mới lưu ở giai đoạn ptdd)
+
+
 // Note
 Phonegap 3.5 not support ios 5 => phonegap 3.4
 Number.parse -> not support almost -> string to JSON and parse JSON to number

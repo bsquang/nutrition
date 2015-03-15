@@ -17,19 +17,19 @@ var user = {
 }
 
 var result = {
-    'energy': 2314,
-    'dam': 391.6,
-    'duong': 1514.8,
-    'beo': 409.5
+    'energy': 0,
+    'dam': 0,
+    'duong': 0,
+    'beo': 0
 }
 
 var total = {
-    'pull': 32,
-    'nangluong':1968,
-    'dam':386.4,
-    'duong':1154.4,
-    'beo':426.6,
-    'vitamin':9,
+    'pull': 0,
+    'nangluong':0,
+    'dam':0,
+    'duong':0,
+    'beo':0,
+    'vitamin': 0,
     'date_created':getCurrentDateCreated()
 }
 
@@ -39,6 +39,15 @@ function createREPORT(type){
   
   $("#report-name-address").html(user.name + '<br>' + user.address + " " + getTinhThanhString(user.districts));
   $("#report-phone").html(user.phone);
+  
+  // REVIEW OLD RECORDS
+  if (cal_mode == -1) {
+    $("#button-next-print").hide(); //HIDE THIS BUTTON NEXT
+  }
+  else {
+    $("#button-next-print").show(); 
+  }
+  //END
   
   if (type == 0 || type == 2) {
     
@@ -67,6 +76,7 @@ function createREPORT(type){
     
     
   }
+  
   if (type == 1 || type == 2) {
     
     $("#report-pull").html(total.pull);
@@ -405,6 +415,8 @@ function controlBUTTON() {
   if(temp == "ppp"){
     $(".panel").hide();
     $("#panel-config").show();
+  }else{
+    
   }
 }
 
@@ -418,12 +430,13 @@ $("#btt-sync").bind('touchstart', function(){
   }
 })
 
-$("#btt-reload").bind('touchstart', function(){
+
+
+function refreshPage() {
   if(confirm("Do you want to reload ?")){
     window.location.href = '';
   }
-})
-
+}
 
 
 
@@ -437,8 +450,8 @@ $("#btt-reload").bind('touchstart', function(){
 function getCurrentDateCreated() {
   
   var current = new Date();
-  return current.getDate()+"/"+(current.getMonth()+1)+"/"+current.getFullYear()+" "+current.getHours()+":"+current.getMinutes();
-  
+  //return current.getDate()+"/"+(current.getMonth()+1)+"/"+current.getFullYear()+" "+current.getHours()+":"+current.getMinutes();
+  return current.getFullYear()+"-"+(current.getMonth()+1)+"-"+current.getDate()+" "+current.getHours()+":"+current.getMinutes()+":"+current.getSeconds();
 }
 
 var current = 1;
@@ -499,6 +512,9 @@ function calMode(type){
   
   enableMode(type);
   
+  iniTotal();
+  clearReport();
+  
   if (cal_mode == 0) {
     clearTABLEMEAL();
     gotoPanel(3)
@@ -513,6 +529,47 @@ function calMode(type){
     gotoPanel(3)
   }
     
+}
+
+function iniTotal(){
+  result = {
+      'energy': 0,
+      'dam': 0,
+      'duong': 0,
+      'beo': 0
+  }
+  
+  total = {
+      'pull': 0,
+      'nangluong':0,
+      'dam':0,
+      'duong':0,
+      'beo':0,
+      'vitamin': 0,
+      'date_created':getCurrentDateCreated()
+  }
+}
+
+function clearReport() {
+  
+  
+  $("#report-energy").html('');
+  $("#report-dam").html('');
+  $("#report-duong").html('');
+  $("#report-beo").html('');
+  $("#report-vitamin").html('');  
+  
+  $("#report-dam-per").html('');
+  $("#report-duong-per").html('');
+  $("#report-beo-per").html('');
+  
+  $("#report-pull").html('');
+  
+  $('#report-ptdd-top').hide();
+  $('#report-ptlk-top').hide();
+  
+  
+  
 }
 
 function clearTABLEMEAL() {
@@ -565,7 +622,9 @@ function checkPTTPDD() {
   document.activeElement.blur();
   $(window).scrollTop(0);
   
-  saveDataUser(); // Save data here
+  if (cal_mode == 0) {
+    saveDataUser(); // Save data here
+  }
   createNEWGRAP();
   
   //calTPDD();
@@ -577,7 +636,7 @@ function checkPTLK() {
   document.activeElement.blur();
   $(window).scrollTop(0);
   
-  if (cal_mode == 1) {
+  if (cal_mode > 0) {
     saveDataUser();
   }
   calPTLK(1);
@@ -623,8 +682,7 @@ function nextBUTTON() {
     
     current += 1; 
     gotoPanel(current);  
-  }
-  
+  }  
 }
 
 
@@ -652,6 +710,12 @@ function prevBUTTON() {
   if (cal_mode == 2) {    
     current -= 1; 
     gotoPanel(current);  
+  }
+  if (cal_mode == -1) {
+    
+    current = 2;
+    gotoPanel(current);
+    
   }
   
 }
@@ -1297,6 +1361,7 @@ function calTPDD() {
 }
 
 function calPTLK(type) {
+  
     var divTarget;
 	if (type == 1) {
 	  divTarget = $("#container-pull");
@@ -1597,8 +1662,7 @@ function saveDataUser(){
     'record':total          
   };
   
-  list_data_user_created.push(temp_user);
-  
+  list_data_user_created.push(temp_user);  
   localStorage.list_data_user_created = JSON.stringify(list_data_user_created);
   
   // Update to autocomplete and dat_local when new user and new phone
@@ -1607,8 +1671,11 @@ function saveDataUser(){
   for(var i=0;i<list_data_local.length;i++)
   {
     var temp = list_data_local[i];
-    if (temp.phone == user.phone) {
+    if (temp.phone == user.phone && temp.name == user.name) {
       bExist = true;
+      
+      list_data_local[i].records.push(total);
+      data2Local(list_data_local);
       
       //list_data_local[i].deleted = user.deleted; //For ipad reload check
       // IF DELEDTED -> php check and remove in this
@@ -1618,12 +1685,20 @@ function saveDataUser(){
   }
   
   if (bExist == false) {
-    var temp_autocomplete = {'value':(list_data_autocomplete.length+1),'label':user.name+"-"+user.phone};
-    list_data_autocomplete.push(temp_autocomplete);
-              
+  //  var temp_autocomplete = {'value':(list_data_autocomplete.length+1),'label':user.name+"-"+user.phone};
+  //  list_data_autocomplete.push(temp_autocomplete);
+  //            
+  //  list_data_local.push(user);
+  //  
+  //  save2LocalStorage();
+  
+    user.records = [];
+    user.records.push(total);
+    
     list_data_local.push(user);
     
-    save2LocalStorage();
+    data2Local(list_data_local);
+  
   }
   
   
@@ -1644,7 +1719,7 @@ function syncData() {
       success: function (msg) {
           var temp = JSON.parse(msg);
           if(temp.result=='1') {
-            alert('Send data done');
+            
                               
             // Sync complete
             var temp_time = getCurrentDateCreated();
@@ -1672,6 +1747,9 @@ function getDataList() {
         
         data2Local(temp); // Store list local
         data2AutoComplete(temp); // Store list autocomplete
+        
+        alert('Sync done');
+        window.location.href = '';
       }
   });
 }
@@ -1698,10 +1776,13 @@ function data2Local(data){
   localStorage.list_data_local = data_json; 
 }
 
+var currentUserSelected = 0;
 function loadDataFromLIUser(val) {
   document.activeElement.blur(); //Hide keyboard
   
   if(confirm("Bạn đồng ý mở lại dữ liệu khách hàng ?")){
+    
+    currentUserSelected = val;
     
     user_mode = 1; //LIST
     var temp_data = list_data_local[val];
@@ -1754,24 +1835,24 @@ function initAutocomplete(){
   var temp = JSON.parse(localStorage.list_data_autocomplete);          
   list_data_autocomplete = temp;
   
-  $( "#input-name" ).autocomplete({
-    minLength: 0,
-    source: list_data_autocomplete,      
-    select: function( event, ui ) {
-      
-      var temp_data = list_data_local[ui.item.value-1];
-      putData2Input(temp_data);
-      
-      
-      // AUTOCOMPLETE JQUERY UI -- bsqMOD -- touchstart, touchmove inside 07012015
-      // blur after autocomplete done!
-      document.activeElement.blur();
-      
-      //console.log( ui.item.value );
-      
-      return false;
-    }
-  });
+  //$( "#input-name" ).autocomplete({
+  //  minLength: 0,
+  //  source: list_data_autocomplete,      
+  //  select: function( event, ui ) {
+  //    
+  //    var temp_data = list_data_local[ui.item.value-1];
+  //    putData2Input(temp_data);
+  //    
+  //    
+  //    // AUTOCOMPLETE JQUERY UI -- bsqMOD -- touchstart, touchmove inside 07012015
+  //    // blur after autocomplete done!
+  //    document.activeElement.blur();
+  //    
+  //    //console.log( ui.item.value );
+  //    
+  //    return false;
+  //  }
+  //});
   
   $( "#input-user-district" ).autocomplete({
     minLength: 0,
@@ -1803,6 +1884,7 @@ function initAutocomplete(){
 function clearAutoComplete(){
   localStorage.list_data_autocomplete = '[]';
 }
+
 function putData2Input(data){
   
   //$( "#tags" ).val( data.name );
@@ -1894,6 +1976,9 @@ function changeTab(id){
     clearInputReg();
     $("#title-top").html('TẠO MỚI KHÁCH HÀNG')
     setTimeout(function(){ $($(".bsq-step")[0]).find('input').focus(); }, 500);    
+  }
+  if (id==4) {    
+    $("#title-top").html('')    
   }
 }
 
@@ -2027,84 +2112,51 @@ var bPrint = false;
 var imagePRINT;
 
 function printREPORT() {
-//  var svg_lk = $("#mini-lk").find('svg')[0];
-//  if (svg_lk != undefined) {
-//	svg2image(svg_lk);
-//  }
-  
-  
-  
-  if (bPrint == false) {
-	
-	svg2image("#mini-dd");
-	svg2image("#mini-lk");
-	
-	
-	
-	var contentReport = $("#content-report").html();
-	  html2canvas($("#content-report")[0], {
-	  onrendered: function(canvas) {
-		
-		var png = canvas.toDataURL("image/png");
-		
-		//alert(png);
-		
-		imagePRINT = '<img style="width:1024px" src="'+png+'"/>';	  
-		//$("body").append(image);
-		
-		if (bPhoneGap) {
-		  cordova.plugins.printer.isAvailable(
-			  function (isAvailable) {
-				  
-				  //alert(isAvailable ? 'Service is available' : 'Service NOT available');
-				  
-				  if (isAvailable) {
-					var contentReport = imagePRINT;
-									  
-					cordova.plugins.printer.print(contentReport, { name:'Nutrition Report', landscape:false }, function () {
-						bPrint = true;
-						
-						alert('printing finished or canceled')			
-						
+	if (bPrint == false) {
+		svg2image("#mini-dd");
+		svg2image("#mini-lk");
+		var contentReport = $("#content-report").html();
+		html2canvas($("#content-report")[0], {
+			onrendered: function(canvas) {
+				var png = canvas.toDataURL("image/png");
+				//alert(png);
+				imagePRINT = '<img style="width:1024px" src="' + png + '"/>';
+				//$("body").append(image);
+				if (bPhoneGap) {
+					cordova.plugins.printer.isAvailable(function(isAvailable) {
+						//alert(isAvailable ? 'Service is available' : 'Service NOT available');
+						if (isAvailable) {
+							var contentReport = imagePRINT;
+							cordova.plugins.printer.print(contentReport, {
+								name: 'Nutrition Report',
+								landscape: false
+							}, function() {
+								bPrint = true;
+								alert('printing finished or canceled')
+							});
+						}
 					});
-				  }
-				  
-			  }
-		  );
+				}
+				bPrint = true;
+			}
+		});
+	} else {
+		if (bPhoneGap) {
+			cordova.plugins.printer.isAvailable(function(isAvailable) {
+				if (isAvailable) {
+					var contentReport = imagePRINT;
+					cordova.plugins.printer.print(contentReport, {
+						name: 'Nutrition Report',
+						landscape: false
+					}, function() {
+						alert('printing finished or canceled')
+					});
+				}
+			});
+		} else {
+			alert(bPrint);
 		}
-		
-		
-		bPrint = true;
-	  }
-	});
-  }else{
-	
-	if (bPhoneGap) {
-	  cordova.plugins.printer.isAvailable(
-		  function (isAvailable) {
-			  
-			  if (isAvailable) {
-				var contentReport = imagePRINT;
-			  
-				cordova.plugins.printer.print(contentReport, { name:'Nutrition Report', landscape:false }, function () {
-					alert('printing finished or canceled')
-				});
-			  }
-			  
-		  }
-	  );
-	}else{
-	  
-	  alert(bPrint);
-	  
 	}
-	
-  }
-  
-  
-  
-  
-  
 }
 
 function svg2image(target) {
@@ -2122,7 +2174,6 @@ function svg2image(target) {
 	
 	$(target).html('<img style="width:480px" src="'+png+'"/>');
   }
-  
   
 }
 
@@ -2161,4 +2212,51 @@ function printREPORT2(){
   //        
   //    }
   //);
+}
+
+
+function gotoCheckRecord(){
+  
+  var data = list_data_local[currentUserSelected];  
+  if (data.records.length <= 0) {
+    return;
+  }
+  
+  var tempDIV = '';
+  for(var i=0;i<data.records.length;i++){
+    tempDIV += "<option value='"+i+"'>"+data.records[i].date_created+"</option>";    
+  }
+  $("#select-old-record").html(tempDIV);
+  
+  changeTab(4);
+}
+
+function checkOldRecord() {
+  
+  cal_mode = -1;
+  clearReport();
+  
+  var data = list_data_local[currentUserSelected];  
+  var record = data.records[$("#select-old-record").val()];
+  
+  total = record;
+  total.pull = bsqStringToNumber(total.pull);
+  
+  
+  
+  if (total.nangluong == 0 && total.pull != 0) {
+    
+    createREPORT(1);
+    
+  }else if (total.nangluong != 0 && total.pull == 0)
+  {
+    createREPORT(0);
+    
+  }else if (total.nangluong != 0 && total.pull != 0)
+  {
+    createREPORT(2);
+  }
+  
+  gotoPanel(7);
+  
 }
