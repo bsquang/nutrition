@@ -2278,6 +2278,7 @@ function clearAllData(){
   if (confirm('Bạn có chắc chắn xóa hết dữ liệu trên máy này ?')) {
     localStorage.clear();
     alert("Xong!");
+    window.location.href = '';
   }
   
   
