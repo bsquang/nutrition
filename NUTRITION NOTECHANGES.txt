@@ -41,7 +41,7 @@ Phân tích dinh dưỡng:
 
 Phân tích lực kéo:
 -Thêm tựa Phân tích lực kéo
-Design lại cho to hơn các input
+-Design lại cho to hơn các input
 -Bỏ lao động ""trung bình nặng hay nhẹ""
 -popup info khi init
 -Đường trung bình
@@ -55,12 +55,12 @@ Giao diện phần in (Mới đưa 2 dạng thôi, còn dạng lực kéo, phân
 -iconApp
 -splash screen app (Chưa cung cấp)
 
-Design tờ report lực kéo riêng
-Design tờ report thành phần dinh dưỡng
+-Design tờ report lực kéo riêng
+-Design tờ report thành phần dinh dưỡng
 -Design tờ report cả hai
 
-Thêm nút Clear Data
-Check number lại tất cả các input number
+-Thêm nút Clear Data
+-Check number lại tất cả các input number
 - fix save data ptdd
 
 UDID LAMHONG-IPAD2 = 2a230ce098d0f656197a94d118830135ad707a4f
@@ -77,6 +77,17 @@ Trong bảng điều khiển có nút xóa tất cả record hiện tại và n�
 
 Quan trọng:
 -Khi đo cả 2, phải lưu data giai đoạn pull. (hiện tại mới lưu ở giai đoạn ptdd)
+
+
+--- feedback : 190315
+Add background vào đo lực kéo
+-Thêm món ăn nào xong thì xóa input
+Trộn tất cả các món ăn lại thành 1
+Đổi nhập tỉnh thành thành select tỉnh thành và region
+Có thể enable/disable các input nào cần nhập
+Có chức năng gởi email
+Bỏ title ban đầu
+Ở phần đo cả hai hiện luôn input nhập lực kéo
 
 
 // Note

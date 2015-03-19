@@ -319,17 +319,17 @@ function handleValueSlide(val) {
 
 var user_mode = 0; // 0:new 1:list
 
-$("input").bind('touchend',function(){
-  
-  $(this).focus();
-  
-})
-
-$("select").bind('touchend',function(){
-  
-  $(this).focus();
-  
-})
+//$("input").bind('touchend',function(){
+//  
+//  $(this).focus();
+//  
+//})
+//
+//$("select").bind('touchend',function(){
+//  
+//  $(this).focus();
+//  
+//})
 
 $(".panel").css({
   'min-height':'768px'
@@ -861,7 +861,8 @@ $("#select-time-meal").change(function(){
 // BUTTON EVENT MEAL
 function addMEALBUTTON() {
   if($("#input-meal").val() == ''){
-    alert("Yêu cầu nhập vào món ăn!");
+	$("#input-meal").focus();
+    //alert("Yêu cầu nhập vào món ăn!");
     return;
   }
   
@@ -948,6 +949,8 @@ function addItem(quantity){
   $("#button-remove-meal").show();
   $("#group-table-meal").show();
   $("#button-check-ttdd").show();
+  
+  $("#input-meal").val('');
 }
 
 function removeItem(){
