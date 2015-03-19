@@ -66,6 +66,10 @@ function createREPORT(type){
   }
   //END
   
+  if (type == 1 || type == 2) {
+    
+  }
+  
   if (type == 0 || type == 2) {
     
     $("#report-energy").html(total.nangluong);
@@ -886,7 +890,9 @@ function loadListMeal(selectIndex) {
   
   meal_autocomplete = [];
   
-  var temp_array = filter_database[selectIndex];
+  //var temp_array = filter_database[selectIndex];
+  
+  var temp_array = mixed_filter;
   var temp_div = '';
   for(var i=0; i<temp_array.length;i++){
     var temp = temp_array[i];
@@ -926,7 +932,7 @@ function loadListMeal(selectIndex) {
 function addItem(quantity){
   var index_time_meal = $("#select-time-meal")[0].value;
   var index_meal = meal_current-1;
-  var temp_thucan = filter_database[index_time_meal][index_meal];
+  var temp_thucan = mixed_filter[index_meal];
   
   
   
@@ -941,6 +947,20 @@ function addItem(quantity){
     'beo' : roundHundred(temp_thucan.beo*quantity*9),
     'vitamin' : roundHundred(temp_thucan.vitamin*quantity)
   }
+  
+  switch(index_time_meal){
+    case '0':
+      temp_thucan.time = "Sáng";
+    break;
+    case '1':
+      temp_thucan.time = "Trưa";
+    break;
+    case '2':
+      temp_thucan.time = "Chiều tối";
+    break;    
+  }
+  
+  
   
   list_meal_added.push(temp_thucan)
   
@@ -1464,7 +1484,7 @@ function calPTLK(type) {
             max: 90,
             min: 0,
             title: {
-                text: 'Lực kéo'
+                text: 'Lực kéo (KG)'
             },
             labels: {
                 formatter: function() {

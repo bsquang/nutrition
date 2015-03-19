@@ -70,21 +70,17 @@ body, html, input, textarea{
     position: relative;
     display: none;
   }
+  
   #panel-00{
     background: url('resources/BGR-INTRO.png');
   }
-  #panel-01{
-    
-  }
-  #panel-02{
-    
+  #panel-04{
+    background: url('resources/BGR-INFO.jpg');
   }
   #panel-07{
     background: url('resources/BGR-END.png');
   }
-  #panel-05{
-    /*background: url('resources/NUTRITION-REPORT.png');*/
-  }
+
   
   
   .logo-luvitas{

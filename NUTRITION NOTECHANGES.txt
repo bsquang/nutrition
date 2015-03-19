@@ -80,14 +80,21 @@ Quan trọng:
 
 
 --- feedback : 190315
-Add background vào đo lực kéo
--Thêm món ăn nào xong thì xóa input
-Trộn tất cả các món ăn lại thành 1
+
+Có chức năng gởi email
+Biểu đồ sẽ nằm chính giữa nếu chỉ có 1 biểu đồ
 Đổi nhập tỉnh thành thành select tỉnh thành và region
 Có thể enable/disable các input nào cần nhập
-Có chức năng gởi email
-Bỏ title ban đầu
 Ở phần đo cả hai hiện luôn input nhập lực kéo
+
+-Trộn tất cả các món ăn lại thành 1
+-Biểu độ lực kéo có chữ KG
+-Add background vào đo lực kéo
+-Thêm món ăn nào xong thì xóa input
+-Bỏ title ban đầu
+
+
+
 
 
 // Note
