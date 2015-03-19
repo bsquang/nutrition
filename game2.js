@@ -1,3 +1,9 @@
+if ('addEventListener' in document) {
+    document.addEventListener('DOMContentLoaded', function() {
+        FastClick.attach(document.body);
+    }, false);
+}
+
 function twoDigits(d) {
     if(0 <= d && d < 10) return "0" + d.toString();
     if(-10 < d && d < 0) return "-0" + (-1*d).toString();
@@ -384,15 +390,15 @@ function showPanel(id) {
 
 var bForceMove = true;
 
-$(".panel").bind("touchend",function(){
-  //document.activeElement.blur();
-})
+//$(".panel").bind("touchend",function(){
+//  //document.activeElement.blur();
+//})
 
-window.addEventListener("touchmove", function(e) {
-    if (bForceMove) {
-      e.preventDefault();
-    }    
-})
+//window.addEventListener("touchmove", function(e) {
+//    if (bForceMove) {
+//      e.preventDefault();
+//    }    
+//})
 
 // URL AJAX
 var url_sync = '';
